@@ -6,6 +6,7 @@
 package ict.servlet;
 
 import ict.bean.UserInfo;
+import ict.db.UserDB;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,6 +19,15 @@ import javax.servlet.http.*;
  */
 @WebServlet(name = "LoginController", urlPatterns = {"/main"})
 public class LoginController extends HttpServlet {
+
+    private UserDB db;
+
+    public void init() {
+        String dbUser = this.getServletContext().getInitParameter("dbUser");
+        String dbPassword = this.getServletContext().getInitParameter("dbPassword");
+        String dbUrl = this.getServletContext().getInitParameter("dbUrl");
+        db = new UserDB(dbUrl, dbUser, dbPassword);
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -41,16 +51,16 @@ public class LoginController extends HttpServlet {
     }
 
     private void doAuthenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = request.getParameter("username").replaceAll("\\s","");
+        String password = request.getParameter("password").replaceAll("\\s","");
 
         String targetURL;
         //Hard code username and password is abc and 123
-        if (username.equals("abc") && password.equals("123")) {
+//        if (username.equals("abc") && password.equals("123")) {
 
             //Validate the user with the method
-            //boolean isValid = db.isValidUser(username, password);
-            //if (isValid) {
+            boolean isValid = db.isValidUser(username, password);
+            if (isValid) {
             //obtain session from request
             HttpSession session = request.getSession(true);
             UserInfo bean = new UserInfo();
@@ -59,7 +69,8 @@ public class LoginController extends HttpServlet {
             session.setAttribute("userInfo", bean);
             targetURL = "index.jsp";
         } else {
-            targetURL = "loginError.jsp";
+            request.setAttribute("loginError", "loginError");
+            targetURL = "index.jsp";
         }
         RequestDispatcher rd;
         rd = getServletContext().getRequestDispatcher("/" + targetURL);
@@ -75,8 +86,8 @@ public class LoginController extends HttpServlet {
         }
         return result;
     }
-    
-        private void doLogin(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+    private void doLogin(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String targetURL = "index.jsp";
         RequestDispatcher rd;
         rd = getServletContext().getRequestDispatcher("/" + targetURL);
