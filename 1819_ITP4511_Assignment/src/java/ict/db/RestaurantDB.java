@@ -68,5 +68,39 @@ public class RestaurantDB {
         }
         return restaurantBeans;
     }
+    
+    public ArrayList<Restaurant> getRestaurantByName(String name) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        ArrayList<Restaurant> restaurantBeans = new ArrayList();
+
+        Restaurant restaurantBean = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "Select * from Restaurant WHERE name = ?;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+
+            while (rs.next()) {
+                restaurantBean = new Restaurant();
+                restaurantBean.setRestId(rs.getInt("restId"));
+                restaurantBean.setName(rs.getString("name"));
+                restaurantBean.setRestIcon(rs.getString("restIcon"));
+                restaurantBean.setAddress(rs.getString("address"));
+                restaurantBean.setDescription(rs.getString("description"));
+                restaurantBean.setViewCount(rs.getInt("viewCount"));
+                restaurantBeans.add(restaurantBean);
+            }
+            pStmnt.close();
+            cnnct.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return restaurantBeans;
+    }
 
 }
