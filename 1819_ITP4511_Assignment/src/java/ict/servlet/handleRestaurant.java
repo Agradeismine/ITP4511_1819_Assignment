@@ -47,7 +47,6 @@ public class handleRestaurant extends HttpServlet {
             }
             request.setAttribute("restaurants", restaurants);
 
-<<<<<<< HEAD
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
@@ -55,8 +54,6 @@ public class handleRestaurant extends HttpServlet {
             name = request.getParameter("name");
             db.increaseViewCount(name);
             
-=======
->>>>>>> d9eab62f2d859af302687f5094baa18e624a8d2c
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);

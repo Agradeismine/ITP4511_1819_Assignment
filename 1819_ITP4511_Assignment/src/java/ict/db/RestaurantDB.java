@@ -104,7 +104,6 @@ public class RestaurantDB {
         return restaurantBeans;
     }
 
-<<<<<<< HEAD
     public void increaseViewCount(String name) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
@@ -114,7 +113,13 @@ public class RestaurantDB {
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, name);
             pStmnt.executeUpdate();
-=======
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public ArrayList<Restaurant> getRestaurantByOwnerId(int ownerId) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
@@ -139,19 +144,14 @@ public class RestaurantDB {
                 restaurantBean.setDescription(rs.getString("description"));
                 restaurantBeans.add(restaurantBean);
             }
+
             pStmnt.close();
             cnnct.close();
-
->>>>>>> d9eab62f2d859af302687f5094baa18e624a8d2c
         } catch (SQLException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-<<<<<<< HEAD
-
-    }
-=======
         return restaurantBeans;
     }
 
@@ -216,5 +216,4 @@ public class RestaurantDB {
         return editSuccess;
     }
 
->>>>>>> d9eab62f2d859af302687f5094baa18e624a8d2c
 }
