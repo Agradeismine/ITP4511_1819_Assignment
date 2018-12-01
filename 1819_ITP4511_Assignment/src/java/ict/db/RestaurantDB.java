@@ -68,18 +68,18 @@ public class RestaurantDB {
         }
         return restaurantBeans;
     }
-    
+
     public ArrayList<Restaurant> getRestaurantByName(String name) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         ArrayList<Restaurant> restaurantBeans = new ArrayList();
-
         Restaurant restaurantBean = null;
         try {
             cnnct = getConnection();
             String preQueryStatement = "Select * from Restaurant WHERE name = ?;";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, name);
+
             ResultSet rs = null;
             rs = pStmnt.executeQuery();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
 

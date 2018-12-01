@@ -15,6 +15,7 @@ public class Restaurant implements Serializable {
 
     private int restId;
     private String name;
+    private int ownerId;
     private String RestIcon;
     private String address;
     private String description;
@@ -24,12 +25,30 @@ public class Restaurant implements Serializable {
     }
 
     public Restaurant(int restId, String name, String RestIcon, String address, String description, int viewCount) {
-        this.restId=restId;
+        this.restId = restId;
         this.name = name;
         this.RestIcon = RestIcon;
         this.address = address;
         this.description = description;
         this.viewCount = viewCount;
+    }
+
+    public Restaurant(int restId, String name, int ownerId, String RestIcon, String address, String description, int viewCount) {   //with ownerId
+        this.restId = restId;
+        this.name = name;
+        this.ownerId = ownerId;
+        this.RestIcon = RestIcon;
+        this.address = address;
+        this.description = description;
+        this.viewCount = viewCount;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
     }
 
     public int getRestId() {
@@ -79,5 +98,5 @@ public class Restaurant implements Serializable {
     public void setViewCount(int viewCount) {
         this.viewCount = viewCount;
     }
-    
+
 }
