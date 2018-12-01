@@ -104,4 +104,20 @@ public class RestaurantDB {
         return restaurantBeans;
     }
 
+    public void increaseViewCount(String name) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "UPDATE Restaurant SET viewCount = viewCount + 1 WHERE name = ?;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, name);
+            pStmnt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }
 }

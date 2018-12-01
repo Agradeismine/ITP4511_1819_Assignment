@@ -62,7 +62,7 @@
             <input type="submit">
         </form>
         <br/><table border="1">
-            <tr><th>Restaurant Icon</th><th>Restaurant Name</th><th>Restaurant Address</th><th>Restaurant Description</th></tr>
+            <tr><th>Restaurant Icon</th><th>Restaurant Name</th><th>Restaurant Address</th><th>Restaurant Description</th><th>Views</th></tr>
                     <%
                         RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
                         ArrayList<Restaurant> restaurants;
@@ -78,6 +78,8 @@
                                     + "<td>" + restaurant.getName() + "</td>"
                                     + "<td>" + restaurant.getAddress() + "</td>"
                                     + "<td>" + restaurant.getDescription() + "</td>"
+                                    + "<td>" + restaurant.getViewCount() + "</td>"
+                                    + "<td><a href='handleRestaurant?action=view&name=" + restaurant.getName() + "'>View?</a></td>"
                                     + "</tr>");
                         }
                     %>

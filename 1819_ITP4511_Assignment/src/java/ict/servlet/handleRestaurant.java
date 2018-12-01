@@ -37,14 +37,21 @@ public class handleRestaurant extends HttpServlet {
         String action = request.getParameter("action");
         String name = request.getParameter("search");
         ArrayList<Restaurant> restaurants;
-        
+
         if ("search".equalsIgnoreCase(action)) {
-            if(name.trim().equals("")){
+            if (name.trim().equals("")) {
                 restaurants = db.getAllRestaurants();
-            }else {
+            } else {
                 restaurants = db.getRestaurantByName(name);
             }
             request.setAttribute("restaurants", restaurants);
+
+            RequestDispatcher rd;
+            rd = getServletContext().getRequestDispatcher("/index.jsp");
+            rd.forward(request, response);
+        } else if ("view".equalsIgnoreCase(action)) {
+            name = request.getParameter("name");
+            db.increaseViewCount(name);
             
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
