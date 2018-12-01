@@ -35,16 +35,22 @@ public class handleRestaurant extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        String name = request.getParameter("search");
+        ArrayList<Restaurant> restaurants;
+        
         if ("search".equalsIgnoreCase(action)) {
-            String name = request.getParameter("name");
-            ArrayList<Restaurant> restaurants = db.getRestaurantByName(name);
-            
-            request.setAttribute("name", name);
+            if(name.trim().equals("")){
+                restaurants = db.getAllRestaurants();
+            }else {
+                restaurants = db.getRestaurantByName(name);
+            }
             request.setAttribute("restaurants", restaurants);
             
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
+        } else {
+            System.out.println("No such action");
         }
     }
 

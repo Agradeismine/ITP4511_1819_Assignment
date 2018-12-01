@@ -63,19 +63,15 @@
         </form>
         <br/><table border="1">
             <tr><th>Restaurant Icon</th><th>Restaurant Name</th><th>Restaurant Address</th><th>Restaurant Description</th></tr>
-                    <%                        
+                    <%
                         RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
                         ArrayList<Restaurant> restaurants;
-                        String type;
-                        if((String)request.getAttribute("name") == null){
-                            type = "all";
-                        }else{
-                            type = "other";
-                        }
-                        if("all".equalsIgnoreCase(type)){
+                        if ((ArrayList) request.getAttribute("restaurants") == null) {
                             restaurants = db.getAllRestaurants();
-                        }else{
-                            restaurants = (ArrayList)request.getAttribute("restaurants");
+                            out.println(restaurants.size());
+                        } else {
+                            restaurants = (ArrayList) request.getAttribute("restaurants");
+                            out.println(restaurants.size());
                         }
                         for (int i = 0; i < restaurants.size(); i++) {
                             Restaurant restaurant = restaurants.get(i);

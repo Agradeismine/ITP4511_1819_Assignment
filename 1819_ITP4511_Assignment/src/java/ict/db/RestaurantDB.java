@@ -79,6 +79,7 @@ public class RestaurantDB {
             cnnct = getConnection();
             String preQueryStatement = "Select * from Restaurant WHERE name = ?;";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, name);
             ResultSet rs = null;
             rs = pStmnt.executeQuery();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
 
