@@ -104,4 +104,100 @@ public class RestaurantDB {
         return restaurantBeans;
     }
 
+    public ArrayList<Restaurant> getRestaurantByOwnerId(int ownerId) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        ArrayList<Restaurant> restaurantBeans = new ArrayList();
+        Restaurant restaurantBean = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "Select * from Restaurant WHERE ownerId = ?;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, ownerId);
+
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+
+            while (rs.next()) {
+                restaurantBean = new Restaurant();
+                restaurantBean.setRestId(rs.getInt("restId"));
+                restaurantBean.setName(rs.getString("name"));
+                restaurantBean.setOwnerId(rs.getInt("ownerId"));
+                restaurantBean.setRestIcon(rs.getString("restIcon"));
+                restaurantBean.setAddress(rs.getString("address"));
+                restaurantBean.setDescription(rs.getString("description"));
+                restaurantBeans.add(restaurantBean);
+            }
+            pStmnt.close();
+            cnnct.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return restaurantBeans;
+    }
+
+    public Restaurant getRestaurantByRestId(int restId) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        Restaurant restaurant = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "Select * from Restaurant WHERE restId = ?;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, restId);
+
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+
+            while (rs.next()) {
+                restaurant = new Restaurant();
+                restaurant.setRestId(rs.getInt("restId"));
+                restaurant.setName(rs.getString("name"));
+                restaurant.setOwnerId(rs.getInt("ownerId"));
+                restaurant.setRestIcon(rs.getString("restIcon"));
+                restaurant.setAddress(rs.getString("address"));
+                restaurant.setDescription(rs.getString("description"));
+            }
+            pStmnt.close();
+            cnnct.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return restaurant;
+    }
+
+    public boolean editRestaurantRecord(Restaurant restNewInfo) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean editSuccess = false;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "update Restaurant set name = ?, restIcon =?, address =?, description = ? WHERE restId=?;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, restNewInfo.getName());
+            pStmnt.setString(2, restNewInfo.getRestIcon());
+            pStmnt.setString(3, restNewInfo.getAddress());
+            pStmnt.setString(4, restNewInfo.getDescription());
+            pStmnt.setInt(5, restNewInfo.getRestId());
+            int row = pStmnt.executeUpdate();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+            if (row == 1) {
+                editSuccess = true;
+            }
+            pStmnt.close();
+            cnnct.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return editSuccess;
+    }
+
 }

@@ -57,6 +57,7 @@
                 }
             }
         %>
+        <br><a href="ViewOwnRestaurant.jsp">View Own Restaurant (default restaurant owner can see this function only, set it later)</a><br><br>
         <form action="handleRestaurant">
             <input type="hidden" name="action" value="search">
             <input type="text" placeholder="Search..." name="search" style="width: 400px;">

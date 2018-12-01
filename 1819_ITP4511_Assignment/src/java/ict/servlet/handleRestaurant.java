@@ -7,6 +7,7 @@ package ict.servlet;
 
 import com.sun.net.httpserver.HttpServer;
 import ict.bean.Restaurant;
+import ict.bean.UserInfo;
 import ict.db.RestaurantDB;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,18 +38,29 @@ public class handleRestaurant extends HttpServlet {
         String action = request.getParameter("action");
         String name = request.getParameter("search");
         ArrayList<Restaurant> restaurants;
-        
+
         if ("search".equalsIgnoreCase(action)) {
-            if(name.trim().equals("")){
+            if (name.trim().equals("")) {
                 restaurants = db.getAllRestaurants();
-            }else {
+            } else {
                 restaurants = db.getRestaurantByName(name);
             }
             request.setAttribute("restaurants", restaurants);
-            
+
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
+        } else if (action.equalsIgnoreCase("getEditRestaurant")) {
+            Restaurant restaurant;
+            int restId = Integer.parseInt(request.getParameter("restId"));
+            UserInfo user = ((UserInfo)request.getSession().getAttribute("userInfo"));
+            restaurant = db.getRestaurantByRestId(restId);
+            if (restaurant.getOwnerId()==user.getUserID()) {
+                request.setAttribute("restaurant", restaurant);
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/editRestaurant.jsp");
+                rd.forward(request, response);
+            }
         } else {
             System.out.println("No such action");
         }
