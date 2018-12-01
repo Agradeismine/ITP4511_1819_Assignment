@@ -7,7 +7,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>View your own restaurants</title>
+        <title>View My Restaurants</title>
     </head>
     <body>
         <jsp:useBean id="userInfo" class="ict.bean.UserInfo" scope="session"/>
@@ -24,17 +24,20 @@
             }
         %>
         <br/><table border="1">
-            <tr><th>Restaurant Icon</th><th>Restaurant Name</th><th>Restaurant Address</th><th>Restaurant Description</th></tr>
+            <tr><th>Restaurant Icon</th><th>Restaurant ID</th><th>Restaurant Name</th><th>Restaurant Address</th><th>Restaurant Description</th><th colspan="2">Action</th></tr>
                     <%
                         RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
-                        ArrayList<Restaurant> restaurants = db.queryRestById(id);     //do到here
+                        ArrayList<Restaurant> restaurants = db.getRestaurantByOwnerId(user.getUserID());     //do到here
                         for (int i = 0; i < restaurants.size(); i++) {
                             Restaurant restaurant = restaurants.get(i);
                             out.println("<tr>"
                                     + "<td>" + restaurant.getRestIcon() + "</td>"
+                                    + "<td>" + restaurant.getRestId() + "</td>"
                                     + "<td>" + restaurant.getName() + "</td>"
                                     + "<td>" + restaurant.getAddress() + "</td>"
                                     + "<td>" + restaurant.getDescription() + "</td>"
+                                    + "<td><a href='handleRestaurant?action=getEditRestaurant&restId=" + restaurant.getRestId() + "'>Edit</a></td>"
+                                    + "<td><a href='handleRestaurant?action=confirmDeleteRestaurant&restId=" + restaurant.getRestId() + "'>Delete</a></td>"
                                     + "</tr>");
                         }
                     %>

@@ -7,6 +7,7 @@ package ict.servlet;
 
 import com.sun.net.httpserver.HttpServer;
 import ict.bean.Restaurant;
+import ict.bean.UserInfo;
 import ict.db.RestaurantDB;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class handleRestaurant extends HttpServlet {
             }
             request.setAttribute("restaurants", restaurants);
 
+<<<<<<< HEAD
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
@@ -53,9 +55,22 @@ public class handleRestaurant extends HttpServlet {
             name = request.getParameter("name");
             db.increaseViewCount(name);
             
+=======
+>>>>>>> d9eab62f2d859af302687f5094baa18e624a8d2c
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
+        } else if (action.equalsIgnoreCase("getEditRestaurant")) {
+            Restaurant restaurant;
+            int restId = Integer.parseInt(request.getParameter("restId"));
+            UserInfo user = ((UserInfo)request.getSession().getAttribute("userInfo"));
+            restaurant = db.getRestaurantByRestId(restId);
+            if (restaurant.getOwnerId()==user.getUserID()) {
+                request.setAttribute("restaurant", restaurant);
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/editRestaurant.jsp");
+                rd.forward(request, response);
+            }
         } else {
             System.out.println("No such action");
         }

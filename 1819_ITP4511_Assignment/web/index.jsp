@@ -11,7 +11,7 @@
         <script src="jslib/jquery-3.3.1.js"></script>
         <script>
             $(document).ready(function () {
-                $("input#username").on({
+                $("input#userId").on({
                     keydown: function (e) {
                         if (e.which === 32)
                             return false;
@@ -47,8 +47,9 @@
             } else {
                 out.println("<form method='post' action='main'>"
                         + "<input type='hidden' name='action' value='authenticate'>"
-                        + "<p>username: <input type='text' id='username' name='username'></p>"
-                        + "<p>password: <input type='password' id='password' name='password'></p>"
+                        //+ "<p>username: <input type='text' id='username' name='username'></p>"
+                        + "<p>User ID: <input type='text' id='userId' name='userId'></p>"
+                        + "<p>Password: <input type='password' id='password' name='password'></p>"
                         + "<input type='submit' value='Sign In'>"
                         + "</form><br/>");
                 if (request.getAttribute("loginError") != null) {
@@ -56,6 +57,7 @@
                 }
             }
         %>
+        <br><a href="ViewOwnRestaurant.jsp">View Own Restaurant (default restaurant owner can see this function only, set it later)</a><br><br>
         <form action="handleRestaurant">
             <input type="hidden" name="action" value="search">
             <input type="text" placeholder="Search..." name="search" style="width: 400px;">

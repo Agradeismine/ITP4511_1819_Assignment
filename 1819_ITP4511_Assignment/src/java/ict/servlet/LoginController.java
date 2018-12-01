@@ -51,22 +51,27 @@ public class LoginController extends HttpServlet {
     }
 
     private void doAuthenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String username = request.getParameter("username").replaceAll("\\s","");
-        String password = request.getParameter("password").replaceAll("\\s","");
+        int userId;
+        if(isInteger(request.getParameter("userId").replaceAll("\\s", ""))){
+            userId = Integer.parseInt(request.getParameter("userId").replaceAll("\\s", ""));    //paserInt
+        }else{
+            userId=0;         //wrong input and set to 0;
+        }
+        String password = request.getParameter("password").replaceAll("\\s", "");
 
         String targetURL;
         //Hard code username and password is abc and 123
 //        if (username.equals("abc") && password.equals("123")) {
 
-            //Validate the user with the method
-            boolean isValid = db.isValidUser(username, password);
-            if (isValid) {
+        //Validate the user with the method
+        boolean isValid = db.isValidUser(userId, password);
+        if (isValid) {  //true
             //obtain session from request
             HttpSession session = request.getSession(true);
-            UserInfo bean = new UserInfo();
-            bean.setUsername(username);
+            UserInfo userBean = new UserInfo();
+            userBean = db.queryCustByID(userId);
             //store the userInfo(which is a bean) to the session
-            session.setAttribute("userInfo", bean);
+            session.setAttribute("userInfo", userBean);
             targetURL = "index.jsp";
         } else {
             request.setAttribute("loginError", "loginError");
@@ -103,6 +108,15 @@ public class LoginController extends HttpServlet {
             session.invalidate();
         }
         doLogin(request, response);
+    }
+
+    public boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
     }
 
 }

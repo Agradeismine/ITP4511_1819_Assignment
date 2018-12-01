@@ -15,9 +15,27 @@ public class UserInfo implements Serializable {
     private int userID;
     private String username;
     private String password;
+    private String role;
+    private String sex;
     private String district;
 
     public UserInfo() {
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public int getUserID() {
