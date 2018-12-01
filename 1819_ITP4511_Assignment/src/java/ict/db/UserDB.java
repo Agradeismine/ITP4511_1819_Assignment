@@ -1,6 +1,7 @@
 package ict.db;
 
 import com.mysql.jdbc.Connection;
+import ict.bean.UserInfo;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -34,15 +35,15 @@ public class UserDB {
         return (Connection) DriverManager.getConnection(dburl, dbUser, dbPassword);
     }
 
-    public boolean isValidUser(String user, String pwd) {
+    public boolean isValidUser(int userId, String pwd) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         boolean isValid = false;
         try {
             cnnct = getConnection();
-            String preQueryStatement = "SELECT * FROM Account WHERE username = ? and password = ?";
+            String preQueryStatement = "SELECT * FROM Account WHERE userId = ? and password = ?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
-            pStmnt.setString(1, user);
+            pStmnt.setInt(1, userId);
             pStmnt.setString(2, pwd);
             ResultSet rs = null;
             rs = pStmnt.executeQuery();
@@ -57,6 +58,39 @@ public class UserDB {
             ex.printStackTrace();
         }
         return isValid;
+    }
+    
+        public UserInfo queryCustByID(int id) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+
+        UserInfo userBean = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM Account WHERE userId = ?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, id);
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+
+            while (rs.next()) {
+                userBean = new UserInfo();
+                userBean.setUserID(Integer.parseInt(rs.getString("userId")));
+                userBean.setUsername(rs.getString("username"));
+                //userBean.setPassword(rs.getString("password"));
+                userBean.setRole(rs.getString("role"));
+                userBean.setSex(rs.getString("sex"));
+                userBean.setDistrict(rs.getString("district"));
+            }
+            pStmnt.close();
+            cnnct.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return userBean;
     }
 
     public boolean addUserInfo(String id, String user, String pwd) {
