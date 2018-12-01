@@ -12,11 +12,20 @@ import java.io.Serializable;
  * @author YipYi
  */
 public class UserInfo implements Serializable {
-
-    private String username = null;
-    private String password = null;
+    private int userID;
+    private String username;
+    private String password;
+    private String district;
 
     public UserInfo() {
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public String getUsername() {
@@ -33,6 +42,14 @@ public class UserInfo implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
 }

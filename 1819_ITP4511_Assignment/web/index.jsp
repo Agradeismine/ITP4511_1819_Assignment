@@ -56,18 +56,25 @@
                 }
             }
         %>
-        <br/><input type="text" placeholder="Search..." name="search" id="search" class="search" style="width: 400px;"><br/>
+        <form action="">
+            <input type="text" placeholder="Search..." name="search" id="search" class="search" style="width: 400px;">
+            <input type="submit">
+        </form>
         <br/><table border="1">
-            <tr><th>Restaurant Name</th></tr>
-            <jsp:useBean id="restaurant" class="ict.bean.Restaurant" scope="request"/>
-            <%
-                RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
-                ArrayList<Restaurant> restaurants = db.getAllRestaurants();
-                for (int i = 0; i < restaurants.size(); i++) {
-                    Restaurant restaurtant = restaurants.get(i);
-                    out.println("<tr><td>"+restaurtant.getName()+"</td></tr>");
-                }
-            %>
+            <tr><th>Restaurant Icon</th><th>Restaurant Name</th><th>Restaurant Address</th><th>Restaurant Description</th></tr>
+                    <%
+                        RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
+                        ArrayList<Restaurant> restaurants = db.getAllRestaurants();
+                        for (int i = 0; i < restaurants.size(); i++) {
+                            Restaurant restaurant = restaurants.get(i);
+                            out.println("<tr>"
+                                    + "<td>" + restaurant.getRestIcon() + "</td>"
+                                    + "<td>" + restaurant.getName() + "</td>"
+                                    + "<td>" + restaurant.getAddress() + "</td>"
+                                    + "<td>" + restaurant.getDescription() + "</td>"
+                                    + "</tr>");
+                        }
+                    %>
         </table>
     </body>
 </html>
