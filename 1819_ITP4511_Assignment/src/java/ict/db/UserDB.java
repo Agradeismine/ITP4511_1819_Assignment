@@ -40,7 +40,7 @@ public class UserDB {
         boolean isValid = false;
         try {
             cnnct = getConnection();
-            String preQueryStatement = "SELECT * FROM account WHERE username = ? and password = ?";
+            String preQueryStatement = "SELECT * FROM Account WHERE username = ? and password = ?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, user);
             pStmnt.setString(2, pwd);
@@ -65,7 +65,7 @@ public class UserDB {
         boolean isSuccess = false;
         try {
             cnnct = getConnection();
-            String preQueryStatement = "INSERT INTO userInfo (ID, USERNAME, PASSWORD) VALUES (?, ?, ?);";
+            String preQueryStatement = "INSERT INTO Account (ID, USERNAME, PASSWORD) VALUES (?, ?, ?);";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setString(1, id);
             pStmnt.setString(2, user);

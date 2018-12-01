@@ -18,23 +18,17 @@ public class Restaurant implements Serializable {
     private String RestIcon;
     private String address;
     private String description;
-    private int likeCount;
-    private int dislikeCount;
-    private String type;
     private int viewCount;
 
     public Restaurant() {
     }
 
-    public Restaurant(int restId, String name, String RestIcon, String address, String description, int likeCount, int dislikeCount, String type, int viewCount) {
+    public Restaurant(int restId, String name, String RestIcon, String address, String description, int viewCount) {
         this.restId=restId;
         this.name = name;
         this.RestIcon = RestIcon;
         this.address = address;
         this.description = description;
-        this.likeCount = likeCount;
-        this.dislikeCount = dislikeCount;
-        this.type = type;
         this.viewCount = viewCount;
     }
 
@@ -76,30 +70,6 @@ public class Restaurant implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getLikeCount() {
-        return likeCount;
-    }
-
-    public void setLikeCount(int likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    public int getDislikeCount() {
-        return dislikeCount;
-    }
-
-    public void setDislikeCount(int dislikeCount) {
-        this.dislikeCount = dislikeCount;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public int getViewCount() {

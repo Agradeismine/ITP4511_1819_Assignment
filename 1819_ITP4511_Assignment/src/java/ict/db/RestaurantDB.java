@@ -43,7 +43,7 @@ public class RestaurantDB {
         Restaurant restaurantBean = null;
         try {
             cnnct = getConnection();
-            String preQueryStatement = "Select * from restaurant;";
+            String preQueryStatement = "Select * from Restaurant;";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             ResultSet rs = null;
             rs = pStmnt.executeQuery();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
@@ -53,11 +53,8 @@ public class RestaurantDB {
                 restaurantBean.setRestId(rs.getInt("restId"));
                 restaurantBean.setName(rs.getString("name"));
                 restaurantBean.setRestIcon(rs.getString("restIcon"));
-                restaurantBean.setDescription(rs.getString("description"));
                 restaurantBean.setAddress(rs.getString("address"));
-                restaurantBean.setLikeCount(rs.getInt("likeCount"));
-                restaurantBean.setDislikeCount(rs.getInt("dislikeCount"));
-                restaurantBean.setType(rs.getString("type"));
+                restaurantBean.setDescription(rs.getString("description"));
                 restaurantBean.setViewCount(rs.getInt("viewCount"));
                 restaurantBeans.add(restaurantBean);
             }
