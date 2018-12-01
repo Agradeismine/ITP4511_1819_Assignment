@@ -68,10 +68,8 @@
                         ArrayList<Restaurant> restaurants;
                         if ((ArrayList) request.getAttribute("restaurants") == null) {
                             restaurants = db.getAllRestaurants();
-                            out.println(restaurants.size());
                         } else {
                             restaurants = (ArrayList) request.getAttribute("restaurants");
-                            out.println(restaurants.size());
                         }
                         for (int i = 0; i < restaurants.size(); i++) {
                             Restaurant restaurant = restaurants.get(i);
