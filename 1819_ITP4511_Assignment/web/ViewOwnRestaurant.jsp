@@ -24,7 +24,7 @@
             }
         %>
         <br/><table border="1">
-            <tr><th>Restaurant Icon</th><th>Restaurant ID</th><th>Restaurant Name</th><th>Restaurant Address</th><th>Restaurant Description</th><th colspan="2">Action</th></tr>
+            <tr><th>Restaurant Icon</th><th>Restaurant ID</th><th>Restaurant Name</th><th>Restaurant Address</th><th>Restaurant Description</th><th colspan="3">Action</th></tr>
                     <%
                         RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
                         ArrayList<Restaurant> restaurants = db.getRestaurantByOwnerId(user.getUserID());     //do到here
@@ -36,6 +36,7 @@
                                     + "<td>" + restaurant.getName() + "</td>"
                                     + "<td>" + restaurant.getAddress() + "</td>"
                                     + "<td>" + restaurant.getDescription() + "</td>"
+                                    + "<td><a href='handleRestaurant?action=editRestaurantIcon&restId=" + restaurant.getRestId() + "'>Change Icon</a></td>"
                                     + "<td><a href='handleRestaurant?action=getEditRestaurant&restId=" + restaurant.getRestId() + "'>Edit</a></td>"
                                     + "<td><a href='handleRestaurant?action=confirmDeleteRestaurant&restId=" + restaurant.getRestId() + "'>Delete</a></td>"
                                     + "</tr>");

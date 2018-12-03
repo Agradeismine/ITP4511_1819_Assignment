@@ -53,19 +53,30 @@ public class handleRestaurant extends HttpServlet {
         } else if ("view".equalsIgnoreCase(action)) {
             name = request.getParameter("name");
             db.increaseViewCount(name);
-            
+
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
         } else if (action.equalsIgnoreCase("getEditRestaurant")) {
             Restaurant restaurant;
             int restId = Integer.parseInt(request.getParameter("restId"));
-            UserInfo user = ((UserInfo)request.getSession().getAttribute("userInfo"));
+            UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
             restaurant = db.getRestaurantByRestId(restId);
-            if (restaurant.getOwnerId()==user.getUserID()) {
+            if (restaurant.getOwnerId() == user.getUserID()) {
                 request.setAttribute("restaurant", restaurant);
                 RequestDispatcher rd;
                 rd = getServletContext().getRequestDispatcher("/editRestaurant.jsp");
+                rd.forward(request, response);
+            }
+        }else if (action.equalsIgnoreCase("editRestaurantIcon")) {
+            Restaurant restaurant;
+            int restId = Integer.parseInt(request.getParameter("restId"));
+            UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
+            restaurant = db.getRestaurantByRestId(restId);
+            if (restaurant.getOwnerId() == user.getUserID()) {
+                request.setAttribute("restaurant", restaurant);
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/editRestaurantIcon.jsp");
                 rd.forward(request, response);
             }
         } else {

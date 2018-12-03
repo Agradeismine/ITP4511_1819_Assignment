@@ -5,6 +5,8 @@
  */
 package ict.servlet;
 
+import ict.bean.Restaurant;
+import ict.db.RestaurantDB;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,14 +27,22 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
  *
  * @author www.codejava.net
  */
-@WebServlet(urlPatterns = {"/uploadFile"})
+@WebServlet(urlPatterns = {"/uploadFile", "/uploadRestIcon"})
 public class UploadServlet extends HttpServlet {
+
+    private RestaurantDB db;
+    private Restaurant restaurant;
 
     private static final long serialVersionUID = 1L;
     private String defaultPath = "";
     private String name = "default";
+    private boolean isUpdateSuccess = false;
 
     public void init() {
+        String dbUser = this.getServletContext().getInitParameter("dbUser");
+        String dbPassword = this.getServletContext().getInitParameter("dbPassword");
+        String dbUrl = this.getServletContext().getInitParameter("dbUrl");
+        db = new RestaurantDB(dbUrl, dbUser, dbPassword);
 
         defaultPath = getServletContext().getInitParameter("defaultPath");
     }
@@ -93,38 +103,46 @@ public class UploadServlet extends HttpServlet {
             List<FileItem> formItems = upload.parseRequest(request);
 
             if (formItems != null && formItems.size() > 0) {
+                String fileName="";
+                String filePath="";
                 // iterates over form's fields
                 for (FileItem item : formItems) {
                     // processes only fields that are not form fields
                     if (!item.isFormField()) {
-                        String fileName = new File(item.getName()).getName();
-                        String filePath = uploadPath + File.separator + fileName;
+                        fileName = new File(item.getName()).getName();
+                        filePath = uploadPath + File.separator + fileName;
                         File storeFile = new File(filePath);
 
                         // saves the file on disk
                         item.write(storeFile);
-                        request.setAttribute("message",
-                                "Upload has been done successfully!");
+                        request.setAttribute("message", "Upload has been done successfully!");
                         request.setAttribute("fileName",
                                 fileName);
                     } else {
-                         String  name = item.getFieldName();
-                        
-                        String value = item.getString();
-                        
-                        request.setAttribute("name", value);
-                        System.out.println("name "+value);
+                        String name = item.getFieldName();
 
+                        String restId = item.getString();
+                        restaurant = db.getRestaurantByRestId(Integer.parseInt(restId));
+                        request.setAttribute("name", restId);
+                        System.out.println("name " + restId);
                     }
                 }
-
+                restaurant.setRestIcon(fileName);
+                isUpdateSuccess = db.editRestaurantRecord(restaurant);
             }
         } catch (Exception ex) {
-            request.setAttribute("message",
-                    "There was an error: " + ex.getMessage());
+            request.setAttribute("message", "There was an error: " + ex.getMessage());
+            getServletContext().getRequestDispatcher("/message.jsp").forward(
+                request, response);
         }
         // redirects client to message page
-        getServletContext().getRequestDispatcher("/message.jsp").forward(
+        if(!isUpdateSuccess){       //if not update success
+            request.setAttribute("message", restaurant.getName()+ " icon is not update success");
+            getServletContext().getRequestDispatcher("/message.jsp").forward(
                 request, response);
+        }else{
+            response.sendRedirect("ViewOwnRestaurant.jsp");
+        }
+
     }
 }
