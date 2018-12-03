@@ -131,7 +131,7 @@ public class UploadServlet extends HttpServlet {
                 isUpdateSuccess = db.editRestaurantRecord(restaurant);
             }
         } catch (Exception ex) {
-            request.setAttribute("message", "There was an error: " + ex.getMessage());
+            request.setAttribute("message", "There was an error: You have no upload the photo." );  //+ ex.getMessage()
             getServletContext().getRequestDispatcher("/message.jsp").forward(
                 request, response);
         }

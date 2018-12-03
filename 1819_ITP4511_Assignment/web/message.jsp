@@ -10,14 +10,13 @@
         <%
             RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
             Restaurant restaurant = db.getRestaurantByRestId(1);    //((Integer)request.getAttribute("restId")).intValue()
-        %>
+%>
     <center>
         <h2>${message}</h2>
-        <a href="upload/${fileName}" >${fileName}</a>
-
+        <%--<a href="upload/${fileName}" >${fileName}</a>
         <img src="upload/${fileName}"/>
-
-        ${name}
+        ${name}--%>
+        <input type="button" onclick="history.back()" value="Back"/> <input type="button" onclick="location.href = 'ViewOwnRestaurant.jsp'" value="View the restaurant"/>
     </center>
 </body>
 </html>

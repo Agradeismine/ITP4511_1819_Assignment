@@ -13,7 +13,7 @@
         <jsp:useBean id="userInfo" class="ict.bean.UserInfo" scope="session"/>
         <%
             UserInfo user = (UserInfo) session.getAttribute("userInfo");
-            if (user.getUsername() != null) {   //user has login
+            if (user.getUsername() != null && user.getRole().equals("owner")) {   //user has login and he is owner
                 out.println("<div class='userInfo'><a name='show_username'>" + user.getUsername() + "</a>, Hello.<br>");
                 out.print("<form action='main' method='post'>"
                         + "<input type='hidden' name='action' value='logout'>"
