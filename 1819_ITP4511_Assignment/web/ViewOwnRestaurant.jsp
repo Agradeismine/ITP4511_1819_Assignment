@@ -31,7 +31,7 @@
                         for (int i = 0; i < restaurants.size(); i++) {
                             Restaurant restaurant = restaurants.get(i);
                             out.println("<tr>"
-                                    + "<td>" + restaurant.getRestIcon() + "</td>"
+                                    + "<td align='center'><img src='upload/" + restaurant.getRestIcon() + "' width='100' height='100'></td>"
                                     + "<td>" + restaurant.getRestId() + "</td>"
                                     + "<td>" + restaurant.getName() + "</td>"
                                     + "<td>" + restaurant.getAddress() + "</td>"
