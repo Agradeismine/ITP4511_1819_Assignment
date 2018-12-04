@@ -58,6 +58,21 @@ public class handleRestaurant extends HttpServlet {
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
+        } else if (action.equalsIgnoreCase("maintainRestMenu")) {       //maintainRestMenumaintainRestMenumaintainRestMenumaintainRestMenumaintainRestMenumaintainRestMenu
+            Restaurant restaurant;
+            int restId = Integer.parseInt(request.getParameter("restId"));
+            restaurant = db.getRestaurantByRestId(restId);
+            if (restaurant.getOwnerId() == user.getUserID()) {
+                request.setAttribute("restaurant", restaurant);
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/editRestaurant.jsp");
+                rd.forward(request, response);
+            }else {
+                request.setAttribute("message", "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/message.jsp");
+                rd.forward(request, response);
+            }
         } else if (action.equalsIgnoreCase("getEditRestaurant")) {
             Restaurant restaurant;
             int restId = Integer.parseInt(request.getParameter("restId"));

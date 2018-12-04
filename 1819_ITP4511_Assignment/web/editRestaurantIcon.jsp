@@ -53,7 +53,7 @@
                     out.println(restId + "<input type=\"hidden\" name=\"restId\" value=\"" + restId + "\" /><br><br>");
                 %>
                 <label>Restaurant Name: </label> <%= restaurant.getName()%><br><br>
-                <label>Restaurant Icon: <img src='upload/<%= restaurant.getRestIcon()%>' width='50' height="50"></label><input type="file" name="uploadFile" value=""/><br>
+                <label>Old Icon: <img src='upload/<%= restaurant.getRestIcon()%>' width='50' height="50"></label><input type="file" name="uploadFile" value=""/><br>
                 I confirm the restaurant information that I have changed. <input type="checkbox" id='formCheck'/> <br><br>
                 <div class='center'>
                     <input type="button" onclick="history.back()" value="Back"/> <input type="submit" value="submit"/> <br>
