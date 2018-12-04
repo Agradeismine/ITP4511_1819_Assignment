@@ -48,15 +48,18 @@ public class handleRestaurant extends HttpServlet {
                 restaurants = db.getRestaurantByName(name);
             }
             request.setAttribute("restaurants", restaurants);
-
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
         } else if ("view".equalsIgnoreCase(action)) {
             int restId = Integer.parseInt(request.getParameter("restId"));
-            db.increaseViewCount(restId, user);
-
-            response.sendRedirect("viewRestaurantDetails.jsp");
+            int viewCount = db.increaseViewCount(restId, user);
+            request.setAttribute("restId", restId);
+            request.setAttribute("viewCount", viewCount);
+            RequestDispatcher rd;
+            rd = getServletContext().getRequestDispatcher("/viewRestaurantDetails.jsp");
+            rd.forward(request, response);
+            
         } else if (action.equalsIgnoreCase("maintainRestMenu")) {       //maintainRestMenumaintainRestMenumaintainRestMenumaintainRestMenumaintainRestMenumaintainRestMenu
             Restaurant restaurant;
             int restId = Integer.parseInt(request.getParameter("restId"));

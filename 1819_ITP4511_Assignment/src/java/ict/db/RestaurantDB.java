@@ -106,7 +106,7 @@ public class RestaurantDB {
         return restaurantBeans;
     }
 
-    public void increaseViewCount(int restId, UserInfo user) {
+    public int increaseViewCount(int restId, UserInfo user) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         int userId = user.getUserID();
@@ -120,10 +120,19 @@ public class RestaurantDB {
             pStmnt.setTimestamp(3, new java.sql.Timestamp(new java.util.Date().getTime()));
             pStmnt.setString(4, "fuck");
             pStmnt.execute();
+            
+            //return viewCount
+            preQueryStatement = "SELECt COUNT(*) FROM RestViewCount WHERE restId = ?;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, restId);
+            int viewCount = pStmnt.executeUpdate();
+            return viewCount;
         } catch (SQLException ex) {
             ex.printStackTrace();
+            return 0;
         } catch (IOException ex) {
             ex.printStackTrace();
+            return 0;
         }
     }
 
