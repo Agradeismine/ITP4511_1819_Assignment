@@ -1,3 +1,5 @@
+<%@page import="ict.db.MenuDB"%>
+<%@page import="ict.bean.Menu"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="ict.bean.Restaurant"%>
 <%@page import="ict.db.RestaurantDB"%>
@@ -12,7 +14,7 @@
     <body>
         <jsp:useBean id="userInfo" class="ict.bean.UserInfo" scope="session"/>
         <jsp:useBean id="thisRestaurant" class="ict.bean.Restaurant" scope="request"/>
-        
+
         <%
             UserInfo user = (UserInfo) session.getAttribute("userInfo");
             if (user.getUsername() != null && user.getRole().equals("owner")) {   //user has login and he is owner
@@ -26,22 +28,22 @@
             }
         %>
         <br/><table border="1">
-            <tr><th>Restaurant Icon</th><th>Restaurant ID</th><th>Restaurant Name</th><th>Restaurant Address</th><th>Restaurant Description</th><th colspan="3">Action</th></tr>
+            <tr><th>Restaurant Icon</th><th>Restaurant ID</th><th>Restaurant Name</th><th>Menu ID</th><th>Menu Name</th><th>Menu Type</th></tr>
                     <%
-                        RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
-                        ArrayList<Restaurant> restaurants = db.getRestaurantByOwnerId(user.getUserID());     //do到here
-                        for (int i = 0; i < restaurants.size(); i++) {
-                            Restaurant restaurant = restaurants.get(i);
-                            out.println("<tr>"
-                                    + "<td align='center'><img src='upload/" + restaurant.getRestIcon() + "' width='100' height='100'></td>"
-                                    + "<td>" + restaurant.getRestId() + "</td>"
-                                    + "<td>" + restaurant.getName() + "</td>"
-                                    + "<td>" + restaurant.getAddress() + "</td>"
-                                    + "<td>" + restaurant.getDescription() + "</td>"
-                                    + "<td><a href='handleRestaurant?action=editRestaurantIcon&restId=" + restaurant.getRestId() + "'>Change Icon</a></td>"
-                                    + "<td><a href='handleRestaurant?action=getEditRestaurant&restId=" + restaurant.getRestId() + "'>Edit</a></td>"
-                                    + "<td><a href='handleRestaurant?action=confirmDeleteRestaurant&restId=" + restaurant.getRestId() + "'>Delete</a></td>"
-                                    + "</tr>");
+                        MenuDB db = new MenuDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
+                        ArrayList<Menu> menus = db.getRestaurantMenuById(thisRestaurant.getRestId());    //change to menu
+                        for (int i = 0; i < menus.size(); i++) {
+                            Menu menu = menus.get(i);
+//                            out.println("<tr>"
+//                                    + "<td align='center'><img src='upload/" + restaurant.getRestIcon() + "' width='100' height='100'></td>"
+//                                    + "<td>" + restaurant.getRestId() + "</td>"
+//                                    + "<td>" + restaurant.getName() + "</td>"
+//                                    + "<td>" + restaurant.getAddress() + "</td>"
+//                                    + "<td>" + restaurant.getDescription() + "</td>"
+//                                    + "<td><a href='handleRestaurant?action=editRestaurantIcon&restId=" + restaurant.getRestId() + "'>Change Icon</a></td>"
+//                                    + "<td><a href='handleRestaurant?action=getEditRestaurant&restId=" + restaurant.getRestId() + "'>Edit</a></td>"
+//                                    + "<td><a href='handleRestaurant?action=confirmDeleteRestaurant&restId=" + restaurant.getRestId() + "'>Delete</a></td>"
+//                                    + "</tr>");
                         }
                     %>
         </table>

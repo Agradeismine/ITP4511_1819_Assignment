@@ -16,10 +16,12 @@ CREATE TABLE Restaurant (
   PRIMARY KEY (restId)) DEFAULT CHARSET = latin1;
 CREATE TABLE Menu (
   RestaurantrestId int(11) NOT NULL, 
-  imgId            int(11) NOT NULL, 
+  imgId            int(11) NOT NULL AUTO_INCREMENT,
   imgName          varchar(100) NOT NULL, 
   menuType         varchar(20) NOT NULL, 
-  menuPath         varchar(255) NOT NULL);
+  menuPath         varchar(255) NOT NULL), 
+  menuStartTime    date NOT NULL, 
+  menuEndTime      date NOT NULL);
 CREATE TABLE RestaurantTag (
   RestaurantrestId int(11) NOT NULL, 
   tagName          varchar(30) NOT NULL);

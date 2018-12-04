@@ -3,3 +3,5 @@
   restId      int(11) NOT NULL AUTO_INCREMENT,
 
 ALTER TABLE Account AUTO_INCREMENT=100;
+
+  imgId            int(11) NOT NULL AUTO_INCREMENT,
