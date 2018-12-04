@@ -14,6 +14,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -219,6 +220,28 @@ public class RestaurantDB {
             ex.printStackTrace();
         }
         return editSuccess;
+    }
+        public boolean delRestaurantById(int id) {
+        Statement stmnt = null;
+        Connection cnnct = null;
+        boolean delSuccess = false;
+        try {
+            cnnct = getConnection();
+            stmnt = cnnct.createStatement();
+            String sql = "DELETE FROM Restaurant WHERE restId=" + id;
+            stmnt.execute(sql);
+            stmnt.close();
+            cnnct.close();
+            delSuccess = true;
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return delSuccess;
     }
 
 }

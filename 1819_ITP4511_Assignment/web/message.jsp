@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Upload Result</title>
+        <title>Error Page</title>
     </head>
     <body>
         <%
@@ -16,7 +16,7 @@
         <%--<a href="upload/${fileName}" >${fileName}</a>
         <img src="upload/${fileName}"/>
         ${name}--%>
-        <input type="button" onclick="history.back()" value="Back"/> <input type="button" onclick="location.href = 'ViewOwnRestaurant.jsp'" value="View the restaurant"/>
+        <input type="button" onclick="history.back()" value="Back"/> <input type="button" onclick="location.href = 'index.jsp'" value="Go to Main Page"/>
     </center>
 </body>
 </html>

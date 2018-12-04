@@ -50,7 +50,7 @@
                     out.println(restId + "<input type=\"hidden\" name=\"restId\" value=\"" + restId + "\" /><br><br>");
                 %>
                 <label>Restaurant Name: </label> <input name="name" type="text" value="<%= restaurant.getName()%>"/> <br><br>
-                <label>Restaurant Icon: </label> <img src='upload/<%= restaurant.getRestIcon()%>' width='160' height="160"><input name="restIcon" type="hidden" value="<%= restaurant.getRestIcon()%>"/><br><br>
+                <label>Restaurant Icon: </label> <img src='upload/<%= restaurant.getRestIcon()%>' width='160' height="160"><br><br>
                 <label>Restaurant Address: </label> <input name="address" type="text" value="<%= restaurant.getAddress()%>"/> <br><br>
                 <label>Restaurant Description: </label> <input name="description" type="text" value="<%= restaurant.getDescription()%>"/> <br><br>
                 I confirm the restaurant information that I have changed. <input type="checkbox" id='formCheck'/> <br><br>
