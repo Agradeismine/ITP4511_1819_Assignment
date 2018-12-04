@@ -6,8 +6,8 @@
          version="3.1">
     <context-param>
         <param-name>dbUrl</param-name>
-        <param-value>jdbc:mysql://localhost:3306/itp4511_assignment</param-value>
-        <!--<param-value>jdbc:mysql://192.168.64.2:3306/itp4511_assignment</param-value>-->
+        <!--<param-value>jdbc:mysql://localhost:3306/itp4511_assignment</param-value>-->
+        <param-value>jdbc:mysql://192.168.64.2:3306/itp4511_assignment</param-value>
     </context-param>
     <context-param>
         <param-name>dbUser</param-name>

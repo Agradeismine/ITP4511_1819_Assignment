@@ -31,6 +31,21 @@
                 });
             });
         </script>
+        <style>
+            .restIcon {
+                height: 100px;
+                width: 100px;
+            }
+            .rest_table{
+                border: 1px solid black;
+                height: 100px;
+                padding: 10px;
+                margin: 5px;
+            }
+            .rest_content{
+                margin-right: 50px;
+            }
+        </style>
     </head>
 
     <body>
@@ -63,28 +78,27 @@
             <input type="text" placeholder="Search..." name="search" style="width: 400px;">
             <input type="submit">
         </form>
-        <br/><table border="1">
-            <tr><th>Restaurant Icon</th><th>Restaurant Name</th><th>Restaurant Address</th><th>Restaurant Description</th><th>Views</th></tr>
-                    <%
-                        RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
-                        ArrayList<Restaurant> restaurants;
-                        if ((ArrayList) request.getAttribute("restaurants") == null) {
-                            restaurants = db.getAllRestaurants();
-                        } else {
-                            restaurants = (ArrayList) request.getAttribute("restaurants");
-                        }
-                        for (int i = 0; i < restaurants.size(); i++) {
-                            Restaurant restaurant = restaurants.get(i);
-                            out.println("<tr>"
-                                    + "<td>" + restaurant.getRestIcon() + "</td>"
-                                    + "<td>" + restaurant.getName() + "</td>"
-                                    + "<td>" + restaurant.getAddress() + "</td>"
-                                    + "<td>" + restaurant.getDescription() + "</td>"
-                                    + "<td>" + restaurant.getViewCount() + "</td>"
-                                    + "<td><a href='handleRestaurant?action=view&name=" + restaurant.getName() + "'>View?</a></td>"
-                                    + "</tr>");
-                        }
-                    %>
+        <br/><table>
+            <%
+                RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
+                ArrayList<Restaurant> restaurants;
+                if ((ArrayList) request.getAttribute("restaurants") == null) {
+                    restaurants = db.getAllRestaurants();
+                } else {
+                    restaurants = (ArrayList) request.getAttribute("restaurants");
+                }
+                for (int i = 0; i < restaurants.size(); i++) {
+                    Restaurant restaurant = restaurants.get(i);
+                    out.println("<div class='rest_table'>"
+                            + "<img class='restIcon' src='upload/" + restaurant.getRestIcon() + "'/>"
+                            + "<a class='rest_contecnt'>RestID: " + restaurant.getRestId() + "</a>"
+                            + "<a class='rest_content'>" + restaurant.getName() + "</a>"
+                            + "<a class='rest_content'>" + restaurant.getAddress() + "</a>"
+                            + "<a class='rest_content'>" + restaurant.getDescription() + "</a>"
+                            + "<a class='rest_content' href='handleRestaurant?action=view&restId=" + restaurant.getRestId() + "'>View</a>"
+                            + "</div>");
+                }
+            %>
         </table>
     </body>
 </html>

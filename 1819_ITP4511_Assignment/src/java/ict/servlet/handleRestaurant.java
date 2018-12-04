@@ -37,6 +37,7 @@ public class handleRestaurant extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         String name = request.getParameter("search");
+        UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
         ArrayList<Restaurant> restaurants;
 
         if ("search".equalsIgnoreCase(action)) {
@@ -51,8 +52,8 @@ public class handleRestaurant extends HttpServlet {
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
         } else if ("view".equalsIgnoreCase(action)) {
-            name = request.getParameter("name");
-            db.increaseViewCount(name);
+            int restId = Integer.parseInt(request.getParameter("restId"));
+            db.increaseViewCount(restId, user);
 
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
@@ -60,7 +61,6 @@ public class handleRestaurant extends HttpServlet {
         } else if (action.equalsIgnoreCase("getEditRestaurant")) {
             Restaurant restaurant;
             int restId = Integer.parseInt(request.getParameter("restId"));
-            UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
             restaurant = db.getRestaurantByRestId(restId);
             if (restaurant.getOwnerId() == user.getUserID()) {
                 request.setAttribute("restaurant", restaurant);
@@ -71,7 +71,6 @@ public class handleRestaurant extends HttpServlet {
         }else if (action.equalsIgnoreCase("editRestaurantIcon")) {
             Restaurant restaurant;
             int restId = Integer.parseInt(request.getParameter("restId"));
-            UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
             restaurant = db.getRestaurantByRestId(restId);
             if (restaurant.getOwnerId() == user.getUserID()) {
                 request.setAttribute("restaurant", restaurant);

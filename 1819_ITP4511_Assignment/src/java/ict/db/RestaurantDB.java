@@ -7,6 +7,8 @@ package ict.db;
 
 import com.mysql.jdbc.Connection;
 import ict.bean.Restaurant;
+import ict.bean.UserInfo;
+import ict.bean.UserInfo;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -52,10 +54,10 @@ public class RestaurantDB {
                 restaurantBean = new Restaurant();
                 restaurantBean.setRestId(rs.getInt("restId"));
                 restaurantBean.setName(rs.getString("name"));
+                restaurantBean.setOwnerId(rs.getInt("ownerId"));
                 restaurantBean.setRestIcon(rs.getString("restIcon"));
                 restaurantBean.setAddress(rs.getString("address"));
                 restaurantBean.setDescription(rs.getString("description"));
-                restaurantBean.setViewCount(rs.getInt("viewCount"));
                 restaurantBeans.add(restaurantBean);
             }
             pStmnt.close();
@@ -90,8 +92,9 @@ public class RestaurantDB {
                 restaurantBean.setRestIcon(rs.getString("restIcon"));
                 restaurantBean.setAddress(rs.getString("address"));
                 restaurantBean.setDescription(rs.getString("description"));
-                restaurantBean.setViewCount(rs.getInt("viewCount"));
-                restaurantBeans.add(restaurantBean);
+                if (restaurantBean.getName().contains(name)) {
+                    restaurantBeans.add(restaurantBean);
+                }
             }
             pStmnt.close();
             cnnct.close();
@@ -104,14 +107,16 @@ public class RestaurantDB {
         return restaurantBeans;
     }
 
-    public void increaseViewCount(String name) {
+    public void increaseViewCount(int restId, UserInfo user) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
+        int userId = user.getUserID();
+        String district = user.getDistrict();
         try {
             cnnct = getConnection();
-            String preQueryStatement = "UPDATE Restaurant SET viewCount = viewCount + 1 WHERE name = ?;";
+            String preQueryStatement = "INSERT INTO RestViewCount (RestaurantrestId, userID, date, ditrict) "
+                    + "VALUES ("+restId+", "+userId+", SYSDATE, "+district+")";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
-            pStmnt.setString(1, name);
             pStmnt.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
