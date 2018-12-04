@@ -65,7 +65,7 @@ public class handleRestaurant extends HttpServlet {
             if (restaurant.getOwnerId() == user.getUserID()) {
                 request.setAttribute("restaurant", restaurant);
                 RequestDispatcher rd;
-                rd = getServletContext().getRequestDispatcher("/editRestaurant.jsp");
+                rd = getServletContext().getRequestDispatcher("/maintainRestMenuPage.jsp");
                 rd.forward(request, response);
             }else {
                 request.setAttribute("message", "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
