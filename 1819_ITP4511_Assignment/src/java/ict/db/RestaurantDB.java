@@ -118,7 +118,7 @@ public class RestaurantDB {
             pStmnt.setInt(1, restId);
             pStmnt.setInt(2, userId);
             pStmnt.setTimestamp(3, new java.sql.Timestamp(new java.util.Date().getTime()));
-            pStmnt.setString(4, "fuck");
+            pStmnt.setString(4, user.getDistrict());
             pStmnt.execute();
             
             //return viewCount
