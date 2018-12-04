@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sun.security.provider.certpath.ResponderId;
 
 /**
  *
@@ -55,9 +56,7 @@ public class handleRestaurant extends HttpServlet {
             int restId = Integer.parseInt(request.getParameter("restId"));
             db.increaseViewCount(restId, user);
 
-            RequestDispatcher rd;
-            rd = getServletContext().getRequestDispatcher("/index.jsp");
-            rd.forward(request, response);
+            response.sendRedirect("viewRestaurantDetails.jsp");
         } else if (action.equalsIgnoreCase("maintainRestMenu")) {       //maintainRestMenumaintainRestMenumaintainRestMenumaintainRestMenumaintainRestMenumaintainRestMenu
             Restaurant restaurant;
             int restId = Integer.parseInt(request.getParameter("restId"));
