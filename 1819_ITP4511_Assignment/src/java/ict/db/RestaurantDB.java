@@ -118,14 +118,19 @@ public class RestaurantDB {
             pStmnt.setInt(1, restId);
             pStmnt.setInt(2, userId);
             pStmnt.setTimestamp(3, new java.sql.Timestamp(new java.util.Date().getTime()));
-            pStmnt.setString(4, user.getDistrict());
-            pStmnt.execute();
+            pStmnt.setString(4, district);
+            pStmnt.executeUpdate();
             
             //return viewCount
             preQueryStatement = "SELECt COUNT(*) FROM RestViewCount WHERE restId = ?;";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setInt(1, restId);
-            int viewCount = pStmnt.executeUpdate();
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            int viewCount = 0;
+            while (rs.next()) {
+                viewCount++;
+            }
             return viewCount;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -231,7 +236,8 @@ public class RestaurantDB {
         }
         return editSuccess;
     }
-        public boolean delRestaurantById(int id) {
+
+    public boolean delRestaurantById(int id) {
         Statement stmnt = null;
         Connection cnnct = null;
         boolean delSuccess = false;
