@@ -92,7 +92,7 @@ public class RestaurantDB {
                 restaurantBean.setRestIcon(rs.getString("restIcon"));
                 restaurantBean.setAddress(rs.getString("address"));
                 restaurantBean.setDescription(rs.getString("description"));
-                if (restaurantBean.getName().contains(name)) {
+                if (restaurantBean.getName().toLowerCase().contains(name.toLowerCase())) {
                     restaurantBeans.add(restaurantBean);
                 }
             }
