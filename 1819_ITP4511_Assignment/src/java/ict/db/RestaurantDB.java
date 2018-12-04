@@ -8,15 +8,12 @@ package ict.db;
 import com.mysql.jdbc.Connection;
 import ict.bean.Restaurant;
 import ict.bean.UserInfo;
-import ict.bean.UserInfo;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -116,14 +113,13 @@ public class RestaurantDB {
         String district = user.getDistrict();
         try {
             cnnct = getConnection();
-            String preQueryStatement = "INSERT INTO RestViewCount (RestaurantrestId, userID, date, ditrict) "
-                    + "VALUES (?, ?, ?, ?)";
+            String preQueryStatement = "INSERT INTO RestViewCount (RestaurantrestId, userID, date, district) VALUES (?, ?, ?, ?);";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setInt(1, restId);
             pStmnt.setInt(2, userId);
             pStmnt.setTimestamp(3, new java.sql.Timestamp(new java.util.Date().getTime()));
-            pStmnt.setString(4, district);
-            pStmnt.executeUpdate();
+            pStmnt.setString(4, "fuck");
+            pStmnt.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
