@@ -91,7 +91,6 @@ public class handleRestaurant extends HttpServlet {
         } else if (action.equalsIgnoreCase("confirmDeleteRestaurant")) {
             Restaurant restaurant;
             int restId = Integer.parseInt(request.getParameter("restId"));
-            UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
             restaurant = db.getRestaurantByRestId(restId);
             if (restaurant.getOwnerId() == user.getUserID()) {
                 request.setAttribute("restaurant", restaurant);

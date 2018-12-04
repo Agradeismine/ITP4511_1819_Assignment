@@ -58,6 +58,11 @@ public class handleRestaurantEdit extends HttpServlet {
                 restNewInfo.setDescription(request.getParameter("description"));
                 boolean ss = db.editRestaurantRecord(restNewInfo);
                 response.sendRedirect("ViewOwnRestaurant.jsp");
+            } else {
+                request.setAttribute("message", "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/message.jsp");
+                rd.forward(request, response);
             }
         } else if (action.equalsIgnoreCase("Delete")) {
             UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
