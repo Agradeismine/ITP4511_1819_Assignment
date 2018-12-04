@@ -122,14 +122,14 @@ public class RestaurantDB {
             pStmnt.executeUpdate();
             
             //return viewCount
-            preQueryStatement = "SELECt COUNT(*) FROM RestViewCount WHERE restId = ?;";
+            preQueryStatement = "SELECt COUNT(*) AS total FROM RestViewCount WHERE restId = ?;";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setInt(1, restId);
             ResultSet rs = null;
             rs = pStmnt.executeQuery();
             int viewCount = 0;
             while (rs.next()) {
-                viewCount++;
+                viewCount = rs.getInt("total");
             }
             return viewCount;
         } catch (SQLException ex) {
