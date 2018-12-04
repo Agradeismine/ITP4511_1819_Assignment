@@ -11,6 +11,8 @@
     </head>
     <body>
         <jsp:useBean id="userInfo" class="ict.bean.UserInfo" scope="session"/>
+        <jsp:useBean id="thisRestaurant" class="ict.bean.Restaurant" scope="request"/>
+        
         <%
             UserInfo user = (UserInfo) session.getAttribute("userInfo");
             if (user.getUsername() != null && user.getRole().equals("owner")) {   //user has login and he is owner
