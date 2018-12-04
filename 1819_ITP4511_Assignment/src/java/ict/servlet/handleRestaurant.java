@@ -67,6 +67,11 @@ public class handleRestaurant extends HttpServlet {
                 RequestDispatcher rd;
                 rd = getServletContext().getRequestDispatcher("/editRestaurant.jsp");
                 rd.forward(request, response);
+            }else {
+                request.setAttribute("message", "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/message.jsp");
+                rd.forward(request, response);
             }
         }else if (action.equalsIgnoreCase("editRestaurantIcon")) {
             Restaurant restaurant;
@@ -77,6 +82,28 @@ public class handleRestaurant extends HttpServlet {
                 request.setAttribute("restaurant", restaurant);
                 RequestDispatcher rd;
                 rd = getServletContext().getRequestDispatcher("/editRestaurantIcon.jsp");
+                rd.forward(request, response);
+            }else {
+                request.setAttribute("message", "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/message.jsp");
+                rd.forward(request, response);
+            }
+        } else if (action.equalsIgnoreCase("confirmDeleteRestaurant")) {
+            Restaurant restaurant;
+            int restId = Integer.parseInt(request.getParameter("restId"));
+            UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
+            restaurant = db.getRestaurantByRestId(restId);
+            if (restaurant.getOwnerId() == user.getUserID()) {
+                request.setAttribute("restaurant", restaurant);
+                request.setAttribute("type", "Delete");
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/confirmAction.jsp");
+                rd.forward(request, response);
+            }else {
+                request.setAttribute("message", "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/message.jsp");
                 rd.forward(request, response);
             }
         } else {
