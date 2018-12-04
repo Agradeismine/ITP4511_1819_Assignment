@@ -35,6 +35,7 @@
             .restIcon {
                 height: 100px;
                 width: 100px;
+                margin-right: 50px;
             }
             .rest_table{
                 border: 1px solid black;
@@ -91,10 +92,10 @@
                     Restaurant restaurant = restaurants.get(i);
                     out.println("<div class='rest_table'>"
                             + "<img class='restIcon' src='upload/" + restaurant.getRestIcon() + "'/>"
-                            + "<a class='rest_contecnt'>RestID: " + restaurant.getRestId() + "</a>"
-                            + "<a class='rest_content'>" + restaurant.getName() + "</a>"
-                            + "<a class='rest_content'>" + restaurant.getAddress() + "</a>"
-                            + "<a class='rest_content'>" + restaurant.getDescription() + "</a>"
+                            + "<a class='rest_contecnt' style='margin-right:50px;'>ID: " + restaurant.getRestId() + "</a>"
+                            + "<a class='rest_content'>Name: " + restaurant.getName() + "</a>"
+                            + "<a class='rest_content'>Address: " + restaurant.getAddress() + "</a>"
+                            + "<a class='rest_content'>Description: " + restaurant.getDescription() + "</a>"
                             + "<a class='rest_content' href='handleRestaurant?action=view&restId=" + restaurant.getRestId() + "'>View</a>"
                             + "</div>");
                 }
