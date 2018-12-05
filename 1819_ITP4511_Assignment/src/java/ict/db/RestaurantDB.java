@@ -45,7 +45,7 @@ public class RestaurantDB {
         Restaurant restaurantBean = null;
         try {
             cnnct = getConnection();
-            String preQueryStatement = "Select * from Restaurant;";
+            String preQueryStatement = "SELECT * FROM Restaurant;";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             ResultSet rs = null;
             rs = pStmnt.executeQuery();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
@@ -58,6 +58,7 @@ public class RestaurantDB {
                 restaurantBean.setRestIcon(rs.getString("restIcon"));
                 restaurantBean.setAddress(rs.getString("address"));
                 restaurantBean.setDescription(rs.getString("description"));
+                restaurantBean.setViewCount(ViewCount(restaurantBean.getRestId()));
                 restaurantBeans.add(restaurantBean);
             }
             pStmnt.close();
@@ -106,30 +107,65 @@ public class RestaurantDB {
         return restaurantBeans;
     }
 
-    public int increaseViewCount(int restId, UserInfo user) {
+    public void increaseViewCount(int restId, UserInfo user) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
-        int userId = user.getUserID();
-        String district = user.getDistrict();
+        int userId = 0;
+        int RestaurantrestId;
+        String district = "N/A";
+        if (user != null) {
+            userId = user.getUserID();
+            district = user.getDistrict();
+        }
         try {
             cnnct = getConnection();
-            String preQueryStatement = "INSERT INTO RestViewCount (RestaurantrestId, userID, date, district) VALUES (?, ?, ?, ?);";
+            String preQueryStatement = "SELECT * FROM RestViewCount;";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
-            pStmnt.setInt(1, restId);
-            pStmnt.setInt(2, userId);
-            pStmnt.setTimestamp(3, new java.sql.Timestamp(new java.util.Date().getTime()));
-            pStmnt.setString(4, district);
-            pStmnt.executeUpdate();
-            
-            //return viewCount
-            preQueryStatement = "SELECt COUNT(*) AS total FROM RestViewCount WHERE RestaurantrestId = ?;";
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            boolean hasRestaurantRecord = false;
+            while (rs.next()) {
+                RestaurantrestId = rs.getInt("RestaurantrestId");
+                if (RestaurantrestId == restId) {
+                    hasRestaurantRecord = true;
+                }
+            }
+            if (hasRestaurantRecord) {
+                preQueryStatement = "UPDATE RestViewCount SET count = count + 1 WHERE = ?;";
+                pStmnt = cnnct.prepareStatement(preQueryStatement);
+                pStmnt.setInt(1, restId);
+            } else {
+                preQueryStatement = "INSERT INTO RestViewCount (RestaurantrestId, userId, date, district, count) VALUES (?, ?, ?, ?, ?);";
+                pStmnt = cnnct.prepareStatement(preQueryStatement);
+                pStmnt.setInt(1, restId);
+                pStmnt.setInt(2, userId);
+                pStmnt.setTimestamp(3, new java.sql.Timestamp(new java.util.Date().getTime()));
+                pStmnt.setString(4, district);
+                pStmnt.setInt(5, 0);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public int ViewCount(int restId) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int viewCount = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM RestViewCount WHERE RestaurantrestId = ?;";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             pStmnt.setInt(1, restId);
             ResultSet rs = null;
             rs = pStmnt.executeQuery();
-            int viewCount = 0;
             while (rs.next()) {
-                viewCount = rs.getInt("total");
+                int RestaurantrestId = rs.getInt("RestaurantrestId");
+                if(RestaurantrestId == restId){
+                    viewCount = rs.getInt("count");
+                }
             }
             return viewCount;
         } catch (SQLException ex) {

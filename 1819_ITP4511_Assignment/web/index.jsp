@@ -96,6 +96,7 @@
                             + "<a class='rest_content'>Name: " + restaurant.getName() + "</a>"
                             + "<a class='rest_content'>Address: " + restaurant.getAddress() + "</a>"
                             + "<a class='rest_content'>Description: " + restaurant.getDescription() + "</a>"
+                            + "<a class='rest_content'>ViewCount: " + restaurant.getViewCount() + "</a>"
                             + "<a class='rest_content' href='handleRestaurant?action=view&restId=" + restaurant.getRestId() + "'>View</a>"
                             + "</div>");
                 }

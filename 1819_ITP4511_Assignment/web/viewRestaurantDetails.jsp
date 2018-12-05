@@ -16,10 +16,8 @@
     <%
         RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
         int restId = Integer.parseInt(request.getAttribute("restId").toString());
-        int viewCount = Integer.parseInt(request.getAttribute("viewCount").toString());
         Restaurant restaurant = db.getRestaurantByRestId(restId);
         out.print("<h1>" + restaurant.getName() + "</h1>");
-        out.print("<p>" + viewCount + "</p>");
     %>
     <body>
 
