@@ -117,11 +117,13 @@ public class RestaurantDB {
         PreparedStatement pStmnt = null;
         int userId = 0;
         int RestaurantrestId = 0;
-        String district = "N/A";
+        String district = "noDistrict";
         if (user != null) {
             userId = user.getUserID();
-            district = user.getDistrict();
-        }
+            if(user.getDistrict() != null){
+                district = user.getDistrict(); // for login
+            }
+        }    
         try {
             cnnct = getConnection();
             String preQueryStatement = "SELECT * FROM RestViewCount;";
@@ -131,15 +133,17 @@ public class RestaurantDB {
             boolean hasRestaurantRecord = false;
             while (rs.next()) {
                 RestaurantrestId = rs.getInt("RestaurantrestId");
-                if (RestaurantrestId == restId && RestaurantrestId > 0) {
+                String checkDistrict = rs.getString("district");
+                if (RestaurantrestId == restId && checkDistrict.equals(district)) {
                     hasRestaurantRecord = true;
                 }
             }
             if (hasRestaurantRecord) {
                 System.out.println("update");
-                preQueryStatement = "UPDATE RestViewCount SET count = count + 1 WHERE RestaurantrestId = ?;";
+                preQueryStatement = "UPDATE RestViewCount SET count = count + 1 WHERE RestaurantrestId = ? AND district = ?;";
                 pStmnt = cnnct.prepareStatement(preQueryStatement);
                 pStmnt.setInt(1, restId);
+                pStmnt.setString(2, district);
             } else {
                 System.out.println("insert");
                 preQueryStatement = "INSERT INTO RestViewCount (RestaurantrestId, userId, date, district, count) VALUES (?, ?, ?, ?, ?);";
@@ -148,7 +152,7 @@ public class RestaurantDB {
                 pStmnt.setInt(2, userId);
                 pStmnt.setTimestamp(3, new java.sql.Timestamp(new java.util.Date().getTime()));
                 pStmnt.setString(4, district);
-                pStmnt.setInt(5, 0);
+                pStmnt.setInt(5, 1);
             }
             pStmnt.executeUpdate();
             pStmnt.close();
@@ -174,7 +178,7 @@ public class RestaurantDB {
             while (rs.next()) {
                 int RestaurantrestId = rs.getInt("RestaurantrestId");
                 if(RestaurantrestId == restId){
-                    viewCount = rs.getInt("count");
+                    viewCount += rs.getInt("count");
                 }
             }
             return viewCount;
