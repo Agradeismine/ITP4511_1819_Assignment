@@ -24,18 +24,21 @@
             }
         %>
         <br/><table border="1">
-            <tr><th>Restaurant Icon</th><th>Restaurant ID</th><th>Restaurant Name</th><th>Restaurant Address</th><th>Restaurant Description</th><th colspan="3">Action</th></tr>
+            <tr><th>Restaurant Icon</th><th>Restaurant ID</th><th>Restaurant Name</th><th>Restaurant Address</th><th>Restaurant Description</th><th>Head or Branches?</th><th>Head Restaurant</th><th colspan="3">Action</th></tr>
                     <%
                         RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
                         ArrayList<Restaurant> restaurants = db.getRestaurantByOwnerId(user.getUserID());     //do到here
                         for (int i = 0; i < restaurants.size(); i++) {
                             Restaurant restaurant = restaurants.get(i);
+                            Restaurant headRestaurant = db.getRestaurantByRestId(restaurant.getHeadRestId());                            
                             out.println("<tr>"
                                     + "<td align='center'><img src='upload/" + restaurant.getRestIcon() + "' width='100' height='100'></td>"
                                     + "<td>" + restaurant.getRestId() + "</td>"
                                     + "<td>" + restaurant.getName() + "</td>"
                                     + "<td>" + restaurant.getAddress() + "</td>"
                                     + "<td>" + restaurant.getDescription() + "</td>"
+                                    + "<td>" + restaurant.getHeadorBranches()+ "</td>"
+                                    + "<td>" + restaurant.getHeadRestId()+ "</td>"
                                     + "<td><a href='handleRestaurant?action=maintainRestMenu&restId=" + restaurant.getRestId() + "'>Maintain menus</a></td>"
                                     + "<td><a href='handleRestaurant?action=editRestaurantIcon&restId=" + restaurant.getRestId() + "'>Change Icon</a></td>"
                                     + "<td><a href='handleRestaurant?action=getEditRestaurant&restId=" + restaurant.getRestId() + "'>Edit</a></td>"

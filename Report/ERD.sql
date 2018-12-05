@@ -13,6 +13,8 @@ CREATE TABLE Restaurant (
   restIcon    varchar(200) COLLATE utf8_bin, 
   address     varchar(255) COLLATE utf8_bin NOT NULL, 
   description varchar(255), 
+  HeadorBranches varchar(8) NOT NULL, 
+  headID         int(11), 
   PRIMARY KEY (restId)) DEFAULT CHARSET = latin1;
 CREATE TABLE Menu (
   RestaurantrestId int(11) NOT NULL, 

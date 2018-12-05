@@ -20,27 +20,21 @@ public class Restaurant implements Serializable {
     private String address;
     private String description;
     private int viewCount;
+    private String HeadorBranches;
+    private int headRestId;
 
     public Restaurant() {
     }
 
-    public Restaurant(int restId, String name, String RestIcon, String address, String description, int viewCount) {
-        this.restId = restId;
-        this.name = name;
-        this.RestIcon = RestIcon;
-        this.address = address;
-        this.description = description;
-        this.viewCount = viewCount;
-    }
-
-    public Restaurant(int restId, String name, int ownerId, String RestIcon, String address, String description, int viewCount) {   //with ownerId
+    public Restaurant(int restId, String name, int ownerId, String RestIcon, String address, String description, String HeadorBranches, int headRestId) {   //with ownerId
         this.restId = restId;
         this.name = name;
         this.ownerId = ownerId;
         this.RestIcon = RestIcon;
         this.address = address;
         this.description = description;
-        this.viewCount = viewCount;
+        this.HeadorBranches = HeadorBranches;
+        this.headRestId = headRestId;
     }
 
     public int getOwnerId() {
@@ -91,12 +85,28 @@ public class Restaurant implements Serializable {
         this.description = description;
     }
 
-    public int getViewCount() {
-        return viewCount;
+    public String getHeadorBranches() {
+        return HeadorBranches;
+    }
+
+    public void setHeadorBranches(String HeadorBranches) {
+        this.HeadorBranches = HeadorBranches;
+    }
+
+    public int getHeadRestId() {
+        return headRestId;
+    }
+
+    public void setHeadRestId(int headRestId) {
+        this.headRestId = headRestId;
     }
 
     public void setViewCount(int viewCount) {
         this.viewCount = viewCount;
+    }
+
+    public int getViewCount() {
+        return viewCount;
     }
 
 }

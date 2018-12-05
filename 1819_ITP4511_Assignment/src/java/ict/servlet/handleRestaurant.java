@@ -54,6 +54,8 @@ public class handleRestaurant extends HttpServlet {
         } else if ("view".equalsIgnoreCase(action)) {
             int restId = Integer.parseInt(request.getParameter("restId"));
             db.increaseViewCount(restId, user);
+            
+            
             request.setAttribute("restId", restId);
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/viewRestaurantDetails.jsp");
