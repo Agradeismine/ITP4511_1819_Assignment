@@ -79,7 +79,10 @@ public class RestaurantDB {
         Restaurant restaurantBean = null;
         try {
             cnnct = getConnection();
-            String preQueryStatement = "Select * from Restaurant;";
+            String preQueryStatement = "SELECT DISTINCT r.restId, r.name, r.restIcon, r.address, r.description, rt.tagName, rvc.count"
+                    + " FROM Restaurant r, RestaurantTag rt, RestViewCount rvc"
+                    + " WHERE r.restId = rt.RestaurantrestId"
+                    + " AND r.restId = rvc.RestaurantrestId;";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
 
             ResultSet rs = null;
@@ -87,12 +90,14 @@ public class RestaurantDB {
 
             while (rs.next()) {
                 restaurantBean = new Restaurant();
-                restaurantBean.setRestId(rs.getInt("restId"));
-                restaurantBean.setName(rs.getString("name"));
-                restaurantBean.setRestIcon(rs.getString("restIcon"));
-                restaurantBean.setAddress(rs.getString("address"));
-                restaurantBean.setDescription(rs.getString("description"));
-                if (restaurantBean.getName().toLowerCase().contains(name.toLowerCase())) {
+                restaurantBean.setRestId(rs.getInt("r.restId"));
+                restaurantBean.setName(rs.getString("r.name"));
+                restaurantBean.setRestIcon(rs.getString("r.restIcon"));
+                restaurantBean.setAddress(rs.getString("r.address"));
+                restaurantBean.setDescription(rs.getString("r.description"));
+                restaurantBean.setViewCount(rs.getInt("rvc.count"));
+                if (restaurantBean.getName().toLowerCase().contains(name.toLowerCase()) || 
+                    rs.getString("rt.tagName").contains(name.toLowerCase())) {
                     restaurantBeans.add(restaurantBean);
                 }
             }
@@ -131,10 +136,12 @@ public class RestaurantDB {
                 }
             }
             if (hasRestaurantRecord) {
+                System.out.println("update");
                 preQueryStatement = "UPDATE RestViewCount SET count = count + 1 WHERE RestaurantrestId = ?;";
                 pStmnt = cnnct.prepareStatement(preQueryStatement);
                 pStmnt.setInt(1, restId);
             } else {
+                System.out.println("insert");
                 preQueryStatement = "INSERT INTO RestViewCount (RestaurantrestId, userId, date, district, count) VALUES (?, ?, ?, ?, ?);";
                 pStmnt = cnnct.prepareStatement(preQueryStatement);
                 pStmnt.setInt(1, restId);
