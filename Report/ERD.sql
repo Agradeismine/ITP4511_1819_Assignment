@@ -38,7 +38,8 @@ CREATE TABLE RestViewCount (
   RestaurantrestId int(11) NOT NULL, 
   userId           int(11) NOT NULL, 
   `date`           date NOT NULL, 
-  district         varchar(20) NOT NULL);
+  district         varchar(20) NOT NULL), 
+  count            int(11) NOT NULL);
 CREATE TABLE SearchHistory (
   keyword varchar(255) NOT NULL, 
   count   int(11) NOT NULL);
