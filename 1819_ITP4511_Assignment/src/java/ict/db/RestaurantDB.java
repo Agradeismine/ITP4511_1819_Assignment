@@ -58,6 +58,8 @@ public class RestaurantDB {
                 restaurantBean.setRestIcon(rs.getString("restIcon"));
                 restaurantBean.setAddress(rs.getString("address"));
                 restaurantBean.setDescription(rs.getString("description"));
+                restaurantBean.setHeadorBranches(rs.getString("HeadorBranches"));
+                restaurantBean.setHeadRestId(rs.getInt("headRestId"));
                 restaurantBean.setViewCount(ViewCount(restaurantBean.getRestId()));
                 restaurantBeans.add(restaurantBean);
             }
@@ -97,8 +99,8 @@ public class RestaurantDB {
                 restaurantBean.setAddress(rs.getString("r.address"));
                 restaurantBean.setDescription(rs.getString("r.description"));
                 restaurantBean.setViewCount(ViewCount(restaurantBean.getRestId()));
-                if (restaurantBean.getName().toLowerCase().contains(name.toLowerCase()) || 
-                    rs.getString("rt.tagName").contains(name.toLowerCase())) {
+                if (restaurantBean.getName().toLowerCase().contains(name.toLowerCase())
+                        || rs.getString("rt.tagName").contains(name.toLowerCase())) {
                     restaurantBeans.add(restaurantBean);
                 }
             }
@@ -121,10 +123,10 @@ public class RestaurantDB {
         String district = "noDistrict";
         if (user != null) {
             userId = user.getUserID();
-            if(user.getDistrict() != null){
+            if (user.getDistrict() != null) {
                 district = user.getDistrict(); // for login
             }
-        }    
+        }
         try {
             cnnct = getConnection();
             String preQueryStatement = "SELECT * FROM RestViewCount;";
@@ -178,7 +180,7 @@ public class RestaurantDB {
             rs = pStmnt.executeQuery();
             while (rs.next()) {
                 int RestaurantrestId = rs.getInt("RestaurantrestId");
-                if(RestaurantrestId == restId){
+                if (RestaurantrestId == restId) {
                     viewCount += rs.getInt("count");
                 }
             }
@@ -214,6 +216,8 @@ public class RestaurantDB {
                 restaurantBean.setRestIcon(rs.getString("restIcon"));
                 restaurantBean.setAddress(rs.getString("address"));
                 restaurantBean.setDescription(rs.getString("description"));
+                restaurantBean.setHeadorBranches(rs.getString("HeadorBranches"));
+                restaurantBean.setHeadRestId(rs.getInt("headRestId"));
                 restaurantBeans.add(restaurantBean);
             }
 
@@ -248,6 +252,8 @@ public class RestaurantDB {
                 restaurant.setRestIcon(rs.getString("restIcon"));
                 restaurant.setAddress(rs.getString("address"));
                 restaurant.setDescription(rs.getString("description"));
+                restaurant.setHeadorBranches(rs.getString("HeadorBranches"));
+                restaurant.setHeadRestId(rs.getInt("headRestId"));
             }
             pStmnt.close();
             cnnct.close();
