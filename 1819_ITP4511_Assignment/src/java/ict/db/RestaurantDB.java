@@ -111,7 +111,7 @@ public class RestaurantDB {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         int userId = 0;
-        int RestaurantrestId;
+        int RestaurantrestId = 0;
         String district = "N/A";
         if (user != null) {
             userId = user.getUserID();
@@ -126,12 +126,12 @@ public class RestaurantDB {
             boolean hasRestaurantRecord = false;
             while (rs.next()) {
                 RestaurantrestId = rs.getInt("RestaurantrestId");
-                if (RestaurantrestId == restId) {
+                if (RestaurantrestId == restId && RestaurantrestId > 0) {
                     hasRestaurantRecord = true;
                 }
             }
             if (hasRestaurantRecord) {
-                preQueryStatement = "UPDATE RestViewCount SET count = count + 1 WHERE = ?;";
+                preQueryStatement = "UPDATE RestViewCount SET count = count + 1 WHERE RestaurantrestId = ?;";
                 pStmnt = cnnct.prepareStatement(preQueryStatement);
                 pStmnt.setInt(1, restId);
             } else {
@@ -143,6 +143,9 @@ public class RestaurantDB {
                 pStmnt.setString(4, district);
                 pStmnt.setInt(5, 0);
             }
+            pStmnt.executeUpdate();
+            pStmnt.close();
+            cnnct.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
