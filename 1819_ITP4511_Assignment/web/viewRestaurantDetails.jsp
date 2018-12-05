@@ -13,6 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Restaurant Details</title>
     </head>
+    <jsp:include page="heading.jsp" />
     <%
         RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
         int restId = Integer.parseInt(request.getAttribute("restId").toString());
