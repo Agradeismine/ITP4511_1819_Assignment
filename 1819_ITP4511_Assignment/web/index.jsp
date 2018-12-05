@@ -50,29 +50,7 @@
     </head>
 
     <body>
-        <jsp:useBean id="userInfo" class="ict.bean.UserInfo" scope="session"/>
-        <h1>Takeaway King</h1>
-        <%
-            UserInfo user = (UserInfo) session.getAttribute("userInfo");
-            if (user.getUsername() != null) {
-                out.println("<div class='userInfo'><a name='show_username'>" + user.getUsername() + "</a>, Hello.<br>");
-                out.print("<form action='main' method='post'>"
-                        + "<input type='hidden' name='action' value='logout'>"
-                        + "<input type='submit' name='logoutButton' value='Logout'>"
-                        + "</form></div>");
-            } else {
-                out.println("<form method='post' action='main'>"
-                        + "<input type='hidden' name='action' value='authenticate'>"
-                        //+ "<p>username: <input type='text' id='username' name='username'></p>"
-                        + "<p>User ID: <input type='text' id='userId' name='userId'></p>"
-                        + "<p>Password: <input type='password' id='password' name='password'></p>"
-                        + "<input type='submit' value='Sign In'>"
-                        + "</form><br/>");
-                if (request.getAttribute("loginError") != null) {
-                    out.println("<a style='color:red;'>Login error. Please input again.</a>");
-                }
-            }
-        %>
+        <jsp:include page="/heading.jsp" />
         <br><a href="ViewOwnRestaurant.jsp">View Own Restaurant (default restaurant owner can see this function only, set it later)</a><br><br>
         <form action="handleRestaurant">
             <input type="hidden" name="action" value="search">
