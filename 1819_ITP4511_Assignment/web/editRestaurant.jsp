@@ -53,6 +53,7 @@
                 <label>Restaurant Icon: </label> <img src='upload/<%= restaurant.getRestIcon()%>' width='160' height="160"><br><br>
                 <label>Restaurant Address: </label> <input name="address" type="text" value="<%= restaurant.getAddress()%>"/> <br><br>
                 <label>Restaurant Description: </label> <input name="description" type="text" value="<%= restaurant.getDescription()%>"/> <br><br>
+                <label>Restaurant Tel </label> <input name="tel" type="number" value="<%= restaurant.getTel()%>"/> <br><br>
                 I confirm the restaurant information that I have changed. <input type="checkbox" id='formCheck'/> <br><br>
                 <div class='center'>
                     <input type="button" onclick="history.back()" value="Back"/> <input type="submit" value="submit"/> <br>
