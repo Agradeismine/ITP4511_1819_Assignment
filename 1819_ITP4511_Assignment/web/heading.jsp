@@ -16,10 +16,10 @@
     </head>
     <style>
         .heading {
-            border: 1px solid yellow;
+            border: 1px solid #FCD742;
             height: 90px;
             width: auto;
-            background-color: yellow;
+            background-color: #FCD742;
             padding-left: 20px;
             margin: 0px -10px 0px -10px;
         }

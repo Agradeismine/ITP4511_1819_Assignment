@@ -22,12 +22,13 @@
         .intro{
             height: 200px;
             width: auto;
-            background-color: black;
+            background-color: #222;
             color: white;
             margin: 1px -10px 0px -10px;
         }
         .restName{
             transform: translate(250px, -250px);
+            font-family: "Comic Sans MS", cursive, sans-serif;
         }
         .like{
             height: 40px;
