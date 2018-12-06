@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>View My Restaurants</title>
+        <title>View Restaurant Menus</title>
     </head>
     <body>
         <jsp:useBean id="userInfo" class="ict.bean.UserInfo" scope="session"/>
@@ -27,25 +27,29 @@
             } else {
                 response.sendRedirect("index.jsp?haveNotLogin");    //Redirect and haven't login message display
             }
+            
+    int restId = Integer.parseInt(request.getParameter("restId"));
         %>
+        <br/>
+        <a href="handleMenu?action='addMenu'&restId=<%= restId %>"><button>Add Menu</button></a>
         <br/><table border="1">
             <th>Menu ID</th><th>Menu Name</th><th>Photo</th><th>Menu Type</th><th>Start Time</th><th>End Time</th></tr>
-                    <%
-                        for (int i = 0; i < restaurantMenu.size(); i++) {
-                            Menu menu = restaurantMenu.get(i);
-                            out.println("<tr style='text-align:center;'>"
-                                    + "<td>" + menu.getImgId() + "</td>"
-                                    + "<td>" + menu.getImgName() + "</td>"
-                                    + "<td><img src='upload/" + menu.getMenuPath()+ "' width='100' height='100'></td>"
-                                    + "<td>" + menu.getMenuType()+ "</td>"
-                                    + "<td>" + menu.getMenuStartTime()+ "</td>"
-                                    + "<td>" + menu.getMenuEndTime()+ "</td>"
-                                    + "<td><a href='handleMenu?action=editMenuIcon&imgId=" + menu.getImgId() + "'>Change Icon</a></td>"
-                                    + "<td><a href='handleMenu?action=getEditMenu&imgId=" + menu.getImgId()+ "'>Edit</a></td>"
-                                    + "<td><a href='handleMenu?action=confirmDeleteMenu&imgId=" + menu.getImgId() + "'>Delete</a></td>"
-                                    + "</tr>");
-                        }
-                    %>
-        </table>
-    </body>
+                <%
+                    for (int i = 0; i < restaurantMenu.size(); i++) {
+                        Menu menu = restaurantMenu.get(i);
+                        out.println("<tr style='text-align:center;'>"
+                                + "<td>" + menu.getImgId() + "</td>"
+                                + "<td>" + menu.getImgName() + "</td>"
+                                + "<td><img src='upload/" + menu.getMenuPath() + "' width='100' height='100'></td>"
+                                + "<td>" + menu.getMenuType() + "</td>"
+                                + "<td>" + menu.getMenuStartTime() + "</td>"
+                                + "<td>" + menu.getMenuEndTime() + "</td>"
+                                + "<td><a href='handleMenu?action=editMenuIcon&imgId=" + menu.getImgId() + "'>Change Icon</a></td>"
+                                + "<td><a href='handleMenu?action=getEditMenu&imgId=" + menu.getImgId() + "'>Edit</a></td>"
+                                + "<td><a href='handleMenu?action=confirmDeleteMenu&imgId=" + menu.getImgId() + "'>Delete</a></td>"
+                                + "</tr>");
+                    }
+                %>
+    </table>
+</body>
 </html>
