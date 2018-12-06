@@ -74,7 +74,7 @@ public class LoginController extends HttpServlet {
             session.setAttribute("userInfo", userBean);
             targetURL = "index.jsp";
         } else {
-            request.setAttribute("loginError", "loginError");
+            request.setAttribute("loginError", "Login error. Please input again.");
             targetURL = "index.jsp";
         }
         RequestDispatcher rd;

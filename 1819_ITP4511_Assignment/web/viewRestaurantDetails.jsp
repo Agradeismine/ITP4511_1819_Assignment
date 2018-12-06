@@ -24,40 +24,60 @@
             width: auto;
             background-color: black;
             color: white;
-            margin-top: 5px;
+            margin: 1px -10px 0px -10px;
         }
         .restName{
-            transform: translate(250px, -200px);
+            transform: translate(250px, -250px);
         }
         .like{
             height: 40px;
             width: auto;
-            border-left: 2px solid black;
-            border-bottom: 2px solid black;
-            border-right: 2px solid black;
+            border-bottom: 1px solid grey;
             color: black;
-            transform: translateY(-125px);
+            transform: translateY(-160px);
             text-align: center;
         }
-        .menuTable{
+        .menuTable, .commentArea{
             height: 100px;
             width: auto;
             color: black;
             border: 1px solid grey;
             transform: translateY(-100px);
+            margin: 5px;
+        }
+        .goComment{
+            transform: translate(250px, -200px);
         }
     </style>
     <jsp:include page="heading.jsp" />
     <jsp:useBean id="rBean" class="ict.bean.Restaurant" scope="request"/>
     <%
-        RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
-        int restId = Integer.parseInt(request.getAttribute("restId").toString());
-        out.print("<div class='intro'><div><img src='upload/" + rBean.getRestIcon() + "' class='restImg'/></div>");
-        out.print("<h1 class='restName'>" + rBean.getName() + "</h1><div/>");
-        out.print("<div class='like'><h3>Views:"+rBean.getViewCount()+"</h3></div>");
-        out.print("<div class='menuTable'>FOR MENU</div>");
+        int restId = rBean.getRestId();
+        String name = rBean.getName();
+        int viewCoiunt = rBean.getViewCount();
+        String iconPath = "upload/"+rBean.getRestIcon();
     %>
-    <body>
+    <div class='intro'>
+        <div><img src='<%=iconPath%>' class='restImg'/></div>
+        <h1 class='restName'><%=name%></h1><div/>
+        <form action='handleComment' class='goComment'>
+            <input type="hidden" name="action" value="comment"/>
+            <input type='hidden' name='restId' value='<%=restId%>'/>
+            <input type='submit' value='Go to comment'/><br/>
+            <%
+                if (request.getAttribute("notLogin") != null) {
+                    out.println("<a style='color:white;'>" + request.getAttribute("notLogin") + "</a>");
+                }
+            %>
+        </form>
+        <div class='like'><h3>Views: <%=viewCoiunt%></h3></div>
+        <div class='menuTable'>FOR MENU</div>
+        <%
+            for (int i = 0; i < 5; i++) {
+                out.print("<div class='commentArea'>FOR COMMENT</div>");
+            }
+        %>
+        <body>
 
-    </body>
+        </body>
 </html>

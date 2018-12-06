@@ -61,7 +61,6 @@ public class handleRestaurant extends HttpServlet {
             db.increaseViewCount(restId, user);
             Restaurant rBean = db.getRestaurantByRestId(restId);
             request.setAttribute("rBean", rBean);
-            request.setAttribute("restId", restId);
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/viewRestaurantDetails.jsp");
             rd.forward(request, response);

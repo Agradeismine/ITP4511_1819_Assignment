@@ -16,11 +16,12 @@
     </head>
     <style>
         .heading {
-            border: 1px solid black;
+            border: 1px solid yellow;
             height: 90px;
             width: auto;
             background-color: yellow;
             padding-left: 20px;
+            margin: 0px -10px 0px -10px;
         }
         .loginForm {
             width: 500px;
@@ -56,7 +57,7 @@
     <body>
         <jsp:useBean id="userInfo" class="ict.bean.UserInfo" scope="session"/>
         <div class="heading">
-            <div class="tkbg" onclick="location.href='index.jsp';">
+            <div class="tkbg" onclick="location.href = 'index.jsp';">
                 <h1><a class="t">Takeaway </a><a class="k">King</a></h1>
             </div>
             <div class='loginForm'>
@@ -77,7 +78,7 @@
                                 + "<input type='submit' value='Sign In'>"
                                 + "</form><br/>");
                         if (request.getAttribute("loginError") != null) {
-                            out.println("<a style='color:red;'>Login error. Please input again.</a>");
+                            out.println("<a style='color:red;'>" + request.getAttribute("loginError") + "</a>");
                         }
                     }
                 %>

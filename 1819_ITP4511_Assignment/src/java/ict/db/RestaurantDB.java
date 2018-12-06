@@ -113,6 +113,30 @@ public class RestaurantDB {
         }
         return restaurantBeans;
     }
+    
+    public void decreaseViewCount(int restId, UserInfo user) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int userId = 0;
+        String district = user.getDistrict();
+        if(district == null){
+            district = "noDistrict";
+        }
+        try{
+            cnnct = getConnection();
+            String preQueryStatement = "UPDATE RestViewCount SET count = 0 WHERE RestaurantrestId = ? AND district = ?;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, restId);
+            pStmnt.setString(2, district);
+            pStmnt.executeUpdate();
+            pStmnt.close();
+            cnnct.close();
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     public void increaseViewCount(int restId, UserInfo user) {
         Connection cnnct = null;
@@ -141,13 +165,11 @@ public class RestaurantDB {
                 }
             }
             if (hasRestaurantRecord) {
-                System.out.println("update");
                 preQueryStatement = "UPDATE RestViewCount SET count = count + 1 WHERE RestaurantrestId = ? AND district = ?;";
                 pStmnt = cnnct.prepareStatement(preQueryStatement);
                 pStmnt.setInt(1, restId);
                 pStmnt.setString(2, district);
             } else {
-                System.out.println("insert");
                 preQueryStatement = "INSERT INTO RestViewCount (RestaurantrestId, userId, date, district, count) VALUES (?, ?, ?, ?, ?);";
                 pStmnt = cnnct.prepareStatement(preQueryStatement);
                 pStmnt.setInt(1, restId);
