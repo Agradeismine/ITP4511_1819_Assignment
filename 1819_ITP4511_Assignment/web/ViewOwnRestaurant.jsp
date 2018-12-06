@@ -24,7 +24,7 @@
             }
         %>
         <br/><table border="1">
-            <tr><th>Restaurant Icon</th><th>Restaurant ID</th><th>Restaurant Name</th><th>Restaurant Address</th><th>Restaurant Description</th><th>Head or Branches?</th><th colspan="4">Action</th></tr>
+            <tr><th>Restaurant Icon</th><th>Restaurant ID</th><th>Restaurant Name</th><th>Restaurant Address</th><th>Restaurant Description</th><th>Tel</th><th colspan="4">Action</th></tr>
                     <%
                         RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
                         ArrayList<Restaurant> restaurants = db.getRestaurantByOwnerId(user.getUserID());     //do到here

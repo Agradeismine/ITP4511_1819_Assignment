@@ -56,6 +56,7 @@ public class handleRestaurantEdit extends HttpServlet {
                 restNewInfo.setRestIcon(restaurant.getRestIcon());
                 restNewInfo.setAddress(request.getParameter("address"));
                 restNewInfo.setDescription(request.getParameter("description"));
+                restNewInfo.setTel(Integer.parseInt(request.getParameter("tel")));
                 boolean ss = db.editRestaurantRecord(restNewInfo);
                 response.sendRedirect("ViewOwnRestaurant.jsp");
             } else {
