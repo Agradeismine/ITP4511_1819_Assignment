@@ -38,7 +38,7 @@
                                     + "<td>" + restaurant.getAddress() + "</td>"
                                     + "<td>" + restaurant.getDescription() + "</td>"
                                     + "<td>" + restaurant.getTel() + "</td>"
-                                    + "<td><a href='handleRestaurant?action=maintainRestMenu&restId=" + restaurant.getRestId() + "'>Maintain menus</a></td>"
+                                    + "<td><a href='handleMenu?action=maintainRestMenu&restId=" + restaurant.getRestId() + "'>Maintain menus</a></td>"
                                     + "<td><a href='handleRestaurant?action=editRestaurantIcon&restId=" + restaurant.getRestId() + "'>Change Icon</a></td>"
                                     + "<td><a href='handleRestaurant?action=getEditRestaurant&restId=" + restaurant.getRestId() + "'>Edit</a></td>"
                                     + "<td><a href='handleRestaurant?action=confirmDeleteRestaurant&restId=" + restaurant.getRestId() + "'>Delete</a></td>"

@@ -21,8 +21,9 @@ CREATE TABLE Menu (
   imgName          varchar(100) NOT NULL, 
   menuType         varchar(20) NOT NULL, 
   menuPath         varchar(255) NOT NULL), 
-  menuStartTime    date NOT NULL, 
-  menuEndTime      date NOT NULL);
+  menuStartTime    date NULL, 
+  menuEndTime      date NULL),
+  PRIMARY KEY (imgId));
 CREATE TABLE RestaurantTag (
   RestaurantrestId int(11) NOT NULL, 
   tagName          varchar(30) NOT NULL);
@@ -34,7 +35,9 @@ CREATE TABLE RestaurantComment (
   RestaurantrestId int(11) NOT NULL, 
   AccountuserId    int(11) NOT NULL, 
   Mood             varchar(10) NOT NULL, 
-  contents         varchar(255));
+  contents         varchar(255)),
+  title            varchar(30) NOT NULL, 
+  mealDate         varchar(10) NOT NULL);
 CREATE TABLE RestViewCount (
   RestaurantrestId int(11) NOT NULL, 
   userId           int(11) NOT NULL, 
