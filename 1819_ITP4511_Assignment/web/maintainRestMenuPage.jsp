@@ -13,7 +13,8 @@
     </head>
     <body>
         <jsp:useBean id="userInfo" class="ict.bean.UserInfo" scope="session"/>
-        <jsp:useBean id="thisRestaurant" class="ict.bean.Restaurant" scope="request"/>
+        <jsp:useBean id="restaurantMenu" class="ArrayList<Menu>" scope="request"/>
+
 
         <%
             UserInfo user = (UserInfo) session.getAttribute("userInfo");
@@ -28,22 +29,21 @@
             }
         %>
         <br/><table border="1">
-            <tr><th>Restaurant Icon</th><th>Restaurant ID</th><th>Restaurant Name</th><th>Menu ID</th><th>Menu Name</th><th>Menu Type</th></tr>
+            <th>Menu ID</th><th>Menu Name</th><th>Photo</th><th>Menu Type</th><th>Start Time</th><th>End Time</th></tr>
                     <%
-                        MenuDB db = new MenuDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
-                        ArrayList<Menu> menus = db.getRestaurantMenuById(thisRestaurant.getRestId());    //change to menu
-                        for (int i = 0; i < menus.size(); i++) {
-                            Menu menu = menus.get(i);
-//                            out.println("<tr>"
-//                                    + "<td align='center'><img src='upload/" + restaurant.getRestIcon() + "' width='100' height='100'></td>"
-//                                    + "<td>" + restaurant.getRestId() + "</td>"
-//                                    + "<td>" + restaurant.getName() + "</td>"
-//                                    + "<td>" + restaurant.getAddress() + "</td>"
-//                                    + "<td>" + restaurant.getDescription() + "</td>"
-//                                    + "<td><a href='handleRestaurant?action=editRestaurantIcon&restId=" + restaurant.getRestId() + "'>Change Icon</a></td>"
-//                                    + "<td><a href='handleRestaurant?action=getEditRestaurant&restId=" + restaurant.getRestId() + "'>Edit</a></td>"
-//                                    + "<td><a href='handleRestaurant?action=confirmDeleteRestaurant&restId=" + restaurant.getRestId() + "'>Delete</a></td>"
-//                                    + "</tr>");
+                        for (int i = 0; i < restaurantMenu.size(); i++) {
+                            Menu menu = restaurantMenu.get(i);
+                            out.println("<tr style='text-align:center;'>"
+                                    + "<td>" + menu.getImgId() + "</td>"
+                                    + "<td>" + menu.getImgName() + "</td>"
+                                    + "<td><img src='upload/" + menu.getMenuPath()+ "' width='100' height='100'></td>"
+                                    + "<td>" + menu.getMenuType()+ "</td>"
+                                    + "<td>" + menu.getMenuStartTime()+ "</td>"
+                                    + "<td>" + menu.getMenuEndTime()+ "</td>"
+                                    + "<td><a href='handleMenu?action=editMenuIcon&imgId=" + menu.getImgId() + "'>Change Icon</a></td>"
+                                    + "<td><a href='handleMenu?action=getEditMenu&imgId=" + menu.getImgId()+ "'>Edit</a></td>"
+                                    + "<td><a href='handleMenu?action=confirmDeleteMenu&imgId=" + menu.getImgId() + "'>Delete</a></td>"
+                                    + "</tr>");
                         }
                     %>
         </table>

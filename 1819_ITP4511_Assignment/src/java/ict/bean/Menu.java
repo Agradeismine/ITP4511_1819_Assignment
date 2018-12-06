@@ -6,6 +6,7 @@
 package ict.bean;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
@@ -19,13 +20,13 @@ public class Menu implements Serializable {
     private String imgName;
     private String menuType;
     private String menuPath;
-    private Timestamp menuStartTime;
-    private Timestamp menuEndTime;
+    private Date menuStartTime;
+    private Date menuEndTime;
 
     public Menu() {
     }
 
-    public Menu(int restId, int imgId, String imgName, String menuType, String menuPath, Timestamp menuStartTime, Timestamp menuEndTime) {
+    public Menu(int restId, int imgId, String imgName, String menuType, String menuPath, Date menuStartTime, Date menuEndTime) {
         this.restId = restId;
         this.imgId = imgId;
         this.imgName = imgName;
@@ -75,19 +76,19 @@ public class Menu implements Serializable {
         this.menuPath = menuPath;
     }
 
-    public Timestamp getMenuStartTime() {
+    public Date getMenuStartTime() {
         return menuStartTime;
     }
 
-    public void setMenuStartTime(Timestamp menuStartTime) {
+    public void setMenuStartTime(Date menuStartTime) {
         this.menuStartTime = menuStartTime;
     }
 
-    public Timestamp getMenuEndTime() {
+    public Date getMenuEndTime() {
         return menuEndTime;
     }
 
-    public void setMenuEndTime(Timestamp menuEndTime) {
+    public void setMenuEndTime(Date menuEndTime) {
         this.menuEndTime = menuEndTime;
     }
 }
