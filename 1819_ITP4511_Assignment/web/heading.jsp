@@ -53,6 +53,9 @@
             margin-left: 10px;
             margin-right: 10px;
         }
+        input:hover{
+            cursor: pointer;
+        }
     </style>
     <body>
         <jsp:useBean id="userInfo" class="ict.bean.UserInfo" scope="session"/>

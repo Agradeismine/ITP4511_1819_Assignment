@@ -49,6 +49,9 @@
         .goComment{
             transform: translate(250px, -200px);
         }
+        input:hover{
+            cursor: pointer;
+        }
     </style>
     <jsp:include page="heading.jsp" />
     <jsp:useBean id="rBean" class="ict.bean.Restaurant" scope="request"/>
