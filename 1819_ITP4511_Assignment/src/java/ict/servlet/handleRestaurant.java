@@ -40,10 +40,11 @@ public class handleRestaurant extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         String name = request.getParameter("search");
+        String type = request.getParameter("selectedType");
         UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
         ArrayList<Restaurant> restaurants;
 
-        if ("search".equalsIgnoreCase(action)) {
+        if ("search".equalsIgnoreCase(action) && "restaurant".equalsIgnoreCase(type)) {
             if (name.trim().equals("")) {
                 restaurants = db.getAllRestaurants();
             } else {
@@ -53,9 +54,16 @@ public class handleRestaurant extends HttpServlet {
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
+        } else if ("search".equalsIgnoreCase(action) && "menu".equalsIgnoreCase(type)) {
+            RequestDispatcher rd;
+            rd = getServletContext().getRequestDispatcher("/index.jsp");
+            rd.forward(request, response);
         } else if ("view".equalsIgnoreCase(action)) {
             int restId = Integer.parseInt(request.getParameter("restId"));
             db.increaseViewCount(restId, user);
+
+            Restaurant rBean = db.getRestaurantByRestId(restId);
+            request.setAttribute("rBean", rBean);
 
             request.setAttribute("restId", restId);
             RequestDispatcher rd;

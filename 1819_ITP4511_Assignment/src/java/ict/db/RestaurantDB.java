@@ -250,6 +250,7 @@ public class RestaurantDB {
                 restaurant.setRestIcon(rs.getString("restIcon"));
                 restaurant.setAddress(rs.getString("address"));
                 restaurant.setDescription(rs.getString("description"));
+                restaurant.setViewCount(ViewCount(restaurant.getRestId()));
                 restaurant.setTel(rs.getInt("tel"));
             }
             pStmnt.close();
