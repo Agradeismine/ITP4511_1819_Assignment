@@ -45,6 +45,9 @@
             text-align: center;
             border-radius: 50px;
         }
+        .tkbg:hover{
+            cursor: pointer;
+        }
         .userId, .userPw {
             margin-left: 10px;
             margin-right: 10px;
@@ -53,7 +56,7 @@
     <body>
         <jsp:useBean id="userInfo" class="ict.bean.UserInfo" scope="session"/>
         <div class="heading">
-            <div class="tkbg">
+            <div class="tkbg" onclick="location.href='index.jsp';">
                 <h1><a class="t">Takeaway </a><a class="k">King</a></h1>
             </div>
             <div class='loginForm'>
