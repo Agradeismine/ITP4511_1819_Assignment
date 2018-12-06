@@ -58,8 +58,7 @@ public class RestaurantDB {
                 restaurantBean.setRestIcon(rs.getString("restIcon"));
                 restaurantBean.setAddress(rs.getString("address"));
                 restaurantBean.setDescription(rs.getString("description"));
-                restaurantBean.setHeadorBranches(rs.getString("HeadorBranches"));
-                restaurantBean.setHeadRestId(rs.getInt("headRestId"));
+                restaurantBean.setTel(rs.getInt("tel"));
                 restaurantBean.setViewCount(ViewCount(restaurantBean.getRestId()));
                 restaurantBeans.add(restaurantBean);
             }
@@ -216,8 +215,7 @@ public class RestaurantDB {
                 restaurantBean.setRestIcon(rs.getString("restIcon"));
                 restaurantBean.setAddress(rs.getString("address"));
                 restaurantBean.setDescription(rs.getString("description"));
-                restaurantBean.setHeadorBranches(rs.getString("HeadorBranches"));
-                restaurantBean.setHeadRestId(rs.getInt("headRestId"));
+                restaurantBean.setTel(rs.getInt("tel"));
                 restaurantBeans.add(restaurantBean);
             }
 
@@ -252,8 +250,7 @@ public class RestaurantDB {
                 restaurant.setRestIcon(rs.getString("restIcon"));
                 restaurant.setAddress(rs.getString("address"));
                 restaurant.setDescription(rs.getString("description"));
-                restaurant.setHeadorBranches(rs.getString("HeadorBranches"));
-                restaurant.setHeadRestId(rs.getInt("headRestId"));
+                restaurant.setTel(rs.getInt("tel"));
             }
             pStmnt.close();
             cnnct.close();
