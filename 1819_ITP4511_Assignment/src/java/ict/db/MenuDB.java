@@ -6,13 +6,16 @@
 package ict.db;
 
 import com.mysql.jdbc.Connection;
+
 import ict.bean.Menu;
 import ict.bean.Restaurant;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -134,5 +137,42 @@ public class MenuDB {
             ex.printStackTrace();
         }
         return editSuccess;
+    }
+
+    public boolean addMenu(ArrayList menuInfo) {   //menuInfo: [1, McDonald, CrispyChickenLegBurger.png, Seasonal, 2018-12-05, 2018-12-20]
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean isSuccess = false;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "Insert into Menu values (?, ?, ?, ?, ?, ?, ?);";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, Integer.valueOf((String)menuInfo.get(0)));                 //restId
+            pStmnt.setString(2, null);                              //imgId, auto incre
+            pStmnt.setString(3, String.valueOf(menuInfo.get(1)));   //img name     
+            pStmnt.setString(4, String.valueOf(menuInfo.get(3)));
+            pStmnt.setString(5, String.valueOf(menuInfo.get(2)));
+            if (menuInfo.size() > 4) {   //menuInfo.size is more than 4 and startDate is not null
+                pStmnt.setDate(6, Date.valueOf(String.valueOf(menuInfo.get(4))));
+                pStmnt.setDate(7, Date.valueOf(String.valueOf(menuInfo.get(5))));
+            } else {
+                pStmnt.setDate(6, null);
+                pStmnt.setDate(7, null);
+            }
+            int rowCount = pStmnt.executeUpdate();
+            if (rowCount >= 1) {
+                isSuccess = true;
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return isSuccess;
     }
 }
