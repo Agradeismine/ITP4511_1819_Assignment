@@ -37,22 +37,23 @@ public class CommentDB {
         return (Connection) DriverManager.getConnection(dburl, dbUser, dbPassword);
     }
     
-    public ArrayList<Comment> getAllComment() {
+    public ArrayList<Comment> getCommentByID(int restId) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         ArrayList<Comment> comments = new ArrayList();
         Comment comment = null;
         try {
             cnnct = getConnection();
-            String preQueryStatement = "SELECT * FROM RestaurantComment;";
+            String preQueryStatement = "SELECT * FROM RestaurantComment WHERE RestaurantrestId = ?;";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, restId);
             ResultSet rs = null;
             rs = pStmnt.executeQuery();
             while (rs.next()) {
                 comment = new Comment();
                 comment.setRestaurantrestId(rs.getInt("RestaurantrestId"));
                 comment.setAccountuserId(rs.getInt("AccountuserId"));
-                comment.setMood(rs.getString("Mood"));
+                comment.setMood(rs.getBoolean("Mood"));
                 comment.setContents(rs.getString("contents"));
                 comment.setTitle(rs.getString("title"));
                 comment.setMealDate(rs.getString("mealDate"));
@@ -67,5 +68,29 @@ public class CommentDB {
             ex.printStackTrace();
         }
         return comments;
+    }
+    
+    public void whiteComment(int RestaurantrestId, int AccountuserId, boolean Mood, String contents, String title, String mealDate) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "INSERT INTO RestaurantComment(RestaurantrestId, AccountuserId, Mood, contents, title, mealDate) VALUES (?, ?, ?, ?, ?, ?)";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, RestaurantrestId);
+            pStmnt.setInt(2, AccountuserId);
+            pStmnt.setBoolean(3, Mood);
+            pStmnt.setString(4, contents);
+            pStmnt.setString(5, title);
+            pStmnt.setString(6, mealDate);
+            pStmnt.executeUpdate();
+            pStmnt.close();
+            cnnct.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }

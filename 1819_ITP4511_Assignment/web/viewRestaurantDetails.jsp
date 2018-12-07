@@ -58,6 +58,11 @@
             width: auto;
             height: auto;
             margin: 5px;
+            padding: 0px 0px 30px 20px;
+        }
+        .likeImg{
+            height: 30px;
+            width: 30px;
         }
     </style>
     <jsp:include page="heading.jsp" />
@@ -86,20 +91,24 @@
     <%
         ArrayList<Comment> comments = (ArrayList<Comment>) request.getAttribute("comments");
         int AccountuserId;
-        String Mood, contents, title, mealDate;
+        String contents, title, mealDate, likeStatue;
+        boolean Mood;
         for (int i = 0; i < comments.size(); i++) {
             AccountuserId = comments.get(i).getAccountuserId();
             Mood = comments.get(i).getMood();
             contents = comments.get(i).getContents();
             title = comments.get(i).getTitle();
             mealDate = comments.get(i).getMealDate();
+            if(Mood){
+                likeStatue = "upload/Facebook_like_thumb.png";
+            }else{
+                likeStatue = "upload/Facebook-dislike.png";
+            }
     %>
     <div class="comment">
-        <%=AccountuserId%>
-        <%=Mood%>
-        <%=contents%>
-        <%=title%>
-        <%=mealDate%>
+        <h2><img src="<%=likeStatue%>" class="likeImg"> <%=title%></h2>
+        <p>User ID: <%=AccountuserId%><a style="margin-left: 50px;">Dinner Date: <%=mealDate%></a></p>
+        <p>Comments: <%=contents%></p>
     </div>
     <%
         }
