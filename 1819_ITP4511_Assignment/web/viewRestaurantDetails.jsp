@@ -6,6 +6,7 @@
 
 <%@page import="ict.db.RestaurantDB"%>
 <%@page import="ict.bean.*"%>
+<%@page import="java.util.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -52,6 +53,12 @@
         input:hover{
             cursor: pointer;
         }
+        .comment{
+            border: 1px solid black;
+            width: auto;
+            height: auto;
+            margin: 5px;
+        }
     </style>
     <jsp:include page="heading.jsp" />
     <jsp:useBean id="rBean" class="ict.bean.Restaurant" scope="request"/>
@@ -77,8 +84,24 @@
     <div class='like'><h3>Views: <%=viewCoiunt%></h3></div>
     <div class='menuTable'>FOR MENU</div>
     <%
-        for (int i = 0; i < 5; i++) {
-            out.print("<div class='commentArea'>FOR COMMENT</div>");
+        ArrayList<Comment> comments = (ArrayList<Comment>) request.getAttribute("comments");
+        int AccountuserId;
+        String Mood, contents, title, mealDate;
+        for (int i = 0; i < comments.size(); i++) {
+            AccountuserId = comments.get(i).getAccountuserId();
+            Mood = comments.get(i).getMood();
+            contents = comments.get(i).getContents();
+            title = comments.get(i).getTitle();
+            mealDate = comments.get(i).getMealDate();
+    %>
+    <div class="comment">
+        <%=AccountuserId%>
+        <%=Mood%>
+        <%=contents%>
+        <%=title%>
+        <%=mealDate%>
+    </div>
+    <%
         }
     %>
     <body>

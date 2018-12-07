@@ -6,9 +6,11 @@
 package ict.servlet;
 
 import com.sun.net.httpserver.HttpServer;
+import ict.bean.Comment;
 import ict.bean.Menu;
 import ict.bean.Restaurant;
 import ict.bean.UserInfo;
+import ict.db.CommentDB;
 import ict.db.MenuDB;
 import ict.db.RestaurantDB;
 import java.io.IOException;
@@ -28,12 +30,14 @@ import javax.servlet.http.HttpServletResponse;
 public class handleRestaurant extends HttpServlet {
 
     private RestaurantDB db;
+    private CommentDB cdb;
 
     public void init() {
         String dbUser = this.getServletContext().getInitParameter("dbUser");
         String dbPassword = this.getServletContext().getInitParameter("dbPassword");
         String dbUrl = this.getServletContext().getInitParameter("dbUrl");
         db = new RestaurantDB(dbUrl, dbUser, dbPassword);
+        cdb = new CommentDB(dbUrl, dbUser, dbPassword);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -62,7 +66,9 @@ public class handleRestaurant extends HttpServlet {
             db.increaseViewCount(restId, user);
 
             Restaurant rBean = db.getRestaurantByRestId(restId);
+            ArrayList<Comment> comments = cdb.getAllComment();
             request.setAttribute("rBean", rBean);
+            request.setAttribute("comments", comments);
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/viewRestaurantDetails.jsp");
             rd.forward(request, response);
