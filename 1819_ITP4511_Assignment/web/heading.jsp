@@ -15,6 +15,9 @@
         <title>Takeaway King</title>
     </head>
     <style>
+        body{
+            font-family: "Comic Sans MS", cursive, sans-serif;
+        }
         .heading {
             border: 1px solid #FCD742;
             height: 90px;
@@ -25,7 +28,7 @@
         }
         .loginForm {
             width: 500px;
-            margin-top: 10px;
+            margin: 10px 50px 0px 0px;
             padding: 10px;
             float: right;
             transform: translateY(-60px);
@@ -33,11 +36,9 @@
         }
         .t {
             color: brown;
-            font-family: "Comic Sans MS", cursive, sans-serif;
         }
         .k {
             color: red;
-            font-family: "Comic Sans MS", cursive, sans-serif;
         }
         .tkbg {
             background-color: white;
@@ -75,7 +76,6 @@
                     } else {
                         out.println("<form method='post' action='main'>"
                                 + "<input type='hidden' name='action' value='authenticate'>"
-                                //+ "<p>username: <input type='text' id='username' name='username'></p>"
                                 + "<span class='userId'>User ID: <input type='text' id='userId' name='userId'></span>"
                                 + "<span class='userPw'>Password: <input type='password' id='password' name='password'></span>"
                                 + "<input type='submit' value='Sign In'>"
