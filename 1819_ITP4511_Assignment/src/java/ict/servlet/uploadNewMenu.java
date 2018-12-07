@@ -2,6 +2,7 @@ package ict.servlet;
 
 import ict.bean.Menu;
 import ict.bean.Restaurant;
+import ict.bean.UserInfo;
 import ict.db.MenuDB;
 import ict.db.RestaurantDB;
 import java.io.File;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -49,7 +51,7 @@ public class uploadNewMenu extends HttpServlet {
     }
 
     // location to store file uploaded
-    private static final String UPLOAD_DIRECTORY = "upload";
+    private static final String UPLOAD_DIRECTORY = "upload/menu";
 
     // upload settings
     private static final int MEMORY_THRESHOLD = 1024 * 1024 * 3;  // 3MB
@@ -61,6 +63,7 @@ public class uploadNewMenu extends HttpServlet {
      * data and saves the file on disk.
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {// checks if the request actually contains upload file
+        UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
         if (!ServletFileUpload.isMultipartContent(request)) {
             // if not, we stop here
             PrintWriter writer = response.getWriter();
@@ -129,8 +132,12 @@ public class uploadNewMenu extends HttpServlet {
                     }
                 }
                 restaurant = db.getRestaurantByRestId(Integer.parseInt((String) menuInfo.get(0)));
-                isAddSuccess = menuDb.addMenu(menuInfo);
-                System.out.println(isAddSuccess);
+                if (restaurant.getOwnerId() == user.getUserID()) {
+                    isAddSuccess = menuDb.addMenu(menuInfo);
+                    System.out.println(isAddSuccess);
+                } else {
+                    showErrorMsg(request, response, "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
+                }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -139,13 +146,18 @@ public class uploadNewMenu extends HttpServlet {
                     request, response);
         }
         // redirects client to message page
-//        if (!isAddSuccess) {       //if not update success
-//            //request.setAttribute("message", restaurant.getName() + " menu photo is not update success");
-//            getServletContext().getRequestDispatcher("/message.jsp").forward(
-//                    request, response);
-//        } else {
-//            response.sendRedirect("handleMenu?action=maintainRestMenu&restId=" + menu.getRestId());
-//        }
+        if (!isAddSuccess) {       //if not update success
+            showErrorMsg(request, response, restaurant.getName() + " menu photo is not update success");
+        } else {
+            response.sendRedirect("handleMenu?action=maintainRestMenu&restId=" + menu.getRestId());
+        }
 
+    }
+
+    public void showErrorMsg(HttpServletRequest request, HttpServletResponse response, String msg) throws ServletException, IOException {
+        request.setAttribute("message", msg);
+        RequestDispatcher rd;
+        rd = getServletContext().getRequestDispatcher("/message.jsp");
+        rd.forward(request, response);
     }
 }

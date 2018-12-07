@@ -57,13 +57,15 @@ public class handleMenu extends HttpServlet {
             } else {
                 showErrorMsg(request, response, "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
             }
-        } else if (action.equalsIgnoreCase("getEditRestaurant")) {
-            int restId = Integer.parseInt(request.getParameter("restId"));
-            restaurant = db.getRestaurantByRestId(restId);
+        } else if (action.equalsIgnoreCase("getEditMenu")) {
+            int imgId = Integer.parseInt(request.getParameter("imgId"));
+            restMenu = menuDb.getMenuByImgId(imgId);
+            restaurant = db.getRestaurantByRestId(restMenu.getRestId());
             if (restaurant.getOwnerId() == user.getUserID()) {
                 request.setAttribute("restaurant", restaurant);
+                request.setAttribute("restMenu", restMenu);
                 RequestDispatcher rd;
-                rd = getServletContext().getRequestDispatcher("/editRestaurant.jsp");
+                rd = getServletContext().getRequestDispatcher("/editMenu.jsp");
                 rd.forward(request, response);
             } else {
                 showErrorMsg(request, response, "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
@@ -110,7 +112,7 @@ public class handleMenu extends HttpServlet {
     }
 
     public void showErrorMsg(HttpServletRequest request, HttpServletResponse response, String msg) throws ServletException, IOException {
-        request.setAttribute("message", "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
+        request.setAttribute("message", msg);
         RequestDispatcher rd;
         rd = getServletContext().getRequestDispatcher("/message.jsp");
         rd.forward(request, response);

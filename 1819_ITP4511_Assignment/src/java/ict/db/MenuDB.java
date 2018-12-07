@@ -113,17 +113,30 @@ public class MenuDB {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         boolean editSuccess = false;
+
         try {
             cnnct = getConnection();
-            String preQueryStatement = "update Menu set RestaurantrestId = ?, imgName =?, menuType =?, menuPath = ?, menuStartTime = ?, menuEndTime = ? WHERE imgId=?;";
+            String preQueryStatement = "update Menu set RestaurantrestId = ?, imgName =?, menuType =?, menuPath = ? WHERE imgId=?;";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
-            pStmnt.setInt(1, menuNewInfo.getRestId());
-            pStmnt.setString(2, menuNewInfo.getImgName());
-            pStmnt.setString(3, menuNewInfo.getMenuType());
-            pStmnt.setString(4, menuNewInfo.getMenuPath());
-            pStmnt.setDate(5, menuNewInfo.getMenuStartTime());
-            pStmnt.setDate(6, menuNewInfo.getMenuEndTime());
-            pStmnt.setInt(7, menuNewInfo.getImgId());
+            if (!menuNewInfo.getMenuType().equalsIgnoreCase("General")) {
+                preQueryStatement = "update Menu set RestaurantrestId = ?, imgName =?, menuType =?, menuPath = ?, menuStartTime = ?, menuEndTime = ? WHERE imgId=?;";
+                pStmnt = cnnct.prepareStatement(preQueryStatement);
+                System.out.println("menuNewInfo.getRestId()" + menuNewInfo.getRestId());
+                pStmnt.setInt(1, menuNewInfo.getRestId());
+                pStmnt.setString(2, menuNewInfo.getImgName());
+                pStmnt.setString(3, menuNewInfo.getMenuType());
+                pStmnt.setString(4, menuNewInfo.getMenuPath());
+                pStmnt.setDate(5, menuNewInfo.getMenuStartTime());
+                pStmnt.setDate(6, menuNewInfo.getMenuEndTime());
+                pStmnt.setInt(7, menuNewInfo.getImgId());
+            } else {  //type is General
+                pStmnt.setString(2, menuNewInfo.getImgName());
+                pStmnt.setString(3, menuNewInfo.getMenuType());
+                pStmnt.setString(4, menuNewInfo.getMenuPath());
+                pStmnt.setInt(5, menuNewInfo.getImgId());
+                pStmnt.setInt(1, menuNewInfo.getRestId());
+            }
+
             int row = pStmnt.executeUpdate();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
             if (row == 1) {
                 editSuccess = true;
@@ -147,16 +160,18 @@ public class MenuDB {
         try {
             cnnct = getConnection();
             preQueryStatement = "Insert into Menu values (?, null, ?, ?, ?, ?, ?);";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+
             if (menuInfo.size() > 4) {   //menuInfo.size is more than 4 and startDate is not null
-                pStmnt.setDate(5, Date.valueOf(String.valueOf(menuInfo.get(4))));  //String.valueOf(menuInfo.get(4))
-                pStmnt.setDate(6, Date.valueOf(String.valueOf(menuInfo.get(5))));  //String.valueOf(menuInfo.get(5))
+                pStmnt.setDate(5, Date.valueOf(String.valueOf(menuInfo.get(4))));
+                pStmnt.setDate(6, Date.valueOf(String.valueOf(menuInfo.get(5))));
             } else {
                 preQueryStatement = "Insert into Menu values (?, null, ?, ?, ?, null, null);";
+                pStmnt = cnnct.prepareStatement(preQueryStatement);
             }
-            pStmnt = cnnct.prepareStatement(preQueryStatement);
-            pStmnt.setInt(1, Integer.valueOf((String) menuInfo.get(0)));                 //restId
-            pStmnt.setString(2, String.valueOf(menuInfo.get(1)));   //img name     
-            pStmnt.setString(3, String.valueOf(menuInfo.get(3)));      //type
+            pStmnt.setInt(1, Integer.valueOf((String) menuInfo.get(0)));//restId
+            pStmnt.setString(2, String.valueOf(menuInfo.get(1)));       //img name     
+            pStmnt.setString(3, String.valueOf(menuInfo.get(3)));       //type
             pStmnt.setString(4, String.valueOf(menuInfo.get(2)));       //img String.valueOf(menuInfo.get(2))
 
             int rowCount = pStmnt.executeUpdate();

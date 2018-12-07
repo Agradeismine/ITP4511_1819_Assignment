@@ -5,6 +5,7 @@
  */
 package ict.servlet;
 
+import ict.bean.Menu;
 import ict.bean.Restaurant;
 import ict.bean.UserInfo;
 import ict.db.MenuDB;
@@ -44,64 +45,51 @@ public class handleMenuEdit extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Restaurant restaurant;
+        Menu menu;
+        UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
         String action = request.getParameter("action");
-        if ("addMenu".equalsIgnoreCase(action)) {
-            ArrayList menuInfo = new ArrayList();
-            int restId = Integer.parseInt(request.getParameter("restId"));
-            String menuName = request.getParameter("name");
-            String menuType = request.getParameter("menuType");
-            Date menuStartDate = null;
-            Date menuEndDate = null;
-            if (!menuType.equalsIgnoreCase("General")) {
-                menuStartDate = Date.valueOf(request.getParameter("menuStartDate"));
-                menuEndDate = Date.valueOf(request.getParameter("menuEndDate"));
-            }
-            menuInfo.add(restId);
-            menuInfo.add(menuName);
-            menuInfo.add(menuType);
-            menuInfo.add(menuStartDate);
-            menuInfo.add(menuEndDate);
-            request.setAttribute("menuInfo", menuInfo);
-            RequestDispatcher rd;
-            rd = getServletContext().getRequestDispatcher("/AddNewMenuIcon.jsp");
-            rd.forward(request, response);
-
-        } else if ("editRestaurant".equalsIgnoreCase(action)) {
-            int restId = Integer.parseInt(request.getParameter("restId"));
-            UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
-            restaurant = db.getRestaurantByRestId(restId);
+        if ("editMenu".equalsIgnoreCase(action)) {
+            int imgId = Integer.parseInt(request.getParameter("imgId"));
+            menu = menuDb.getMenuByImgId(imgId);
+            restaurant = db.getRestaurantByRestId(menu.getRestId());
             if (restaurant.getOwnerId() == user.getUserID()) {
-                Restaurant restNewInfo = new Restaurant();      //restaurant new info
-                restNewInfo.setRestId(restaurant.getRestId());
-                restNewInfo.setName(request.getParameter("name"));
-                restNewInfo.setOwnerId(restaurant.getOwnerId());
-                restNewInfo.setRestIcon(restaurant.getRestIcon());
-                restNewInfo.setAddress(request.getParameter("address"));
-                restNewInfo.setDescription(request.getParameter("description"));
-                restNewInfo.setTel(Integer.parseInt(request.getParameter("tel")));
-                boolean ss = db.editRestaurantRecord(restNewInfo);
-                response.sendRedirect("ViewOwnRestaurant.jsp");
+                Menu menuNewInfo = new Menu();      //menu new info
+                menuNewInfo.setRestId(menu.getRestId());
+                menuNewInfo.setImgId(menu.getImgId());
+                menuNewInfo.setImgName(request.getParameter("menuName"));
+                menuNewInfo.setMenuType(request.getParameter("menuType"));
+                menuNewInfo.setMenuPath(menu.getMenuPath());
+                if (!request.getParameter("menuType").equalsIgnoreCase("General")) {
+                    menuNewInfo.setMenuStartTime(Date.valueOf(request.getParameter("menuStartDate")));
+                    menuNewInfo.setMenuEndTime(Date.valueOf(request.getParameter("menuEndDate")));
+                }
+                boolean isUpdateSuccess = menuDb.updateMenuRecord(menuNewInfo);
+                if (isUpdateSuccess) {
+                    response.sendRedirect("handleMenu?action=maintainRestMenu&restId="+restaurant.getRestId());
+                } else {
+                    showErrorPage(request, response, "There have some error information in update process.");
+                }
             } else {
-                request.setAttribute("message", "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
-                RequestDispatcher rd;
-                rd = getServletContext().getRequestDispatcher("/message.jsp");
-                rd.forward(request, response);
+                showErrorPage(request, response, "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
             }
         } else if (action.equalsIgnoreCase("Delete")) {
-            UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
             int ownerId = Integer.parseInt(request.getParameter("ownerId"));
             if (ownerId == user.getUserID()) {
                 db.delRestaurantById(Integer.parseInt(request.getParameter("restId")));
                 response.sendRedirect("ViewOwnRestaurant.jsp");
             } else {
-                request.setAttribute("message", "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
-                RequestDispatcher rd;
-                rd = getServletContext().getRequestDispatcher("/message.jsp");
-                rd.forward(request, response);
+                showErrorPage(request, response, "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
             }
         } else {
             PrintWriter out = response.getWriter();
             out.println("No such action!!!");
         }
+    }
+
+    public void showErrorPage(HttpServletRequest request, HttpServletResponse response, String msg) throws ServletException, IOException {
+        request.setAttribute("message", msg);
+        RequestDispatcher rd;
+        rd = getServletContext().getRequestDispatcher("/message.jsp");
+        rd.forward(request, response);
     }
 }

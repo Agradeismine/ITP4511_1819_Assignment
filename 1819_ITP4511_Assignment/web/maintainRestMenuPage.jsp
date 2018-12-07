@@ -40,7 +40,7 @@
                         out.println("<tr style='text-align:center;'>"
                                 + "<td>" + menu.getImgId() + "</td>"
                                 + "<td>" + menu.getImgName() + "</td>"
-                                + "<td><img src='upload/" + menu.getMenuPath() + "' width='100' height='100'></td>"
+                                + "<td><img src='upload/menu/" + menu.getMenuPath() + "' width='100' height='100'></td>"
                                 + "<td>" + menu.getMenuType() + "</td>"
                                 + "<td>" + menu.getMenuStartTime() + "</td>"
                                 + "<td>" + menu.getMenuEndTime() + "</td>"

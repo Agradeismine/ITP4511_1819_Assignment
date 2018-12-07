@@ -54,7 +54,7 @@
                 <%
                     out.println(imgId + "<input type=\"hidden\" name=\"imgId\" value=\"" + imgId + "\" /><br><br>");
                 %>
-                <label>Old Menu Photo: <img src='upload/<%= restMenu.getMenuPath()%>' width='50' height="50"></label><input type="file" name="uploadFile" value=""/><br>
+                <label>Old Menu Photo: <img src='upload/menu/<%= restMenu.getMenuPath()%>' width='50' height="50"></label><input type="file" name="uploadFile" value=""/><br>
                 I confirm the menu information that I have changed. <input type="checkbox" id='formCheck'/> <br><br>
                 <div class='center'>
                     <input type="button" onclick="history.back()" value="Back"/> <input type="submit" value="submit"/> <br>
