@@ -53,13 +53,13 @@
         %>
         <jsp:useBean id="restaurant" class="ict.bean.Restaurant" scope="request" />
         <h1>Add Menu</h1>
-        <form method="get" action="handleMenuEdit" onsubmit="return validate(this);">
+        <form method="post" action="uploadNewMenu" enctype="multipart/form-data" onsubmit="return validate(this);">
             <div class="block" style='border-style: solid;'>
-                <input type="hidden" name="action" value="addMenu" />
+                <%--<input type="hidden" name="action" value="addMenu" />--%>
                 <input type="hidden" name="restId" value="<%= restId%>" />
                 <label>Restaurant Name: </label> <%= restaurant.getName()%><br><br>
                 <label>Menu Name: </label> <input name="name" type="text" value=""/> <br><br>
-                <%--<img src='upload/<%= restaurant.getRestIcon()%>' width='160' height="160"><br><br>--%>
+                <label>Menu Photo:</label> <input name="menuPath" type="file" value=""/> <br><br>
                 <label>Menu Type: </label> 
                 <select id='menuType' style='width:160px;'name="type" id="type">
                     <option label='General' value="General"></option>
