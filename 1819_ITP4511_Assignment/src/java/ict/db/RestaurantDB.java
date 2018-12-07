@@ -143,12 +143,12 @@ public class RestaurantDB {
         PreparedStatement pStmnt = null;
         int userId = 0;
         int RestaurantrestId = 0;
+        int checkUserId = 0;
         String district = "noDistrict";
         if (user != null) {
             userId = user.getUserID();
-            if (user.getDistrict() != null) {
-                district = user.getDistrict(); // for login
-            }
+            System.out.println("userID: " + userId);
+            district = user.getDistrict(); // for login
         }
         if (userId != 0) { // if user is not visitor, count view ++, but one user only count once
             try {
@@ -160,13 +160,15 @@ public class RestaurantDB {
                 boolean hasRestaurantRecord = false;
                 while (rs.next()) {
                     RestaurantrestId = rs.getInt("RestaurantrestId");
-                    userId = rs.getInt("userId");
-                    if (RestaurantrestId == restId && user.getUserID() == userId) {
+                    checkUserId = rs.getInt("userId");
+                    if (RestaurantrestId == restId && user.getUserID() == checkUserId) {
                         hasRestaurantRecord = true;
+                        System.out.println(user.getUserID() + " " + checkUserId);
                     }
                 }
                 if (!hasRestaurantRecord) {
                     System.out.println("insert data viewCount");
+                    System.out.println(userId);
                     preQueryStatement = "INSERT INTO RestViewCount (RestaurantrestId, userId, date, district, count) VALUES (?, ?, ?, ?, ?);";
                     pStmnt = cnnct.prepareStatement(preQueryStatement);
                     pStmnt.setInt(1, restId);
