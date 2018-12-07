@@ -25,7 +25,7 @@
         }
         .loginForm {
             width: 500px;
-            margin-top: 10px;
+            margin: 10px 50px 0px 0px;
             padding: 10px;
             float: right;
             transform: translateY(-60px);
@@ -75,7 +75,6 @@
                     } else {
                         out.println("<form method='post' action='main'>"
                                 + "<input type='hidden' name='action' value='authenticate'>"
-                                //+ "<p>username: <input type='text' id='username' name='username'></p>"
                                 + "<span class='userId'>User ID: <input type='text' id='userId' name='userId'></span>"
                                 + "<span class='userPw'>Password: <input type='password' id='password' name='password'></span>"
                                 + "<input type='submit' value='Sign In'>"

@@ -59,7 +59,7 @@
         int restId = rBean.getRestId();
         String name = rBean.getName();
         int viewCoiunt = rBean.getViewCount();
-        String iconPath = "upload/"+rBean.getRestIcon();
+        String iconPath = "upload/" + rBean.getRestIcon();
     %>
     <div class='intro'>
         <div><img src='<%=iconPath%>' class='restImg'/></div>
@@ -74,14 +74,15 @@
                 }
             %>
         </form>
-        <div class='like'><h3>Views: <%=viewCoiunt%></h3></div>
-        <div class='menuTable'>FOR MENU</div>
-        <%
-            for (int i = 0; i < 5; i++) {
-                out.print("<div class='commentArea'>FOR COMMENT</div>");
-            }
-        %>
-        <body>
+    </div>
+    <div class='like'><h3>Views: <%=viewCoiunt%></h3></div>
+    <div class='menuTable'>FOR MENU</div>
+    <%
+        for (int i = 0; i < 5; i++) {
+            out.print("<div class='commentArea'>FOR COMMENT</div>");
+        }
+    %>
+    <body>
 
-        </body>
+    </body>
 </html>

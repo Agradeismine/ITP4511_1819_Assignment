@@ -42,7 +42,7 @@ public class handleComment extends HttpServlet {
                 targetURL = "leaveCommentAndLike.jsp";
             } else {
                 request.setAttribute("notLogin", "Please login first.");
-                
+
                 targetURL = "handleRestaurant?action=view&restId=" + restId;
             }
             Restaurant rBean = db.getRestaurantByRestId(restId);
