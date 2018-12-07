@@ -4,7 +4,18 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Add Menu</title>
+        <script src="jslib/jquery-3.3.1.js"></script>
         <script>
+            $(document).ready(function(){
+                $("#menuType").change(function(){
+                    if($("#menuType option:selected").val()!="General"){
+                        $("#menuShowDate").show();
+                    }else{
+                        $("#menuShowDate").hide();
+                    }
+                });
+            });     //End of $(document).ready
+            
             function validate(form) {
                 var checked = document.getElementById("formCheck").checked;
                 var confirm = false;
@@ -42,18 +53,26 @@
         %>
         <jsp:useBean id="restaurant" class="ict.bean.Restaurant" scope="request" />
         <h1>Add Menu</h1>
-        <form method="get" action="handleRestaurantEdit" onsubmit="return validate(this);">
+        <form method="get" action="handleMenuEdit" onsubmit="return validate(this);">
             <div class="block" style='border-style: solid;'>
-                <input type="hidden" name="action" value="addRestaurant" />
+                <input type="hidden" name="action" value="addMenu" />
                 <input type="hidden" name="restId" value="<%= restId%>" />
-                <label>Restaurant Name: </label> <input name="name" type="text" value="<%= restaurant.getName() %>"/> <br><br>
-                <label>Restaurant Icon: </label> Photo should be upload later...
+                <label>Restaurant Name: </label> <%= restaurant.getName()%><br><br>
+                <label>Menu Name: </label> <input name="name" type="text" value=""/> <br><br>
                 <%--<img src='upload/<%= restaurant.getRestIcon()%>' width='160' height="160"><br><br>--%>
-                <label>Restaurant Address: </label> <input name="address" type="text" value=""/> <br><br>
-                <label>Restaurant Description: </label> <input name="description" type="text" value=""/> <br><br>
-                <label>Restaurant Tel </label> <input name="tel" type="number" value=""/> <br><br>
+                <label>Menu Type: </label> 
+                <select id='menuType' style='width:160px;'name="type" id="type">
+                    <option label='General' value="General"></option>
+                    <option label='Special' value="Special"></option>
+                    <option label='Temporary' value="Temporary"></option>
+                    <option label='Seasonal' value="Seasonal"></option>
+                </select><br><br>
+                <div id='menuShowDate' hidden>
+                <label>Menu Start Date:</label><input name="menuStartDate" type="date" value=""/> <br><br>
+                <label>Menu End Date:</label><input name="menuEndDate" type="date" value=""/> <br><br>
+                </div >
                 I confirm the new menu information. <input type="checkbox" id='formCheck'/> <br><br>
-                <div class='center>
+                <div class='center'>
                     <input type="button" onclick="history.back()" value="Back"/> <input type="submit" value="submit"/> <br>
                 </div>
             </div>

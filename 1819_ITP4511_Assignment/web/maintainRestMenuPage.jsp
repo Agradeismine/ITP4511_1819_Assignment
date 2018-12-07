@@ -31,7 +31,7 @@
     int restId = Integer.parseInt(request.getParameter("restId"));
         %>
         <br/>
-        <a href="handleMenu?action='addMenu'&restId=<%= restId %>"><button>Add Menu</button></a>
+        <a href="handleMenu?action=addMenu&restId=<%= restId %>"><button>Add Menu</button></a>
         <br/><table border="1">
             <th>Menu ID</th><th>Menu Name</th><th>Photo</th><th>Menu Type</th><th>Start Time</th><th>End Time</th></tr>
                 <%
