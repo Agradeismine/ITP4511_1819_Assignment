@@ -234,7 +234,7 @@ public class RestaurantDB {
             pStmnt.setInt(1, restId);
 
             ResultSet rs = null;
-            rs = pStmnt.executeQuery();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+                //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
 
             while (rs.next()) {
                 restaurant = new Restaurant();
@@ -319,7 +319,9 @@ public class RestaurantDB {
             pStmnt.setInt(1, userId);
             pStmnt.setInt(2, itemId);
             pStmnt.setString(3, type);
-            pStmnt.executeUpdate();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+            if(!hasMyFavouriteRecord(userId, itemId, type)){
+                pStmnt.executeUpdate();
+            }
             pStmnt.close();
             cnnct.close();
         } catch (SQLException ex) {
@@ -328,6 +330,30 @@ public class RestaurantDB {
             ex.printStackTrace();
         }
 
+    }
+
+    public boolean hasMyFavouriteRecord(int userId, int itemId, String type) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean hasRecord = false;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM UserFavourite;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs;
+            rs = pStmnt.executeQuery();
+            while(rs.next()){
+                if(userId == rs.getInt("AccountuserId") && itemId == rs.getInt("favouriteId") && type.equalsIgnoreCase(rs.getString("favouriteType")))
+                    hasRecord = true;
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return hasRecord;
     }
 
 }
