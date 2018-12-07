@@ -15,6 +15,9 @@
         <title>Takeaway King</title>
     </head>
     <style>
+        body{
+            font-family: "Comic Sans MS", cursive, sans-serif;
+        }
         .heading {
             border: 1px solid #FCD742;
             height: 90px;
@@ -33,11 +36,9 @@
         }
         .t {
             color: brown;
-            font-family: "Comic Sans MS", cursive, sans-serif;
         }
         .k {
             color: red;
-            font-family: "Comic Sans MS", cursive, sans-serif;
         }
         .tkbg {
             background-color: white;

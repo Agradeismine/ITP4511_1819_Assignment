@@ -14,6 +14,9 @@
         <title>Restaurant Details</title>
     </head>
     <style>
+        body{
+            font-family: "Comic Sans MS", cursive, sans-serif;
+        }
         .restImg{
             height: 200px;
             width: 200px;
@@ -28,14 +31,12 @@
         }
         .restName{
             transform: translate(250px, -250px);
-            font-family: "Comic Sans MS", cursive, sans-serif;
         }
         .like{
-            height: 40px;
+            height: 30px;
             width: auto;
             border-bottom: 1px solid grey;
             color: black;
-            transform: translateY(-160px);
             text-align: center;
         }
         .menuTable, .commentArea{
@@ -43,11 +44,10 @@
             width: auto;
             color: black;
             border: 1px solid grey;
-            transform: translateY(-100px);
             margin: 5px;
         }
         .goComment{
-            transform: translate(250px, -200px);
+            transform: translate(250px, -100px);
         }
         input:hover{
             cursor: pointer;
@@ -63,18 +63,17 @@
     %>
     <div class='intro'>
         <div><img src='<%=iconPath%>' class='restImg'/></div>
-        <h1 class='restName'><%=name%></h1><div/>
-        <form action='handleComment' class='goComment'>
-            <input type="hidden" name="action" value="comment"/>
-            <input type='hidden' name='restId' value='<%=restId%>'/>
-            <input type='submit' value='Go to comment'/><br/>
-            <%
-                if (request.getAttribute("notLogin") != null) {
-                    out.println("<a style='color:white;'>" + request.getAttribute("notLogin") + "</a>");
-                }
-            %>
-        </form>
-    </div>
+        <h1 class='restName'><%=name%></h1></div>
+    <form action='handleComment' class='goComment'>
+        <input type="hidden" name="action" value="comment"/>
+        <input type='hidden' name='restId' value='<%=restId%>'/>
+        <input type='submit' value='Go to comment'/><br/>
+        <%
+            if (request.getAttribute("notLogin") != null) {
+                out.println("<a style='color:white;'>" + request.getAttribute("notLogin") + "</a>");
+            }
+        %>
+    </form>
     <div class='like'><h3>Views: <%=viewCoiunt%></h3></div>
     <div class='menuTable'>FOR MENU</div>
     <%

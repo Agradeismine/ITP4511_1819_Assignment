@@ -13,6 +13,9 @@
         <title>Leave Comment</title>
     </head>
     <style>
+        body{
+            font-family: "Comic Sans MS", cursive, sans-serif;
+        }
         .restImg{
             height: 200px;
             width: 200px;
@@ -27,18 +30,27 @@
         }
         .restName{
             transform: translate(250px, -250px);
-            font-family: "Comic Sans MS", cursive, sans-serif;
         }
         .like{
-            height: 40px;
+            height: 30px;
             width: auto;
             border-bottom: 1px solid grey;
             color: black;
-            transform: translateY(-120px);
             text-align: center;
         }
         input:hover{
             cursor: pointer;
+        }
+        .commentForm{
+            border: 2px solid gray;
+            padding: 20px;
+            width: auto;
+            height: auto;
+            margin-top: 20px;
+        }
+        .likeImg{
+            height: 20px;
+            width: 20px;
         }
     </style>
     <body>
@@ -52,8 +64,17 @@
         %>
         <div class='intro'>
             <div><img src='<%=iconPath%>' class='restImg'/></div>
-            <h1 class='restName'><%=name%></h1><div/>
-        </div>
+            <h1 class='restName'><%=name%></h1></div>
         <div class='like'><h3>Views: <%=viewCoiunt%></h3></div>
+        <form action="" class="commentForm">
+            <h2>Comment Information</h2>
+            <p><a>Comment Title: </a><input type="text" name="title" style="width: 300px;"/></p>
+            <a>Like / Dislisk: </a>
+            <img class='likeImg' src='upload/Facebook_like_thumb.png'><input type="radio" name="likeStatue" value="like" checked/>&nbsp;
+            &nbsp;<img class='likeImg' src='upload/Facebook-dislike.png'><input type="radio" name="likeStatue" value="dislike"/>
+            <p>Date: <input type="date" name="date"/></p>
+            <p>Contents:<br/><textarea rows="4" cols="50" name="contents" maxlength="200" placeholder="Enter text here..."></textarea></p>
+            <input type="submit">
+        </form>
     </body>
 </html>
