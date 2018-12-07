@@ -33,18 +33,21 @@
         </script>
         <style>
             .restIcon {
-                height: 100px;
-                width: 100px;
+                height: 180px;
+                width: 180px;
                 margin-right: 50px;
             }
             .rest_table{
                 border: 1px solid black;
-                height: 100px;
+                height: 180px;
                 padding: 10px;
                 margin: 5px;
             }
             .rest_content{
                 margin-right: 50px;
+            }
+            .restInfo{
+                transform: translate(200px, -200px);
             }
         </style>
     </head>
@@ -58,29 +61,40 @@
             <input type="radio" name="selectedType" value="restaurant" checked>Restaurant
             <input type="radio" name="selectedType" value="menu">Menu
             <input type="submit">
-        </form>
-        <br/><table>
-            <%
-                RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
-                ArrayList<Restaurant> restaurants;
-                if ((ArrayList) request.getAttribute("restaurants") == null) {
-                    restaurants = db.getAllRestaurants();
-                } else {
-                    restaurants = (ArrayList) request.getAttribute("restaurants");
-                }
-                for (int i = 0; i < restaurants.size(); i++) {
-                    Restaurant restaurant = restaurants.get(i);
-                    out.println("<div class='rest_table'>"
-                            + "<img class='restIcon' src='upload/" + restaurant.getRestIcon() + "'/>"
-                            + "<a class='rest_contecnt' style='margin-right:50px;'>ID: " + restaurant.getRestId() + "</a>"
-                            + "<a class='rest_content'>Name: " + restaurant.getName() + "</a>"
-                            + "<a class='rest_content'>Address: " + restaurant.getAddress() + "</a>"
-                            + "<a class='rest_content'>Description: " + restaurant.getDescription() + "</a>"
-                            + "<a class='rest_content'>ViewCount: " + restaurant.getViewCount() + "</a>"
-                            + "<a class='rest_content' href='handleRestaurant?action=view&restId=" + restaurant.getRestId() + "'>View</a>"
-                            + "</div>");
-                }
-            %>
-        </table>
+        </form><br/>
+        <%
+            RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
+            ArrayList<Restaurant> restaurants;
+            if ((ArrayList) request.getAttribute("restaurants") == null) {
+                restaurants = db.getAllRestaurants();
+            } else {
+                restaurants = (ArrayList) request.getAttribute("restaurants");
+            }
+            int viewCount, tel;
+            String restIcon, name, address, description, restId;
+            for (int i = 0; i < restaurants.size(); i++) {
+                Restaurant restaurant = restaurants.get(i);
+                restIcon = restaurant.getRestIcon();
+                restId = String.valueOf(restaurant.getRestId());
+                name = restaurant.getName();
+                address = restaurant.getAddress();
+                description = restaurant.getDescription();
+                viewCount = restaurant.getViewCount();
+                tel = restaurant.getTel();
+        %>
+        <div class='rest_table'>
+            <img class='restIcon' src='upload/<%=restIcon%>'/>
+            <div class="restInfo">
+                <h2 class='rest_content' style="color: orangered"><%=name%></h2>
+                <a class='rest_content' style="color: gray;">Views: <%=viewCount%></a><br/>
+                <a class='rest_content'>Address: <%=address%></a><br/>
+                <a class='rest_content'>Description: <%=description%></a><br/>
+                <a class='rest_content'>Tel: <%=tel%></a><br/>
+                <a class='rest_content' href='handleRestaurant?action=view&restId=<%=restId%>'>View more</a>
+            </div>
+        </div>
+        <%
+            }
+        %>
     </body>
 </html>

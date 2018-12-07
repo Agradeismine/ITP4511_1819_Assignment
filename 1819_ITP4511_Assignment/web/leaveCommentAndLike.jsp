@@ -67,12 +67,12 @@
             <h1 class='restName'><%=name%></h1></div>
         <div class='like'><h3>Views: <%=viewCoiunt%></h3></div>
         <form action="" class="commentForm">
-            <h2>Comment Information</h2>
-            <p><a>Comment Title: </a><input type="text" name="title" style="width: 300px;"/></p>
-            <a>Like / Dislisk: </a>
+            <h1 style="color: orangered;">Comment Information</h1>
+            <p><a>Comment Title:<a style="color: red;">*</a> </a><input type="text" name="title" style="width: 300px;"/></p>
+            <a>Like / Dislisk:<a style="color: red;">*</a> </a>
             <img class='likeImg' src='upload/Facebook_like_thumb.png'><input type="radio" name="likeStatue" value="like" checked/>&nbsp;
             &nbsp;<img class='likeImg' src='upload/Facebook-dislike.png'><input type="radio" name="likeStatue" value="dislike"/>
-            <p>Date: <input type="date" name="date"/></p>
+            <p>Date:<a style="color: red;">*</a> <input type="date" name="date"/></p>
             <p>Contents:<br/><textarea rows="4" cols="50" name="contents" maxlength="200" placeholder="Enter text here..."></textarea></p>
             <input type="submit">
         </form>
