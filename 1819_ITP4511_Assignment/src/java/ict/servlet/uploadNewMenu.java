@@ -116,34 +116,36 @@ public class uploadNewMenu extends HttpServlet {
                         // saves the file on disk
                         item.write(storeFile);
                         request.setAttribute("message", "Upload menu has been done successfully!");
-                        request.setAttribute("fileName",
-                                fileName);
+                        request.setAttribute("fileName", fileName);
                         menuInfo.add(fileName);
                     } else {
                         //String name = item.getFieldName();
-                        menuInfo.add(item.getString()); //restId, name, type, (sDate, eDate)sometimes no
+                        if (!item.getString().equalsIgnoreCase("")) {
+                            menuInfo.add(item.getString()); //restId, name, type, (sDate, eDate)sometimes no
+                        }
 //                        String imgId = item.getString();
                         //request.setAttribute("name", imgId);
                         System.out.println("menuInfo: " + menuInfo);
                     }
                 }
-                restaurant = db.getRestaurantByRestId((int)menuInfo.get(0));
+                restaurant = db.getRestaurantByRestId(Integer.parseInt((String) menuInfo.get(0)));
                 isAddSuccess = menuDb.addMenu(menuInfo);
                 System.out.println(isAddSuccess);
             }
         } catch (Exception ex) {
-            request.setAttribute("message", "There was an error: You have no upload the photo.<br>"+ ex.getMessage());  //+ ex.getMessage()
+            ex.printStackTrace();
+            request.setAttribute("message", "There was an error: You have no upload the photo.<br>");  //+ ex.getMessage()
             getServletContext().getRequestDispatcher("/message.jsp").forward(
                     request, response);
         }
         // redirects client to message page
-        if (!isAddSuccess) {       //if not update success
-            //request.setAttribute("message", restaurant.getName() + " menu photo is not update success");
-            getServletContext().getRequestDispatcher("/message.jsp").forward(
-                    request, response);
-        } else {
-            response.sendRedirect("handleMenu?action=maintainRestMenu&restId=" + menu.getRestId());
-        }
+//        if (!isAddSuccess) {       //if not update success
+//            //request.setAttribute("message", restaurant.getName() + " menu photo is not update success");
+//            getServletContext().getRequestDispatcher("/message.jsp").forward(
+//                    request, response);
+//        } else {
+//            response.sendRedirect("handleMenu?action=maintainRestMenu&restId=" + menu.getRestId());
+//        }
 
     }
 }
