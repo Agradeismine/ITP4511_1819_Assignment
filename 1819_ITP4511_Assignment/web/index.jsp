@@ -1,6 +1,6 @@
 
 <%@page import="java.util.ArrayList"%>
-<%@page import="ict.db.RestaurantDB"%>
+<%@page import="ict.db.*"%>
 <%@page import="ict.bean.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -39,7 +39,7 @@
             }
             .rest_table{
                 border: 1px solid black;
-                height: 180px;
+                height: 200px;
                 padding: 10px;
                 margin: 5px;
             }
@@ -64,23 +64,31 @@
         </form><br/>
         <%
             RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
+            MenuDB mdb = new MenuDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
             ArrayList<Restaurant> restaurants;
-            if ((ArrayList) request.getAttribute("restaurants") == null) {
+            String selectedType;
+            if (request.getAttribute("type") == null) { //check selected type
+                selectedType = "restaurant";
+            } else {
+                selectedType = String.valueOf(request.getAttribute("type"));
+            }
+            if (request.getAttribute("restaurants") == null) { //for restaurant
                 restaurants = db.getAllRestaurants();
             } else {
                 restaurants = (ArrayList) request.getAttribute("restaurants");
             }
             int viewCount, tel;
             String restIcon, name, address, description, restId;
-            for (int i = 0; i < restaurants.size(); i++) {
-                Restaurant restaurant = restaurants.get(i);
-                restIcon = restaurant.getRestIcon();
-                restId = String.valueOf(restaurant.getRestId());
-                name = restaurant.getName();
-                address = restaurant.getAddress();
-                description = restaurant.getDescription();
-                viewCount = restaurant.getViewCount();
-                tel = restaurant.getTel();
+            if ("restaurant".equalsIgnoreCase(selectedType)) {
+                for (int i = 0; i < restaurants.size(); i++) {
+                    Restaurant restaurant = restaurants.get(i);
+                    restIcon = restaurant.getRestIcon();
+                    restId = String.valueOf(restaurant.getRestId());
+                    name = restaurant.getName();
+                    address = restaurant.getAddress();
+                    description = restaurant.getDescription();
+                    viewCount = restaurant.getViewCount();
+                    tel = restaurant.getTel();
         %>
         <div class='rest_table'>
             <img class='restIcon' src='upload/<%=restIcon%>'/>
@@ -91,9 +99,32 @@
                 <a class='rest_content'>Description: <%=description%></a><br/>
                 <a class='rest_content'>Tel: <%=tel%></a><br/>
                 <a class='rest_content' href='handleRestaurant?action=view&restId=<%=restId%>'>View more</a>
+                <form action="handleRestaurant">
+                    <input type="hidden" name="action" value="addMyFavourite"/>
+                    <input type="hidden" name="restId" value="<%=restId%>"/>
+                    <input type="hidden" name="type" value="<%=selectedType%>"/>
+                    <input type="submit" value="Add to favourite"/>
+                </form>
             </div>
         </div>
         <%
+            }
+        } else if ("menu".equalsIgnoreCase(selectedType)) {
+            ArrayList<Menu> menus = (ArrayList<Menu>) request.getAttribute("menus");
+            for (int i = 0; i < menus.size(); i++) {
+                String imgName = menus.get(i).getImgName();
+                String menuType = menus.get(i).getMenuType();
+                String menuPath = menus.get(i).getMenuPath();
+        %>
+        <div class="rest_table">
+            <img class='restIcon' src='upload/<%=menuPath%>'/>
+            <div class="restInfo">
+                <h1><%=imgName%></h1>
+                <h2><%=menuType%></h2>
+            </div>
+        </div>
+        <%
+                }
             }
         %>
     </body>

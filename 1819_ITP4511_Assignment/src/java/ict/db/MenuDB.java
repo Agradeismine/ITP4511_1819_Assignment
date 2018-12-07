@@ -38,6 +38,40 @@ public class MenuDB {
         System.setProperty("jdbc.drivers", "com.mysql.jdbc.Driver");
         return (Connection) DriverManager.getConnection(dburl, dbUser, dbPassword);
     }
+    
+    public ArrayList<Menu> getRestaurantAllMenu() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        ArrayList<Menu> menuBeans = new ArrayList();
+
+        Menu menu = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "Select * from Menu;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            while (rs.next()) {
+                menu = new Menu();
+                menu.setRestId(rs.getInt("RestaurantrestId"));
+                menu.setImgId(rs.getInt("imgId"));
+                menu.setImgName(rs.getString("imgName"));
+                menu.setMenuType(rs.getString("menuType"));
+                menu.setMenuPath(rs.getString("menuPath"));
+                menu.setMenuStartTime(rs.getDate("menuStartTime"));
+                menu.setMenuEndTime(rs.getDate("menuEndTime"));
+                menuBeans.add(menu);
+            }
+            pStmnt.close();
+            cnnct.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return menuBeans;
+    }
 
     public ArrayList<Menu> getRestaurantMenuByRestId(int restId) {
         Connection cnnct = null;

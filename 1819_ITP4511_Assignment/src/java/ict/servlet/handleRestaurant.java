@@ -31,6 +31,7 @@ public class handleRestaurant extends HttpServlet {
 
     private RestaurantDB db;
     private CommentDB cdb;
+    private MenuDB mdb;
 
     public void init() {
         String dbUser = this.getServletContext().getInitParameter("dbUser");
@@ -38,6 +39,7 @@ public class handleRestaurant extends HttpServlet {
         String dbUrl = this.getServletContext().getInitParameter("dbUrl");
         db = new RestaurantDB(dbUrl, dbUser, dbPassword);
         cdb = new CommentDB(dbUrl, dbUser, dbPassword);
+        mdb = new MenuDB(dbUrl, dbUser, dbPassword);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,6 +48,7 @@ public class handleRestaurant extends HttpServlet {
         String type = request.getParameter("selectedType");
         UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
         ArrayList<Restaurant> restaurants;
+        ArrayList<Menu> menus;
 
         if ("search".equalsIgnoreCase(action) && "restaurant".equalsIgnoreCase(type)) {
             if (name.trim().equals("")) {
@@ -54,10 +57,18 @@ public class handleRestaurant extends HttpServlet {
                 restaurants = db.getRestaurantByName(name);
             }
             request.setAttribute("restaurants", restaurants);
+            request.setAttribute("type", "restaurant");
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
         } else if ("search".equalsIgnoreCase(action) && "menu".equalsIgnoreCase(type)) {
+            if (name.trim().equals("")) {
+                menus = mdb.getRestaurantAllMenu();
+            } else {
+                menus = mdb.getRestaurantMenuByRestId(0);
+            }
+            request.setAttribute("type", "menu");
+            request.setAttribute("menus", menus);
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
@@ -115,6 +126,15 @@ public class handleRestaurant extends HttpServlet {
                 request.setAttribute("message", "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
                 RequestDispatcher rd;
                 rd = getServletContext().getRequestDispatcher("/message.jsp");
+                rd.forward(request, response);
+            }
+        } else if ("addMyFavourite".equalsIgnoreCase(action)) {
+            if(user.getUserID() > 0){
+                type = request.getParameter("type");
+                int restId = Integer.parseInt(request.getParameter("restId"));
+                db.addMyFavourite(user.getUserID(), restId, type);
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/myFavourite.jsp");
                 rd.forward(request, response);
             }
         } else {

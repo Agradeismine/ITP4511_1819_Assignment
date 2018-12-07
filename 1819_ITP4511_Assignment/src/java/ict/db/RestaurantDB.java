@@ -309,4 +309,25 @@ public class RestaurantDB {
         return delSuccess;
     }
 
+    public void addMyFavourite(int userId, int itemId, String type) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "INSERT INTO UserFavourite (AccountuserId, favouriteId, favouriteType) VALUES (?, ?, ?);";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, userId);
+            pStmnt.setInt(2, itemId);
+            pStmnt.setString(3, type);
+            pStmnt.executeUpdate();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
 }

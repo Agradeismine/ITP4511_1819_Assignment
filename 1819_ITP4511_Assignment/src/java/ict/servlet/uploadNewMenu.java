@@ -22,11 +22,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-/**
- * A Java servlet that handles file upload from client.
- *
- * @author www.codejava.net
- */
 @WebServlet(name = "uploadNewMenu", urlPatterns = {"/uploadNewMenu"})
 public class uploadNewMenu extends HttpServlet {
 
@@ -149,7 +144,7 @@ public class uploadNewMenu extends HttpServlet {
         if (!isAddSuccess) {       //if not update success
             showErrorMsg(request, response, restaurant.getName() + " menu photo is not update success");
         } else {
-            response.sendRedirect("handleMenu?action=maintainRestMenu&restId=" + menu.getRestId());
+            response.sendRedirect("handleMenu?action=maintainRestMenu&restId=" + restaurant.getRestId());
         }
 
     }
