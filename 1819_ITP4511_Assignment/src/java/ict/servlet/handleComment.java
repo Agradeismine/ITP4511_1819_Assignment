@@ -45,7 +45,6 @@ public class handleComment extends HttpServlet {
                 
                 targetURL = "handleRestaurant?action=view&restId=" + restId;
             }
-            db.decreaseViewCount(restId, user);
             Restaurant rBean = db.getRestaurantByRestId(restId);
             request.setAttribute("rBean", rBean);
             RequestDispatcher rd;
