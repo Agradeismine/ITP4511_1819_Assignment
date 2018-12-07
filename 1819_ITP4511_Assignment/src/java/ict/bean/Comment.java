@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Comment implements Serializable{
     private int RestaurantrestId;
     private int AccountuserId;
-    private String Mood;
+    private boolean Mood;
     private String contents;
     private String title;
     private String mealDate;
@@ -22,7 +22,7 @@ public class Comment implements Serializable{
     public Comment() {
     }
 
-    public Comment(int RestaurantrestId, int AccountuserId, String Mood, String contents, String title, String mealDate) {
+    public Comment(int RestaurantrestId, int AccountuserId, boolean Mood, String contents, String title, String mealDate) {
         this.RestaurantrestId = RestaurantrestId;
         this.AccountuserId = AccountuserId;
         this.Mood = Mood;
@@ -47,11 +47,11 @@ public class Comment implements Serializable{
         this.AccountuserId = AccountuserId;
     }
 
-    public String getMood() {
+    public boolean getMood() {
         return Mood;
     }
 
-    public void setMood(String Mood) {
+    public void setMood(boolean Mood) {
         this.Mood = Mood;
     }
 

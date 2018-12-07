@@ -64,9 +64,8 @@ public class handleRestaurant extends HttpServlet {
         } else if ("view".equalsIgnoreCase(action)) {
             int restId = Integer.parseInt(request.getParameter("restId"));
             db.increaseViewCount(restId, user);
-
             Restaurant rBean = db.getRestaurantByRestId(restId);
-            ArrayList<Comment> comments = cdb.getAllComment();
+            ArrayList<Comment> comments = cdb.getCommentByID(restId);
             request.setAttribute("rBean", rBean);
             request.setAttribute("comments", comments);
             RequestDispatcher rd;

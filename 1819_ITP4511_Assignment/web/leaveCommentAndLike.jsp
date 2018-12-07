@@ -5,6 +5,8 @@
 --%>
 <%@page import="ict.db.RestaurantDB"%>
 <%@page import="ict.bean.*"%>
+<%@page import="java.util.*"%>
+<%@page import="java.text.SimpleDateFormat" %>  
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -61,18 +63,22 @@
             String name = rBean.getName();
             int viewCoiunt = rBean.getViewCount();
             String iconPath = "upload/" + rBean.getRestIcon();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String maxDate = sdf.format(new Date());
         %>
         <div class='intro'>
             <div><img src='<%=iconPath%>' class='restImg'/></div>
             <h1 class='restName'><%=name%></h1></div>
         <div class='like'><h3>Views: <%=viewCoiunt%></h3></div>
-        <form action="" class="commentForm">
+        <form action="handleComment" class="commentForm" method="post">
+            <input type="hidden" name="action" value="doComment">
+            <input type="hidden" name="restId" value="<%=restId%>">
             <h1 style="color: orangered;">Comment Information</h1>
             <p><a>Comment Title:<a style="color: red;">*</a> </a><input type="text" name="title" style="width: 300px;"/></p>
             <a>Like / Dislisk:<a style="color: red;">*</a> </a>
             <img class='likeImg' src='upload/Facebook_like_thumb.png'><input type="radio" name="likeStatue" value="like" checked/>&nbsp;
             &nbsp;<img class='likeImg' src='upload/Facebook-dislike.png'><input type="radio" name="likeStatue" value="dislike"/>
-            <p>Date:<a style="color: red;">*</a> <input type="date" name="date"/></p>
+            <p>Date:<a style="color: red;">*</a> <input type="date" name="date" max="<%=maxDate%>"/></p>
             <p>Contents:<br/><textarea rows="4" cols="50" name="contents" maxlength="200" placeholder="Enter text here..."></textarea></p>
             <input type="submit">
         </form>

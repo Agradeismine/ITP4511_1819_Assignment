@@ -123,7 +123,6 @@ public class RestaurantDB {
         String district = "noDistrict";
         if (user != null) {
             userId = user.getUserID();
-            System.out.println("userID: " + userId);
             district = user.getDistrict(); // for login
         }
         if (userId != 0) { // if user is not visitor, count view ++, but one user only count once
@@ -139,7 +138,6 @@ public class RestaurantDB {
                     checkUserId = rs.getInt("userId");
                     if (RestaurantrestId == restId && user.getUserID() == checkUserId) {
                         hasRestaurantRecord = true;
-                        System.out.println(user.getUserID() + " " + checkUserId);
                     }
                 }
                 if (!hasRestaurantRecord) {
@@ -151,7 +149,7 @@ public class RestaurantDB {
                     pStmnt.setString(4, district);
                     pStmnt.setInt(5, 1);
                 }
-                pStmnt.executeUpdate();
+                pStmnt.executeQuery();
                 pStmnt.close();
                 cnnct.close();
             } catch (SQLException ex) {
