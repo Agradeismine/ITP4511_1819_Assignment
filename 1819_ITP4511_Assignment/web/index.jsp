@@ -7,7 +7,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Takeaway King</title>
         <script src="jslib/jquery-3.3.1.js"></script>
         <script>
             $(document).ready(function () {
