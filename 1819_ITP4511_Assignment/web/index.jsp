@@ -54,8 +54,9 @@
 
     <body>
         <jsp:include page="/heading.jsp" />
+        <jsp:useBean id="user" class="ict.bean.UserInfo" scope="session"/>
         <br><a href="ViewOwnRestaurant.jsp">View Own Restaurant (default restaurant owner can see this function only, set it later)</a>
-        <a href="handleAnalytic?action=viewReport">view report</a>
+        <a href="handleAnalytic?action=viewReport&ownerId=">view report</a>
         <form action="handleRestaurant">
             <input type="hidden" name="action" value="search">
             <input type="text" placeholder="Search..." name="search" style="width: 400px;"><br/>

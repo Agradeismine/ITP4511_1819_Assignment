@@ -28,7 +28,7 @@
         }
         .loginForm {
             width: 500px;
-            margin: 10px 50px 0px 0px;
+            margin: 10px 100px 0px 0px;
             padding: 10px;
             float: right;
             transform: translateY(-80px);

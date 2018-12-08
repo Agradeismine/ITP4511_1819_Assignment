@@ -175,38 +175,40 @@ public class RestaurantDB {
             userId = user.getUserID();
             district = user.getDistrict(); // for login
         }
-        if (userId != 0) { // if user is not visitor, count view ++, but one user only count once
-            try {
-                cnnct = getConnection();
-                String preQueryStatement = "SELECT * FROM RestViewCount;";
-                pStmnt = cnnct.prepareStatement(preQueryStatement);
-                ResultSet rs = null;
-                rs = pStmnt.executeQuery();
-                boolean hasRestaurantRecord = false;
-                while (rs.next()) {
-                    RestaurantrestId = rs.getInt("RestaurantrestId");
-                    checkUserId = rs.getInt("userId");
-                    if (RestaurantrestId == restId && user.getUserID() == checkUserId) {
-                        hasRestaurantRecord = true;
-                    }
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM RestViewCount;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();
+            boolean hasRestaurantRecord = false;
+            while (rs.next()) {
+                RestaurantrestId = rs.getInt("RestaurantrestId");
+                checkUserId = rs.getInt("userId");
+                if (RestaurantrestId == restId && user.getUserID() == checkUserId) {
+                    hasRestaurantRecord = true;
                 }
-                if (!hasRestaurantRecord) {
-                    preQueryStatement = "INSERT INTO RestViewCount (RestaurantrestId, userId, date, district, count) VALUES (?, ?, ?, ?, ?);";
-                    pStmnt = cnnct.prepareStatement(preQueryStatement);
-                    pStmnt.setInt(1, restId);
-                    pStmnt.setInt(2, userId);
-                    pStmnt.setTimestamp(3, new java.sql.Timestamp(new java.util.Date().getTime()));
-                    pStmnt.setString(4, district);
-                    pStmnt.setInt(5, 1);
-                }
-                pStmnt.executeQuery();
-                pStmnt.close();
-                cnnct.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            } catch (IOException ex) {
-                ex.printStackTrace();
             }
+            if (!hasRestaurantRecord) {
+                preQueryStatement = "INSERT INTO RestViewCount (RestaurantrestId, userId, date, district, count) VALUES (?, ?, ?, ?, ?);";
+                pStmnt = cnnct.prepareStatement(preQueryStatement);
+                pStmnt.setInt(1, restId);
+                pStmnt.setInt(2, userId);
+                pStmnt.setTimestamp(3, new java.sql.Timestamp(new java.util.Date().getTime()));
+                pStmnt.setString(4, district);
+                pStmnt.setInt(5, 1);
+            } else {
+                preQueryStatement = "UPDATE RestViewCount SET count = count + 1 WHERE userId = ?";
+                pStmnt = cnnct.prepareStatement(preQueryStatement);
+                pStmnt.setInt(1, userId);
+            }
+            pStmnt.executeUpdate();
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 

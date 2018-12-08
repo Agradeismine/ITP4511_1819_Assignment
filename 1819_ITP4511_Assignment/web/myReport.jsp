@@ -13,6 +13,11 @@
     </head>
     <body>
         <jsp:include page="heading.jsp"/>
-        <h1>Hello World!</h1>
+        <%
+            String numberOfVisitor = String.valueOf(request.getAttribute("numberOfVisitor"));
+            String restName = String.valueOf(request.getAttribute("restName"));
+        %>
+        <h2>Restaurant Name: <%=restName%></h2>
+        <h2>Number Of Visitor: <%=numberOfVisitor%></h2>
     </body>
 </html>

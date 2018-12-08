@@ -39,14 +39,18 @@ public class handleAnalytic extends HttpServlet {
         String action = request.getParameter("action");
         UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
         String role = user.getRole();
-        if(!"admin".equalsIgnoreCase(role) || "owner".equalsIgnoreCase(role)){
+        if ("admin".equalsIgnoreCase(role) || "owner".equalsIgnoreCase(role)) {
+            if ("viewReport".equalsIgnoreCase(action)) {
+                int numberOfVisitor = rdb.ViewCount(rdb.getRestaurantByOwnerId(user.getUserID()).get(0).getRestId());
+                request.setAttribute("numberOfVisitor", numberOfVisitor);
+                request.setAttribute("restName", rdb.getRestaurantByOwnerId(user.getUserID()).get(0).getName());
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/myReport.jsp");
+                rd.forward(request, response);
+            }
+        } else {
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
-            rd.forward(request, response);
-        }
-        if ("viewReport".equalsIgnoreCase(action)) {
-            RequestDispatcher rd;
-            rd = getServletContext().getRequestDispatcher("/myReport.jsp");
             rd.forward(request, response);
         }
     }

@@ -81,7 +81,7 @@ public class SearchDB {
             rs = pStmnt.executeQuery();
             while (rs.next()) {
                 count = rs.getInt("count");
-                System.out.println("count: "+ count);
+                System.out.println("count: " + count);
                 if (count >= 1) {
                     hasRecord = true;
                 }
@@ -93,5 +93,9 @@ public class SearchDB {
             ex.printStackTrace();
         }
         return hasRecord;
+    }
+
+    public int numOfVistor(String keywords) {
+        return 0;
     }
 }

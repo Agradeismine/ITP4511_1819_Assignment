@@ -58,10 +58,10 @@ public class handleRestaurant extends HttpServlet {
                 restaurants = db.getAllRestaurants();
             } else {
                 restaurants = db.getRestaurantByName(name);
+                sdb.saveSearchRecord(user.getUserID(), name, user.getDistrict());
             }
             request.setAttribute("restaurants", restaurants);
             request.setAttribute("type", type);
-            sdb.saveSearchRecord(user.getUserID(), name, user.getDistrict());
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
