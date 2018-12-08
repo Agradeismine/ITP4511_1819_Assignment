@@ -122,7 +122,8 @@
                     <input type="hidden" name="type" value="menu"/>
                     <%
                         String record = "&#9734;"; //white star
-                        if (request.getAttribute("record").toString().equalsIgnoreCase("true")) {
+                        String getRecord = "record"+i;
+                        if (request.getAttribute(getRecord).toString().equalsIgnoreCase("true")) {
                             record = "&#9733;"; //black star
                         }
                     %>
