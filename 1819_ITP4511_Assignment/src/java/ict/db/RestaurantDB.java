@@ -49,7 +49,7 @@ public class RestaurantDB {
             pStmnt.setInt(1, restId);
             ResultSet rs;
             rs = pStmnt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 like = rs.getInt("count");
             }
             cnnct.close();
@@ -60,8 +60,8 @@ public class RestaurantDB {
         }
         return like;
     }
-    
-        public int countDislike(int restId) {
+
+    public int countDislike(int restId) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
         int dislike = 0;
@@ -72,7 +72,7 @@ public class RestaurantDB {
             pStmnt.setInt(1, restId);
             ResultSet rs;
             rs = pStmnt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 dislike = rs.getInt("count");
             }
             cnnct.close();
@@ -502,6 +502,11 @@ public class RestaurantDB {
             ex.printStackTrace();
         }
         return myFavourites_menu;
+    }
+    
+    public int numOfVistor(int restId){
+        int count = 0;
+        return count;
     }
 
 }

@@ -54,14 +54,15 @@
 
     <body>
         <jsp:include page="/heading.jsp" />
-        <br><a href="ViewOwnRestaurant.jsp">View Own Restaurant (default restaurant owner can see this function only, set it later)</a><br><br>
+        <br><a href="ViewOwnRestaurant.jsp">View Own Restaurant (default restaurant owner can see this function only, set it later)</a>
+        <a href="handleAnalytic?action=viewReport">view report</a>
         <form action="handleRestaurant">
             <input type="hidden" name="action" value="search">
             <input type="text" placeholder="Search..." name="search" style="width: 400px;"><br/>
             <input type="radio" name="selectedType" value="restaurant" checked>Restaurant
             <input type="radio" name="selectedType" value="menu">Menu
             <input type="submit">
-        </form><br/>
+        </form><br/>   
         <%
             RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
             MenuDB mdb = new MenuDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));

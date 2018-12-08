@@ -58,7 +58,7 @@
                 <a class='rest_content'>Description: <%=description%></a><br/>
                 <a class='rest_content'>Tel: <%=tel%></a><br/>
                 <a class='rest_content' href='handleRestaurant?action=view&restId=<%=restId%>'>View more</a>
-                <form action="handleRestaurant">
+                <form action="handleMyFavourite">
                     <input type="hidden" name="action" value="addMyFavourite">
                     <input type="hidden" name="restId" value="<%=restId%>"/>
                     <input type="hidden" name="type" value="restaurant"/>
@@ -81,7 +81,7 @@
             <div class="restInfo">
                 <h1><%=imgName%></h1>
                 <h2><%=menuType%></h2>
-                <form action="handleRestaurant">
+                <form action="handleMyFavourite">
                     <input type="hidden" name="action" value="addMyFavourite"/>
                     <input type="hidden" name="restId" value="<%=imgId%>"/>
                     <input type="hidden" name="type" value="menu"/>
