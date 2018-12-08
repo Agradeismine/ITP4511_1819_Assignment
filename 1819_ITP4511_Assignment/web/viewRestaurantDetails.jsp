@@ -127,7 +127,7 @@
         %>
         <div style="margin: 5px; float: left; z-index: 2">
             <img src="upload/menu/<%=menuPath%>" class="menuImg"><br/>
-            <a style="margin-left: 50px;" href="handleRestaurant?action=view&search=<%=imgName%>&selectedType=menu"><%=imgName%></a>
+            <a style="margin-left: 50px;" href="handleRestaurant?action=search&search=<%=String.valueOf(imgName)%>&selectedType=menu"><%=imgName%></a>
         </div>
         <%
             }
