@@ -109,12 +109,25 @@
                 String imgName = menus.get(i).getImgName();
                 String menuType = menus.get(i).getMenuType();
                 String menuPath = menus.get(i).getMenuPath();
+                int imgId = menus.get(i).getImgId();
         %>
         <div class="rest_table">
             <img class='restIcon' src='upload/menu/<%=menuPath%>'/>
             <div class="restInfo">
                 <h1><%=imgName%></h1>
                 <h2><%=menuType%></h2>
+                <form action="handleRestaurant">
+                    <input type="hidden" name="action" value="addMyFavourite"/>
+                    <input type="hidden" name="restId" value="<%=imgId%>"/>
+                    <input type="hidden" name="type" value="menu"/>
+                    <%
+                        String record = "&#9734;"; //white star
+                        if (request.getAttribute("record").toString().equalsIgnoreCase("true")) {
+                            record = "&#9733;"; //black star
+                        }
+                    %>
+                    <input type="submit" value="<%=record%>"/>
+                </form>
             </div>
         </div>
         <%

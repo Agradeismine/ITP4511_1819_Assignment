@@ -57,7 +57,7 @@ public class handleRestaurant extends HttpServlet {
                 restaurants = db.getRestaurantByName(name);
             }
             request.setAttribute("restaurants", restaurants);
-            request.setAttribute("type", "restaurant");
+            request.setAttribute("type", type);
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);
@@ -67,7 +67,16 @@ public class handleRestaurant extends HttpServlet {
             } else {
                 menus = mdb.getMenuByKeywords(name);
             }
-            request.setAttribute("type", "menu");
+            String hasRecord;
+            for (int i = 0; i < menus.size(); i++) {
+                if (db.hasMyFavouriteRecord(user.getUserID(), menus.get(i).getImgId(), type)) {
+                    hasRecord = "true";
+                }else{
+                    hasRecord = "false";
+                }
+                request.setAttribute("record" , hasRecord);
+            }
+            request.setAttribute("type", type);
             request.setAttribute("menus", menus);
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
@@ -87,7 +96,7 @@ public class handleRestaurant extends HttpServlet {
             request.setAttribute("rBean", rBean);
             request.setAttribute("comments", comments);
             request.setAttribute("menus", menus);
-            request.setAttribute("record", hasRecoed);
+
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/viewRestaurantDetails.jsp");
             rd.forward(request, response);

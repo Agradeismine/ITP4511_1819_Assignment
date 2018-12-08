@@ -80,7 +80,7 @@ public class RestaurantDB {
         Restaurant restaurantBean = null;
         try {
             cnnct = getConnection();
-            String preQueryStatement = "SELECT DISTINCT r.restId, r.name, r.restIcon, r.address, r.description, rt.tagName, rvc.count"
+            String preQueryStatement = "SELECT DISTINCT r.restId, r.name, r.restIcon, r.address, r.description, r.tel, rt.tagName, rvc.count"
                     + " FROM Restaurant r, RestaurantTag rt, RestViewCount rvc"
                     + " WHERE r.restId = rt.RestaurantrestId"
                     + " AND r.restId = rvc.RestaurantrestId"
@@ -97,6 +97,7 @@ public class RestaurantDB {
                 restaurantBean.setRestIcon(rs.getString("r.restIcon"));
                 restaurantBean.setAddress(rs.getString("r.address"));
                 restaurantBean.setDescription(rs.getString("r.description"));
+                restaurantBean.setTel(rs.getInt("tel"));
                 restaurantBean.setViewCount(ViewCount(restaurantBean.getRestId()));
                 if (restaurantBean.getName().toLowerCase().contains(name.toLowerCase())
                         || rs.getString("rt.tagName").contains(name.toLowerCase())) {
