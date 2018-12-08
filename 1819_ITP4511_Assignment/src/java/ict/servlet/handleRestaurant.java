@@ -65,7 +65,7 @@ public class handleRestaurant extends HttpServlet {
             if (name.trim().equals("")) {
                 menus = mdb.getRestaurantAllMenu();
             } else {
-                menus = mdb.getRestaurantMenuByRestId(0);
+                menus = mdb.getMenuByKeywords(name);
             }
             request.setAttribute("type", "menu");
             request.setAttribute("menus", menus);
