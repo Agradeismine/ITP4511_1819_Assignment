@@ -4,6 +4,7 @@
     Author     : arthurking
 --%>
 <%@page import="java.util.*"%>
+<%@page import="ict.bean.UserInfo" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,13 +15,15 @@
     <body>
         <jsp:include page="heading.jsp"/>
         <%
-            String numberOfVisitor = String.valueOf(request.getAttribute("numberOfVisitor"));
-            String restName = String.valueOf(request.getAttribute("restName"));
-            String avgByMonth = String.valueOf(request.getAttribute("avgByMonth"));
-            ArrayList[] list = (ArrayList[]) request.getAttribute("avgByDistrict");
-            ArrayList districtList = list[0];
-            ArrayList countList = list[1];
-            String district, count;
+            UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
+            if ("owner".equalsIgnoreCase(user.getRole())) {
+                String numberOfVisitor = String.valueOf(request.getAttribute("numberOfVisitor"));
+                String restName = String.valueOf(request.getAttribute("restName"));
+                String avgByMonth = String.valueOf(request.getAttribute("avgByMonth"));
+                ArrayList[] list = (ArrayList[]) request.getAttribute("avgByDistrict");
+                ArrayList districtList = list[0];
+                ArrayList countList = list[1];
+                String district, count;
         %>
         <h1 style="color: red">Analytic & Report</h1>
         <h2>Restaurant Name: <%=restName%></h2>
@@ -51,5 +54,13 @@
                 %>
             </tr>
         </table>
+        <%
+        } else if ("admin".equalsIgnoreCase(user.getRole())) {
+        %>
+        <h2>Popular keywords</h2>
+        <h2>Number of visitors of each restaurant</h2>
+        <%
+            }
+        %>
     </body>
 </html>

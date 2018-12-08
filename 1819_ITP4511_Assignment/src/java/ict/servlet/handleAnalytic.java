@@ -40,14 +40,18 @@ public class handleAnalytic extends HttpServlet {
         UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
         String role = user.getRole();
         if ("admin".equalsIgnoreCase(role) || "owner".equalsIgnoreCase(role)) {
-            int restId = rdb.getRestaurantByOwnerId(user.getUserID()).get(0).getRestId();
-            String restName = rdb.getRestaurantByOwnerId(user.getUserID()).get(0).getName();
             if ("viewReport".equalsIgnoreCase(action)) {
-                int numberOfVisitor = rdb.ViewCount(restId);
-                request.setAttribute("numberOfVisitor", numberOfVisitor);
-                request.setAttribute("restName", restName);
-                request.setAttribute("avgByMonth", rdb.avgByMonth(restId));
-                request.setAttribute("avgByDistrict", rdb.avgByDistrict(restId));
+                if ("owner".equalsIgnoreCase(role)) {
+                    int restId = rdb.getRestaurantByOwnerId(user.getUserID()).get(0).getRestId();
+                    String restName = rdb.getRestaurantByOwnerId(user.getUserID()).get(0).getName();
+                    int numberOfVisitor = rdb.ViewCount(restId);
+                    request.setAttribute("numberOfVisitor", numberOfVisitor);
+                    request.setAttribute("restName", restName);
+                    request.setAttribute("avgByMonth", rdb.avgByMonth(restId));
+                    request.setAttribute("avgByDistrict", rdb.avgByDistrict(restId));
+                }else if("admin".equalsIgnoreCase(role)){
+                
+                }
                 RequestDispatcher rd;
                 rd = getServletContext().getRequestDispatcher("/myReport.jsp");
                 rd.forward(request, response);
