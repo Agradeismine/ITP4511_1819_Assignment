@@ -147,23 +147,6 @@ public class handleRestaurant extends HttpServlet {
                 rd = getServletContext().getRequestDispatcher("/message.jsp");
                 rd.forward(request, response);
             }
-        } else if ("addMyFavourite".equalsIgnoreCase(action)) {
-            if (user.getUserID() > 0) {
-                type = request.getParameter("type");
-                int restId = Integer.parseInt(request.getParameter("restId"));
-                if (db.hasMyFavouriteRecord(user.getUserID(), restId, type)) {
-                    db.deleteFavouriteRecord(user.getUserID(), restId, type);
-                } else {
-                    db.addMyFavourite(user.getUserID(), restId, type);
-                }
-                ArrayList<Restaurant> restList = db.getMyFavouriteInRestaurant(user.getUserID());
-                ArrayList<Menu> menuList = db.getMyFavouriteInMenu(user.getUserID());
-                request.setAttribute("restList", restList);
-                request.setAttribute("menuList", menuList);
-                RequestDispatcher rd;
-                rd = getServletContext().getRequestDispatcher("/myFavourite.jsp");
-                rd.forward(request, response);
-            }
         } else {
             System.out.println("No such action");
         }

@@ -120,7 +120,7 @@
             <div class="restInfo">
                 <h1><%=imgName%></h1>
                 <h2><%=menuType%></h2>
-                <form action="handleRestaurant">
+                <form action="handleMyFavourite">
                     <input type="hidden" name="action" value="addMyFavourite"/>
                     <input type="hidden" name="restId" value="<%=imgId%>"/>
                     <input type="hidden" name="type" value="menu"/>

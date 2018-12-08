@@ -103,7 +103,7 @@
             }
         %>
     </form>
-    <form action="handleRestaurant" style="transform: translate(350px, -123px);">
+    <form action="handleMyFavourite" style="transform: translate(350px, -123px);">
         <input type="hidden" name="action" value="addMyFavourite"/>
         <input type="hidden" name="restId" value="<%=restId%>"/>
         <input type="hidden" name="type" value="restaurant"/>
