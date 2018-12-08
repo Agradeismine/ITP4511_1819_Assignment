@@ -53,6 +53,7 @@
             height: 200px;
             margin: auto;
             margin-top: 20px;
+            overflow: scroll;
         }
         .goComment{
             transform: translate(250px, -100px);
@@ -77,7 +78,7 @@
             text-align: center;
         }
         .menuImg:hover{
-            transform: scale(2);
+            transform: scale(1.1);
             transition-duration: 1s;
         }
     </style>
