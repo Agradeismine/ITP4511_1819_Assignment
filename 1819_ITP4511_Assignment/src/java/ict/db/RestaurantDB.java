@@ -38,6 +38,52 @@ public class RestaurantDB {
         return (Connection) DriverManager.getConnection(dburl, dbUser, dbPassword);
     }
 
+    public int countLike(int restId) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int like = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT COUNT(*) as count FROM RestaurantComment WHERE Mood = 1 AND RestaurantrestId = ?;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, restId);
+            ResultSet rs;
+            rs = pStmnt.executeQuery();
+            while(rs.next()){
+                like = rs.getInt("count");
+            }
+            cnnct.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return like;
+    }
+    
+        public int countDislike(int restId) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        int dislike = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT COUNT(*) as count FROM RestaurantComment WHERE Mood = 0 AND RestaurantrestId = ?;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, restId);
+            ResultSet rs;
+            rs = pStmnt.executeQuery();
+            while(rs.next()){
+                dislike = rs.getInt("count");
+            }
+            cnnct.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return dislike;
+    }
+
     public ArrayList<Restaurant> getAllRestaurants() {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
@@ -61,6 +107,8 @@ public class RestaurantDB {
                 restaurantBean.setDescription(rs.getString("description"));
                 restaurantBean.setTel(rs.getInt("tel"));
                 restaurantBean.setViewCount(ViewCount(restaurantBean.getRestId()));
+                restaurantBean.setLike(countLike(restaurantBean.getRestId()));
+                restaurantBean.setDislike(countDislike(restaurantBean.getRestId()));
                 restaurantBeans.add(restaurantBean);
             }
             pStmnt.close();

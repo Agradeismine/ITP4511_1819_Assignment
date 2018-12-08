@@ -77,7 +77,7 @@
             } else {
                 restaurants = (ArrayList) request.getAttribute("restaurants");
             }
-            int viewCount, tel;
+            int viewCount, tel, like, dislike;
             String restIcon, name, address, description, restId;
             if ("restaurant".equalsIgnoreCase(selectedType)) {
                 for (int i = 0; i < restaurants.size(); i++) {
@@ -89,12 +89,16 @@
                     description = restaurant.getDescription();
                     viewCount = restaurant.getViewCount();
                     tel = restaurant.getTel();
+                    like = restaurant.getLike();
+                    dislike = restaurant.getDislike();
         %>
         <div class='rest_table'>
             <img class='restIcon' src='upload/<%=restIcon%>'/>
             <div class="restInfo">
                 <h2 class='rest_content' style="color: orangered"><%=name%></h2>
                 <a class='rest_content' style="color: gray;">Views: <%=viewCount%></a><br/>
+                <a class='rest_content' style="color: green;">Likes: <%=like%></a> 
+                <a class='rest_content' style="color: red;">Dislikes: <%=dislike%></a><br/>
                 <a class='rest_content'>Address: <%=address%></a><br/>
                 <a class='rest_content'>Description: <%=description%></a><br/>
                 <a class='rest_content'>Tel: <%=tel%></a><br/>

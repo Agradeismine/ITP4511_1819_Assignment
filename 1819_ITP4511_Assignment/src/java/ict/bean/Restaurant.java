@@ -21,19 +21,44 @@ public class Restaurant implements Serializable {
     private String description;
     private int viewCount;
     private int tel;
+    private int like;
+    private int dislike;
 
     public Restaurant() {
     }
 
-    public Restaurant(int restId, String name, int ownerId, String RestIcon, String address, String description, int tel) {   //with ownerId
+    public Restaurant(int restId, String name, int ownerId, String RestIcon, String address, String description, int viewCount, int tel, int like, int dislike) {
         this.restId = restId;
         this.name = name;
         this.ownerId = ownerId;
         this.RestIcon = RestIcon;
         this.address = address;
         this.description = description;
+        this.viewCount = viewCount;
         this.tel = tel;
+        this.like = like;
+        this.dislike = dislike;
     }
+
+    public int getDislike() {
+        return dislike;
+    }
+
+    public void setDislike(int dislike) {
+        this.dislike = dislike;
+    }
+
+    
+
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
+    }
+
+    
 
     public int getOwnerId() {
         return ownerId;
