@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -59,8 +60,8 @@ public class UserDB {
         }
         return isValid;
     }
-    
-        public UserInfo queryCustByID(int id) {
+
+    public UserInfo queryCustByID(int id) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
 
@@ -119,6 +120,40 @@ public class UserDB {
             ex.printStackTrace();
         }
         return isSuccess;
+    }
+
+    public ArrayList<UserInfo> getAllUserInfo() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        ArrayList<UserInfo> userBeans = new ArrayList();
+
+        UserInfo user = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM Account;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+
+            while (rs.next()) {
+                user = new UserInfo();
+                user.setUserID(Integer.parseInt(rs.getString("userId")));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setRole(rs.getString("role"));
+                user.setSex(rs.getString("sex"));
+                user.setDistrict(rs.getString("district"));
+                userBeans.add(user);
+            }
+            pStmnt.close();
+            cnnct.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return userBeans;
     }
 
 }
