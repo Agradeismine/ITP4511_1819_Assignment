@@ -99,12 +99,6 @@
                 <a class='rest_content'>Description: <%=description%></a><br/>
                 <a class='rest_content'>Tel: <%=tel%></a><br/>
                 <a class='rest_content' href='handleRestaurant?action=view&restId=<%=restId%>'>View more</a>
-                <form action="handleRestaurant">
-                    <input type="hidden" name="action" value="addMyFavourite"/>
-                    <input type="hidden" name="restId" value="<%=restId%>"/>
-                    <input type="hidden" name="type" value="<%=selectedType%>"/>
-                    <input type="submit" value="Add to favourite"/>
-                </form>
             </div>
         </div>
         <%

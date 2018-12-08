@@ -31,7 +31,7 @@
             margin: 10px 50px 0px 0px;
             padding: 10px;
             float: right;
-            transform: translateY(-60px);
+            transform: translateY(-80px);
             text-align: right;
         }
         .t {
@@ -68,18 +68,27 @@
                 <%
                     UserInfo user = (UserInfo) session.getAttribute("userInfo");
                     if (user.getUsername() != null) {
-                        out.println("<div class='userInfo'><a name='show_username'>" + user.getUsername() + "</a>, Hello.<br>");
-                        out.print("<form action='main' method='post'>"
-                                + "<input type='hidden' name='action' value='logout'>"
-                                + "<input type='submit' name='logoutButton' value='Logout'>"
-                                + "</form></div>");
-                    } else {
-                        out.println("<form method='post' action='main'>"
-                                + "<input type='hidden' name='action' value='authenticate'>"
-                                + "<span class='userId'>User ID: <input type='text' id='userId' name='userId'></span>"
-                                + "<span class='userPw'>Password: <input type='password' id='password' name='password'></span>"
-                                + "<input type='submit' value='Sign In'>"
-                                + "</form><br/>");
+                        String username = user.getUsername();
+                %>
+                <div class='userInfo'><a name='show_username'><%=username%></a>, Hello.<br>
+                    <form action='main' method='post'>
+                        <input type='hidden' name='action' value='logout'>
+                        <input type='submit' name='logoutButton' value='Logout'>
+                    </form>
+                    <form action="myFavourite.jsp">
+                        <input type="submit" value="My Favourite">
+                    </form>
+                </div>
+                <%
+                } else {
+                %>
+                <form method='post' action='main'>
+                    <input type='hidden' name='action' value='authenticate'>
+                    <span class='userId'>User ID: <input type='text' id='userId' name='userId'></span>
+                    <span class='userPw'>Password: <input type='password' id='password' name='password'></span>
+                    <input type='submit' value='Sign In'>
+                </form><br/>
+                <%
                         if (request.getAttribute("loginError") != null) {
                             out.println("<a style='color:red;'>" + request.getAttribute("loginError") + "</a>");
                         }

@@ -41,11 +41,18 @@
             text-align: center;
         }
         .menuTable, .commentArea{
-            height: 100px;
+            height: auto;
             width: auto;
             color: black;
             border: 1px solid grey;
             margin: 5px;
+            padding: 10px;
+        }
+        .menuTable{
+            width: 1000px;
+            height: 200px;
+            margin: auto;
+            margin-top: 20px;
         }
         .goComment{
             transform: translate(250px, -100px);
@@ -63,6 +70,15 @@
         .likeImg{
             height: 30px;
             width: 30px;
+        }
+        .menuImg{
+            height: 160px;
+            width: 240px;
+            text-align: center;
+        }
+        .menuImg:hover{
+            transform: scale(2);
+            transition-duration: 1s;
         }
     </style>
     <jsp:include page="heading.jsp" />
@@ -86,8 +102,36 @@
             }
         %>
     </form>
+    <form action="handleRestaurant" style="transform: translate(350px, -123px);">
+        <input type="hidden" name="action" value="addMyFavourite"/>
+        <input type="hidden" name="restId" value="<%=restId%>"/>
+        <input type="hidden" name="type" value="restaurant"/>
+        <%
+            String record = "&#9734;"; //white star
+            if(request.getAttribute("record").toString().equalsIgnoreCase("true")){
+                record = "&#9733;"; //black star
+            }
+        %>
+        <input type="submit" value="<%=record%>"/>
+    </form>
     <div class='like'><h3>Views: <%=viewCoiunt%></h3></div>
-    <div class='menuTable'>FOR MENU</div>
+    <div class='menuTable'>
+        <%
+            ArrayList<Menu> menus = (ArrayList<Menu>) request.getAttribute("menus");
+            String imgName, menuType, menuPath;
+            for (int i = 0; i < menus.size(); i++) {
+                imgName = menus.get(i).getImgName();
+                menuType = menus.get(i).getMenuType();
+                menuPath = menus.get(i).getMenuPath();
+        %>
+        <div style="margin: 5px; float: left; z-index: 2">
+            <img src="upload/menu/<%=menuPath%>" class="menuImg"><br/>
+            <a style="margin-left: 50px;"><%=imgName%></a>
+        </div>
+        <%
+            }
+        %>
+    </div>
     <%
         ArrayList<Comment> comments = (ArrayList<Comment>) request.getAttribute("comments");
         int AccountuserId;
@@ -99,9 +143,9 @@
             contents = comments.get(i).getContents();
             title = comments.get(i).getTitle();
             mealDate = comments.get(i).getMealDate();
-            if(Mood){
+            if (Mood) {
                 likeStatue = "upload/Facebook_like_thumb.png";
-            }else{
+            } else {
                 likeStatue = "upload/Facebook-dislike.png";
             }
     %>

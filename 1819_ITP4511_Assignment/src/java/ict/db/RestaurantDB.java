@@ -234,7 +234,7 @@ public class RestaurantDB {
             pStmnt.setInt(1, restId);
 
             ResultSet rs = null;
-                rs = pStmnt.executeQuery();     //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+            rs = pStmnt.executeQuery();     //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
 
             while (rs.next()) {
                 restaurant = new Restaurant();
@@ -319,7 +319,7 @@ public class RestaurantDB {
             pStmnt.setInt(1, userId);
             pStmnt.setInt(2, itemId);
             pStmnt.setString(3, type);
-            if(!hasMyFavouriteRecord(userId, itemId, type)){
+            if (!hasMyFavouriteRecord(userId, itemId, type)) {
                 pStmnt.executeUpdate();
             }
             pStmnt.close();
@@ -338,13 +338,16 @@ public class RestaurantDB {
         boolean hasRecord = false;
         try {
             cnnct = getConnection();
-            String preQueryStatement = "SELECT * FROM UserFavourite;";
+            String preQueryStatement = "SELECT * FROM UserFavourite where AccountuserId =? and favouriteId = ? and favouriteType=?";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, userId);
+            pStmnt.setInt(2, itemId);
+            pStmnt.setString(3, type);
             ResultSet rs;
             rs = pStmnt.executeQuery();
-            while(rs.next()){
-                if(userId == rs.getInt("AccountuserId") && itemId == rs.getInt("favouriteId") && type.equalsIgnoreCase(rs.getString("favouriteType")))
-                    hasRecord = true;
+            while (rs.next()) {
+                hasRecord = true;
+                break;
             }
             pStmnt.close();
             cnnct.close();
@@ -354,6 +357,26 @@ public class RestaurantDB {
             ex.printStackTrace();
         }
         return hasRecord;
+    }
+
+    public void deleteFavouriteRecord(int userId, int itemId, String type) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "DELETE FROM UserFavourite WHERE AccountuserId = ? AND favouriteId = ? AND favouriteType = ?;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, userId);
+            pStmnt.setInt(2, itemId);
+            pStmnt.setString(3, type);
+            pStmnt.executeUpdate();
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
 }

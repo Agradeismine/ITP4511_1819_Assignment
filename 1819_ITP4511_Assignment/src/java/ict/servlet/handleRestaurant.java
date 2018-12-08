@@ -75,10 +75,19 @@ public class handleRestaurant extends HttpServlet {
         } else if ("view".equalsIgnoreCase(action)) {
             int restId = Integer.parseInt(request.getParameter("restId"));
             db.increaseViewCount(restId, user);
+            String hasRecoed;
+            if (db.hasMyFavouriteRecord(user.getUserID(), restId, "restaurant")) {
+                hasRecoed = "true";
+            } else {
+                hasRecoed = "false";
+            }
             Restaurant rBean = db.getRestaurantByRestId(restId);
             ArrayList<Comment> comments = cdb.getCommentByID(restId);
+            menus = mdb.getRestaurantMenuByRestId(restId);
             request.setAttribute("rBean", rBean);
             request.setAttribute("comments", comments);
+            request.setAttribute("menus", menus);
+            request.setAttribute("record", hasRecoed);
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/viewRestaurantDetails.jsp");
             rd.forward(request, response);
@@ -129,10 +138,14 @@ public class handleRestaurant extends HttpServlet {
                 rd.forward(request, response);
             }
         } else if ("addMyFavourite".equalsIgnoreCase(action)) {
-            if(user.getUserID() > 0){
+            if (user.getUserID() > 0) {
                 type = request.getParameter("type");
                 int restId = Integer.parseInt(request.getParameter("restId"));
-                db.addMyFavourite(user.getUserID(), restId, type);
+                if (db.hasMyFavouriteRecord(user.getUserID(), restId, type)) {
+                    db.deleteFavouriteRecord(user.getUserID(), restId, type);
+                } else {
+                    db.addMyFavourite(user.getUserID(), restId, type);
+                }
                 RequestDispatcher rd;
                 rd = getServletContext().getRequestDispatcher("/myFavourite.jsp");
                 rd.forward(request, response);
