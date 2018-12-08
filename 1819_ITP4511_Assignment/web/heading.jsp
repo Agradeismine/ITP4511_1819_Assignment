@@ -75,8 +75,9 @@
                         <input type='hidden' name='action' value='logout'>
                         <input type='submit' name='logoutButton' value='Logout'>
                     </form>
-                    <form action="myFavourite.jsp">
-                        <input type="submit" value="My Favourite">
+                    <form action="handleMyFavourite">
+                        <input type="hidden" name="action" value="viewMyFavourite"/>
+                        <input type="submit" value="My Favourite"/>
                     </form>
                 </div>
                 <%

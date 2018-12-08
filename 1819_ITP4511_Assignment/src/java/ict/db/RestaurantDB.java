@@ -6,6 +6,7 @@
 package ict.db;
 
 import com.mysql.jdbc.Connection;
+import ict.bean.Menu;
 import ict.bean.Restaurant;
 import ict.bean.UserInfo;
 import java.io.IOException;
@@ -378,6 +379,81 @@ public class RestaurantDB {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public ArrayList<Restaurant> getMyFavouriteInRestaurant(int userId) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        ArrayList<Restaurant> myFavourites_restaurant = new ArrayList<Restaurant>();
+        Restaurant restaurantBean;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT r.restId, r.name, r.ownerId, r.restIcon, r.address, r.description, r.tel "
+                    + "FROM UserFavourite uf, Restaurant r "
+                    + "WHERE uf.AccountuserId = ? "
+                    + "AND uf.favouriteType = 'restaurant' "
+                    + "AND r.restId = uf.favouriteId";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, userId);
+            ResultSet rs;
+            rs = pStmnt.executeQuery();
+            while (rs.next()) {
+                restaurantBean = new Restaurant();
+                restaurantBean.setRestId(rs.getInt("r.restId"));
+                restaurantBean.setName(rs.getString("r.name"));
+                restaurantBean.setOwnerId(rs.getInt("r.ownerId"));
+                restaurantBean.setRestIcon(rs.getString("r.restIcon"));
+                restaurantBean.setAddress(rs.getString("r.address"));
+                restaurantBean.setDescription(rs.getString("r.description"));
+                restaurantBean.setTel(rs.getInt("r.tel"));
+                restaurantBean.setViewCount(ViewCount(restaurantBean.getRestId()));
+                myFavourites_restaurant.add(restaurantBean);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return myFavourites_restaurant;
+    }
+
+    public ArrayList<Menu> getMyFavouriteInMenu(int userId) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        ArrayList<Menu> myFavourites_menu = new ArrayList<Menu>();
+        Menu menu;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT m.RestaurantrestId, m.imgId, m.imgName, m.menuType, m.menuPath, m.menuStartTime, m.menuEndTime "
+                    + "FROM UserFavourite uf, Menu m "
+                    + "WHERE uf.AccountuserId = ? "
+                    + "AND uf.favouriteType = 'menu' "
+                    + "AND m.imgId = uf.favouriteId";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, userId);
+            ResultSet rs;
+            rs = pStmnt.executeQuery();
+            while (rs.next()) {
+                menu = new Menu();
+                menu.setRestId(rs.getInt("RestaurantrestId"));
+                menu.setImgId(rs.getInt("imgId"));
+                menu.setImgName(rs.getString("imgName"));
+                menu.setMenuType(rs.getString("menuType"));
+                menu.setMenuPath(rs.getString("menuPath"));
+                menu.setMenuStartTime(rs.getDate("menuStartTime"));
+                menu.setMenuEndTime(rs.getDate("menuEndTime"));
+                myFavourites_menu.add(menu);
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return myFavourites_menu;
     }
 
 }

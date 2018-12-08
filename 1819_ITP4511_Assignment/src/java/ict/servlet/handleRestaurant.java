@@ -71,11 +71,11 @@ public class handleRestaurant extends HttpServlet {
             for (int i = 0; i < menus.size(); i++) {
                 if (db.hasMyFavouriteRecord(user.getUserID(), menus.get(i).getImgId(), type)) {
                     hasRecord = "true";
-                }else{
+                } else {
                     hasRecord = "false";
                 }
-                String recoed = "record"+i;
-                request.setAttribute(recoed , hasRecord);
+                String recoed = "record" + i;
+                request.setAttribute(recoed, hasRecord);
             }
             request.setAttribute("type", type);
             request.setAttribute("menus", menus);
@@ -156,6 +156,10 @@ public class handleRestaurant extends HttpServlet {
                 } else {
                     db.addMyFavourite(user.getUserID(), restId, type);
                 }
+                ArrayList<Restaurant> restList = db.getMyFavouriteInRestaurant(user.getUserID());
+                ArrayList<Menu> menuList = db.getMyFavouriteInMenu(user.getUserID());
+                request.setAttribute("restList", restList);
+                request.setAttribute("menuList", menuList);
                 RequestDispatcher rd;
                 rd = getServletContext().getRequestDispatcher("/myFavourite.jsp");
                 rd.forward(request, response);
