@@ -65,7 +65,7 @@ public class handleMenuEdit extends HttpServlet {
                 }
                 boolean isUpdateSuccess = menuDb.updateMenuRecord(menuNewInfo);
                 if (isUpdateSuccess) {
-                    response.sendRedirect("handleMenu?action=maintainRestMenu&restId="+restaurant.getRestId());
+                    response.sendRedirect("handleMenu?action=maintainRestMenu&restId=" + restaurant.getRestId());
                 } else {
                     showErrorPage(request, response, "There have some error information in update process.");
                 }
@@ -76,10 +76,10 @@ public class handleMenuEdit extends HttpServlet {
             int imgId = Integer.parseInt(request.getParameter("imgId"));
             menu = menuDb.getMenuByImgId(imgId);
             restaurant = db.getRestaurantByRestId(menu.getRestId());
-            
+
             if (restaurant.getOwnerId() == user.getUserID()) {
                 menuDb.delMenuByImgId(imgId);
-                response.sendRedirect("handleMenu?action=maintainRestMenu&restId="+restaurant.getRestId());
+                response.sendRedirect("handleMenu?action=maintainRestMenu&restId=" + restaurant.getRestId());
             } else {
                 showErrorPage(request, response, "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
             }

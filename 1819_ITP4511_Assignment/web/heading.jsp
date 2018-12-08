@@ -75,6 +75,10 @@
                         <input type='hidden' name='action' value='logout'>
                         <input type='submit' name='logoutButton' value='Logout'>
                     </form>
+                    <form action="handleAccount">
+                        <input type="hidden" name="action" value="maintainAccount"/>
+                        <input type="submit" value="Account Management"/>
+                    </form>
                     <form action="handleMyFavourite">
                         <input type="hidden" name="action" value="viewMyFavourite"/>
                         <input type="submit" value="My Favourite"/>
