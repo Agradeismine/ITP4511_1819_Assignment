@@ -15,6 +15,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class MenuDB {
         System.setProperty("jdbc.drivers", "com.mysql.jdbc.Driver");
         return (Connection) DriverManager.getConnection(dburl, dbUser, dbPassword);
     }
-    
+
     public ArrayList<Menu> getRestaurantAllMenu() {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
@@ -224,4 +225,34 @@ public class MenuDB {
         }
         return isSuccess;
     }
+
+    public boolean delMenuByImgId(int imgId) {
+        Statement stmnt = null;
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        String preQueryStatement;
+        boolean delSuccess = false;
+        try {
+            cnnct = getConnection();
+            preQueryStatement = "DELETE FROM Menu WHERE imgId=?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, imgId);        //imgId
+            int rowCount = pStmnt.executeUpdate();
+
+            if (rowCount >= 1) {
+                delSuccess = true;
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return delSuccess;
+    }
+
 }

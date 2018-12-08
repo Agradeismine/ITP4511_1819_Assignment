@@ -65,7 +65,7 @@ public class handleRestaurantEdit extends HttpServlet {
                 rd = getServletContext().getRequestDispatcher("/message.jsp");
                 rd.forward(request, response);
             }
-        } else if (action.equalsIgnoreCase("Delete")) {
+        } else if (action.equalsIgnoreCase("Delete Restaurant")) {
             UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
             int ownerId = Integer.parseInt(request.getParameter("ownerId"));
             if (ownerId == user.getUserID()) {

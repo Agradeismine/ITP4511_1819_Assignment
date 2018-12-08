@@ -72,11 +72,14 @@ public class handleMenuEdit extends HttpServlet {
             } else {
                 showErrorPage(request, response, "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
             }
-        } else if (action.equalsIgnoreCase("Delete")) {
-            int ownerId = Integer.parseInt(request.getParameter("ownerId"));
-            if (ownerId == user.getUserID()) {
-                db.delRestaurantById(Integer.parseInt(request.getParameter("restId")));
-                response.sendRedirect("ViewOwnRestaurant.jsp");
+        } else if (action.equalsIgnoreCase("Delete Menu")) {
+            int imgId = Integer.parseInt(request.getParameter("imgId"));
+            menu = menuDb.getMenuByImgId(imgId);
+            restaurant = db.getRestaurantByRestId(menu.getRestId());
+            
+            if (restaurant.getOwnerId() == user.getUserID()) {
+                menuDb.delMenuByImgId(imgId);
+                response.sendRedirect("handleMenu?action=maintainRestMenu&restId="+restaurant.getRestId());
             } else {
                 showErrorPage(request, response, "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
             }

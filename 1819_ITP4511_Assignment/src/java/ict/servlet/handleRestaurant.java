@@ -118,7 +118,7 @@ public class handleRestaurant extends HttpServlet {
             restaurant = db.getRestaurantByRestId(restId);
             if (restaurant.getOwnerId() == user.getUserID()) {
                 request.setAttribute("restaurant", restaurant);
-                request.setAttribute("type", "Delete");
+                request.setAttribute("type", "Delete Restaurant");
                 RequestDispatcher rd;
                 rd = getServletContext().getRequestDispatcher("/confirmAction.jsp");
                 rd.forward(request, response);

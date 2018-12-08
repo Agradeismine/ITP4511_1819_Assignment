@@ -234,7 +234,7 @@ public class RestaurantDB {
             pStmnt.setInt(1, restId);
 
             ResultSet rs = null;
-                //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+                rs = pStmnt.executeQuery();     //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
 
             while (rs.next()) {
                 restaurant = new Restaurant();

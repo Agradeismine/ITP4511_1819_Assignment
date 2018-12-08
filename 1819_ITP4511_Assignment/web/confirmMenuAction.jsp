@@ -33,6 +33,7 @@
     </style>
     <body>
         <jsp:useBean id="restaurant" class="ict.bean.Restaurant" scope="request" />
+        <jsp:useBean id="restMenu" class="ict.bean.Menu" scope="request" />
         <jsp:useBean id="type" class="String" scope="request" />
 
         <%
@@ -48,26 +49,37 @@
             }
 
             String actionName = "";
+            String menuStartTime = "";
+            String menuEndTime = "";
             if (type != null) {
                 actionName = type;
             }
+            if(restMenu.getMenuType().equalsIgnoreCase("General")){     //without startDate & endDate
+                menuStartTime = "All day";
+                menuEndTime = "All day";
+            }else{
+                menuStartTime = String.valueOf(restMenu.getMenuStartTime());
+                menuEndTime = String.valueOf(restMenu.getMenuEndTime());
+            }
         %>
         <h1><%= actionName%> Confirmation</h1>
-        <form method="get" action="handleRestaurantEdit"> 
+        <form method="post" action="handleMenuEdit"> 
             <div class="block" >
                 <input type="hidden" name="action" value="<%= type%>" />
-                <input type="hidden" name="restId" value="<%= restaurant.getRestId()%>" />
-                <input type="hidden" name="name" value="<%= restaurant.getName()%>"/>
-                <input type="hidden" name="ownerId" value="<%= restaurant.getOwnerId()%>" />
-                <input type="hidden" name="icon" value="<%=restaurant.getRestIcon()%>" />
-                <input type="hidden" name="address" value="<%= restaurant.getAddress()%>" />
-                <input type="hidden" name="description" value="<%= restaurant.getDescription()%>" />
-                <img src='upload/<%=restaurant.getRestIcon()%>' width='100' height='100'><br><br>
-                <label>Restaurant ID: </label> <%= restaurant.getRestId()%><br><br>
+                <input type="hidden" name="restId" value="<%= restMenu.getRestId()%>" />
+                <input type="hidden" name="imgId" value="<%= restMenu.getImgId()%>"/>
+                <input type="hidden" name="imgName" value="<%= restMenu.getImgName() %>" />
+                <input type="hidden" name="menuType" value="<%= restMenu.getMenuType()%>" />
+                <input type="hidden" name="menuPath" value="<%= restMenu.getMenuPath()%>" />
+                <input type="hidden" name="menuStartTime" value="<%= restMenu.getMenuStartTime()%>" />
+                <input type="hidden" name="menuEndTime" value="<%= restMenu.getMenuEndTime() %>" />
+                <img src='upload/menu/<%=restMenu.getMenuPath()%>' width='100' height='100'><br><br>
                 <label>Restaurant Name: </label> <%= restaurant.getName()%><br><br>
-                <label>Restaurant Owner ID: </label> <%= restaurant.getOwnerId()%><br><br>
-                <label>Address</label> <%= restaurant.getAddress()%><br><br>
-                <label>Restaurant Description: </label> <%= restaurant.getDescription()%><br><br>
+                <label>Menu ID: </label> <%= restMenu.getImgId() %><br><br>
+                <label>Menu Name: </label> <%= restMenu.getImgName()%><br><br>
+                <label>Menu Type: </label> <%= restMenu.getMenuType()%><br><br>
+                <label>Menu Start Date: </label> <%= menuStartTime %><br><br>
+                <label>Menu End Date: </label> <%= menuEndTime %><br><br>
                 <div class='center'>
                     <input type="button" onclick="history.back()" value="Back"/> <input type="submit" value="submit"/> <br>
                 </div>
