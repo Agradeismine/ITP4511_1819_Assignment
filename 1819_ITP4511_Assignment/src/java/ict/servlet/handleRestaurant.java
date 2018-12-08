@@ -74,7 +74,8 @@ public class handleRestaurant extends HttpServlet {
                 }else{
                     hasRecord = "false";
                 }
-                request.setAttribute("record" , hasRecord);
+                String recoed = "record"+i;
+                request.setAttribute(recoed , hasRecord);
             }
             request.setAttribute("type", type);
             request.setAttribute("menus", menus);
@@ -96,7 +97,7 @@ public class handleRestaurant extends HttpServlet {
             request.setAttribute("rBean", rBean);
             request.setAttribute("comments", comments);
             request.setAttribute("menus", menus);
-
+            request.setAttribute("record", hasRecoed);
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/viewRestaurantDetails.jsp");
             rd.forward(request, response);
