@@ -60,8 +60,6 @@ public class LoginController extends HttpServlet {
         String password = request.getParameter("password").replaceAll("\\s", "");
 
         String targetURL;
-        //Hard code username and password is abc and 123
-//        if (username.equals("abc") && password.equals("123")) {
 
         //Validate the user with the method
         boolean isValid = db.isValidUser(userId, password);

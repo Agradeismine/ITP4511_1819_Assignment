@@ -42,7 +42,7 @@
             int restId = restaurant.getRestId();
         %>
         <h1>Edit Restaurant</h1>
-        <form method="get" action="handleRestaurantEdit" onsubmit="return validate(this);">
+        <form method="post" action="handleRestaurantEdit" onsubmit="return validate(this);">
             <div class="block" style='border-style: solid;'>
                 <input type="hidden" name="action" value="editRestaurant" />
                 <label>ID:</label>
