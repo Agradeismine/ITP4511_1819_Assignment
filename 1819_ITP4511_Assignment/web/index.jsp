@@ -117,7 +117,7 @@
                 String menuPath = menus.get(i).getMenuPath();
         %>
         <div class="rest_table">
-            <img class='restIcon' src='upload/<%=menuPath%>'/>
+            <img class='restIcon' src='upload/menu/<%=menuPath%>'/>
             <div class="restInfo">
                 <h1><%=imgName%></h1>
                 <h2><%=menuType%></h2>

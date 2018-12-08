@@ -143,6 +143,43 @@ public class MenuDB {
         }
         return menu;
     }
+    
+    public ArrayList<Menu> getMenuByKeywords(String keywords) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        Menu menu = null;
+        ArrayList<Menu> menus = new ArrayList<Menu>();
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "Select * from Menu;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+
+            ResultSet rs = null;
+            rs = pStmnt.executeQuery();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+
+            while (rs.next()) {
+                menu = new Menu();
+                menu.setRestId(rs.getInt("RestaurantrestId"));
+                menu.setImgId(rs.getInt("imgId"));
+                menu.setImgName(rs.getString("imgName"));
+                menu.setMenuType(rs.getString("menuType"));
+                menu.setMenuPath(rs.getString("menuPath"));
+                menu.setMenuStartTime(rs.getDate("menuStartTime"));
+                menu.setMenuEndTime(rs.getDate("menuEndTime"));
+                if(menu.getImgName().toLowerCase().contains(keywords.toLowerCase())){
+                    menus.add(menu);
+                }
+            }
+            pStmnt.close();
+            cnnct.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return menus;
+    }
 
     public boolean updateMenuRecord(Menu menuNewInfo) {
         Connection cnnct = null;
