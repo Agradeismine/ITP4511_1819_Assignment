@@ -13,6 +13,7 @@ import ict.bean.UserInfo;
 import ict.db.CommentDB;
 import ict.db.MenuDB;
 import ict.db.RestaurantDB;
+import ict.db.SearchDB;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
@@ -32,6 +33,7 @@ public class handleRestaurant extends HttpServlet {
     private RestaurantDB db;
     private CommentDB cdb;
     private MenuDB mdb;
+    private SearchDB sdb;
 
     public void init() {
         String dbUser = this.getServletContext().getInitParameter("dbUser");
@@ -40,6 +42,7 @@ public class handleRestaurant extends HttpServlet {
         db = new RestaurantDB(dbUrl, dbUser, dbPassword);
         cdb = new CommentDB(dbUrl, dbUser, dbPassword);
         mdb = new MenuDB(dbUrl, dbUser, dbPassword);
+        sdb = new SearchDB(dbUrl, dbUser, dbPassword);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -58,6 +61,7 @@ public class handleRestaurant extends HttpServlet {
             }
             request.setAttribute("restaurants", restaurants);
             request.setAttribute("type", type);
+            sdb.saveSearchRecord(user.getUserID(), name, user.getDistrict());
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);

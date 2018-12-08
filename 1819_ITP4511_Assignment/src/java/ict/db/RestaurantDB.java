@@ -503,10 +503,5 @@ public class RestaurantDB {
         }
         return myFavourites_menu;
     }
-    
-    public int numOfVistor(int restId){
-        int count = 0;
-        return count;
-    }
 
 }
