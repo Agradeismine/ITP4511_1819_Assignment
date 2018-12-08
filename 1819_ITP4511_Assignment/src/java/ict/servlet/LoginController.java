@@ -52,10 +52,10 @@ public class LoginController extends HttpServlet {
 
     private void doAuthenticate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         int userId;
-        if(isInteger(request.getParameter("userId").replaceAll("\\s", ""))){
+        if (isInteger(request.getParameter("userId").replaceAll("\\s", ""))) {
             userId = Integer.parseInt(request.getParameter("userId").replaceAll("\\s", ""));    //paserInt
-        }else{
-            userId=0;         //wrong input and set to 0;
+        } else {
+            userId = 0;         //wrong input and set to 0;
         }
         String password = request.getParameter("password").replaceAll("\\s", "");
 
