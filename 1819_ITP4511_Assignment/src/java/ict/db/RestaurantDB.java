@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  *
@@ -190,13 +191,12 @@ public class RestaurantDB {
                 }
             }
             if (!hasRestaurantRecord) {
-                preQueryStatement = "INSERT INTO RestViewCount (RestaurantrestId, userId, date, district, count) VALUES (?, ?, ?, ?, ?);";
+                preQueryStatement = "INSERT INTO RestViewCount (RestaurantrestId, userId, date, district, count) VALUES (?, ?, NOW(), ?, ?);";
                 pStmnt = cnnct.prepareStatement(preQueryStatement);
                 pStmnt.setInt(1, restId);
                 pStmnt.setInt(2, userId);
-                pStmnt.setTimestamp(3, new java.sql.Timestamp(new java.util.Date().getTime()));
-                pStmnt.setString(4, district);
-                pStmnt.setInt(5, 1);
+                pStmnt.setString(3, district);
+                pStmnt.setInt(4, 1);
             } else {
                 preQueryStatement = "UPDATE RestViewCount SET count = count + 1 WHERE userId = ?";
                 pStmnt = cnnct.prepareStatement(preQueryStatement);
@@ -504,6 +504,69 @@ public class RestaurantDB {
             ex.printStackTrace();
         }
         return myFavourites_menu;
+    }
+
+    public double avgByMonth(int restId) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        String[] ymd;
+        String date;
+        int year, month, day;
+        int sum = 0;
+        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM RestViewCount WHERE RestaurantrestId = ?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, restId);
+            ResultSet rs;
+            rs = pStmnt.executeQuery();
+            while (rs.next()) {
+                date = rs.getString("date");
+                ymd = date.split("-");
+                year = Integer.parseInt(ymd[0]);
+                month = Integer.parseInt(ymd[1]);
+                day = Integer.parseInt(ymd[2]);
+                if (year == thisYear) {
+                    sum += rs.getInt("count");
+                }
+            }
+            cnnct.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return sum / 12.0;
+    }
+
+    public ArrayList[] avgByDistrict(int restId) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        ArrayList districtList = new ArrayList();
+        ArrayList countList = new ArrayList();
+        ArrayList[] list = new ArrayList[2]; //0 - districtList . 1 - countList
+        int sum = 0;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM RestViewCount WHERE RestaurantrestId = ? GROUP BY district";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, restId);
+            ResultSet rs;
+            rs = pStmnt.executeQuery();
+            while (rs.next()) {
+                districtList.add(rs.getString("district"));
+                countList.add(rs.getInt("count"));
+            }
+            list[0] = districtList;
+            list[1] = countList;
+            cnnct.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return list;
     }
 
 }

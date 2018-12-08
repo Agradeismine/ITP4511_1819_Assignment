@@ -40,15 +40,20 @@ public class handleAnalytic extends HttpServlet {
         UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
         String role = user.getRole();
         if ("admin".equalsIgnoreCase(role) || "owner".equalsIgnoreCase(role)) {
+            int restId = rdb.getRestaurantByOwnerId(user.getUserID()).get(0).getRestId();
+            String restName = rdb.getRestaurantByOwnerId(user.getUserID()).get(0).getName();
             if ("viewReport".equalsIgnoreCase(action)) {
-                int numberOfVisitor = rdb.ViewCount(rdb.getRestaurantByOwnerId(user.getUserID()).get(0).getRestId());
+                int numberOfVisitor = rdb.ViewCount(restId);
                 request.setAttribute("numberOfVisitor", numberOfVisitor);
-                request.setAttribute("restName", rdb.getRestaurantByOwnerId(user.getUserID()).get(0).getName());
+                request.setAttribute("restName", restName);
+                request.setAttribute("avgByMonth", rdb.avgByMonth(restId));
+                request.setAttribute("avgByDistrict", rdb.avgByDistrict(restId));
                 RequestDispatcher rd;
                 rd = getServletContext().getRequestDispatcher("/myReport.jsp");
                 rd.forward(request, response);
             }
         } else {
+            System.out.println("get out here!");
             RequestDispatcher rd;
             rd = getServletContext().getRequestDispatcher("/index.jsp");
             rd.forward(request, response);

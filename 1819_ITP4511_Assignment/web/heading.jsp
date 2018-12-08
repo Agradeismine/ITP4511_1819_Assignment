@@ -20,7 +20,7 @@
         }
         .heading {
             border: 1px solid #FCD742;
-            height: 90px;
+            height: 100px;
             width: auto;
             background-color: #FCD742;
             padding-left: 20px;
@@ -31,7 +31,7 @@
             margin: 10px 100px 0px 0px;
             padding: 10px;
             float: right;
-            transform: translateY(-80px);
+            transform: translateY(-85px);
             text-align: right;
         }
         .t {

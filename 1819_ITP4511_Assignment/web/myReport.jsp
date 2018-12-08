@@ -3,7 +3,7 @@
     Created on : Dec 8, 2018, 9:31:05 PM
     Author     : arthurking
 --%>
-
+<%@page import="java.util.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,8 +16,40 @@
         <%
             String numberOfVisitor = String.valueOf(request.getAttribute("numberOfVisitor"));
             String restName = String.valueOf(request.getAttribute("restName"));
+            String avgByMonth = String.valueOf(request.getAttribute("avgByMonth"));
+            ArrayList[] list = (ArrayList[]) request.getAttribute("avgByDistrict");
+            ArrayList districtList = list[0];
+            ArrayList countList = list[1];
+            String district, count;
         %>
+        <h1 style="color: red">Analytic & Report</h1>
         <h2>Restaurant Name: <%=restName%></h2>
         <h2>Number Of Visitor: <%=numberOfVisitor%></h2>
+        <h2>Average number of visitors by month: <%=avgByMonth%></h2>
+        <h2>Average number of visitors by district</h2>
+        <table border="1">
+            <tr>
+                <td>District</td>
+                <%
+                    for (int i = 0; i < districtList.size(); i++) {
+                        district = String.valueOf(districtList.get(i));
+                %>
+                <td><%=district%></td>
+                <%
+                    }
+                %>
+            </tr>
+            <tr>
+                <td>Count</td>
+                <%
+                    for (int i = 0; i < countList.size(); i++) {
+                        count = String.valueOf(countList.get(i));
+                %>
+                <td><%=count%></td>
+                <%
+                    }
+                %>
+            </tr>
+        </table>
     </body>
 </html>

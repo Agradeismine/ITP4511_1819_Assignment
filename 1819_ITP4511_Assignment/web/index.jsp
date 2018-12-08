@@ -47,7 +47,11 @@
                 margin-right: 50px;
             }
             .restInfo{
-                transform: translate(200px, -200px);
+                transform: translate(200px, -205px);
+            }
+            .likeImg{
+                height: 30px;
+                width: 30px;
             }
         </style>
     </head>
@@ -99,8 +103,8 @@
             <div class="restInfo">
                 <h2 class='rest_content' style="color: orangered"><%=name%></h2>
                 <a class='rest_content' style="color: gray;">Views: <%=viewCount%></a><br/>
-                <a class='rest_content' style="color: green;">Likes: <%=like%></a> 
-                <a class='rest_content' style="color: red;">Dislikes: <%=dislike%></a><br/>
+                <a class='rest_content' style="color: green"><img src="upload/Facebook_like_thumb.png" class="likeImg"> <%=like%></a> 
+                <a class='rest_content' style="color: red;"><img src="upload/Facebook-dislike.png" style="height: 15px; width: 15px;"> <%=dislike%></a><br/>
                 <a class='rest_content'>Address: <%=address%></a><br/>
                 <a class='rest_content'>Description: <%=description%></a><br/>
                 <a class='rest_content'>Tel: <%=tel%></a><br/>

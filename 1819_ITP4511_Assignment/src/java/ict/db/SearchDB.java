@@ -94,8 +94,4 @@ public class SearchDB {
         }
         return hasRecord;
     }
-
-    public int numOfVistor(String keywords) {
-        return 0;
-    }
 }
