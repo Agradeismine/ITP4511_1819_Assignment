@@ -1,4 +1,5 @@
 
+<%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="ict.db.*"%>
 <%@page import="ict.bean.*"%>
@@ -164,10 +165,11 @@
         } else if ("menu".equalsIgnoreCase(selectedType)) {
             ArrayList<Menu> menus = (ArrayList<Menu>) request.getAttribute("menus");
             for (int i = 0; i < menus.size(); i++) {
-                String imgName = menus.get(i).getImgName();
-                String menuType = menus.get(i).getMenuType();
-                String menuPath = menus.get(i).getMenuPath();
-                int imgId = menus.get(i).getImgId();
+                if (menus.get(i).getMenuStartTime() == null || (menus.get(i).getMenuStartTime().compareTo(new Date()) <= 0 && menus.get(i).getMenuEndTime().compareTo(new Date()) >= 0)) {
+                    String imgName = menus.get(i).getImgName();
+                    String menuType = menus.get(i).getMenuType();
+                    String menuPath = menus.get(i).getMenuPath();
+                    int imgId = menus.get(i).getImgId();
         %>
         <div class="rest_table">
             <img class='restIcon' src='upload/menu/<%=menuPath%>'/>
@@ -190,6 +192,7 @@
             </div>
         </div>
         <%
+                    }
                 }
             }
         %>
