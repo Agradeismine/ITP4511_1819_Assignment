@@ -143,7 +143,7 @@ public class MenuDB {
         }
         return menu;
     }
-    
+
     public ArrayList<Menu> getMenuByKeywords(String keywords) {
         Connection cnnct = null;
         PreparedStatement pStmnt = null;
@@ -166,7 +166,7 @@ public class MenuDB {
                 menu.setMenuPath(rs.getString("menuPath"));
                 menu.setMenuStartTime(rs.getDate("menuStartTime"));
                 menu.setMenuEndTime(rs.getDate("menuEndTime"));
-                if(menu.getImgName().toLowerCase().contains(keywords.toLowerCase())){
+                if (menu.getImgName().toLowerCase().contains(keywords.toLowerCase())) {
                     menus.add(menu);
                 }
             }
@@ -188,11 +188,9 @@ public class MenuDB {
 
         try {
             cnnct = getConnection();
-            String preQueryStatement = "update Menu set RestaurantrestId = ?, imgName =?, menuType =?, menuPath = ? WHERE imgId=?;";
+            String preQueryStatement = "update Menu set RestaurantrestId = ?, imgName =?, menuType =?, menuPath = ?, menuStartTime = ?, menuEndTime = ? WHERE imgId=?;";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             if (!menuNewInfo.getMenuType().equalsIgnoreCase("General")) {
-                preQueryStatement = "update Menu set RestaurantrestId = ?, imgName =?, menuType =?, menuPath = ?, menuStartTime = ?, menuEndTime = ? WHERE imgId=?;";
-                pStmnt = cnnct.prepareStatement(preQueryStatement);
                 System.out.println("menuNewInfo.getRestId()" + menuNewInfo.getRestId());
                 pStmnt.setInt(1, menuNewInfo.getRestId());
                 pStmnt.setString(2, menuNewInfo.getImgName());
@@ -202,11 +200,13 @@ public class MenuDB {
                 pStmnt.setDate(6, menuNewInfo.getMenuEndTime());
                 pStmnt.setInt(7, menuNewInfo.getImgId());
             } else {  //type is General
+                preQueryStatement = "update Menu set RestaurantrestId = ?, imgName =?, menuType =?, menuPath = ?, menuStartTime = null, menuEndTime = null WHERE imgId=?;";
+                pStmnt = cnnct.prepareStatement(preQueryStatement);
+                pStmnt.setInt(1, menuNewInfo.getRestId());
                 pStmnt.setString(2, menuNewInfo.getImgName());
                 pStmnt.setString(3, menuNewInfo.getMenuType());
                 pStmnt.setString(4, menuNewInfo.getMenuPath());
                 pStmnt.setInt(5, menuNewInfo.getImgId());
-                pStmnt.setInt(1, menuNewInfo.getRestId());
             }
 
             int row = pStmnt.executeUpdate();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);

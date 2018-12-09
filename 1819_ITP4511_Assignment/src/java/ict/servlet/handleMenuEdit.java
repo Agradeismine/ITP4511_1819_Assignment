@@ -48,6 +48,7 @@ public class handleMenuEdit extends HttpServlet {
         Menu menu;
         UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
         String action = request.getParameter("action");
+        try{
         if ("editMenu".equalsIgnoreCase(action)) {
             int imgId = Integer.parseInt(request.getParameter("imgId"));
             menu = menuDb.getMenuByImgId(imgId);
@@ -60,8 +61,12 @@ public class handleMenuEdit extends HttpServlet {
                 menuNewInfo.setMenuType(request.getParameter("menuType"));
                 menuNewInfo.setMenuPath(menu.getMenuPath());
                 if (!request.getParameter("menuType").equalsIgnoreCase("General")) {
+                    if(Date.valueOf(request.getParameter("menuStartDate")).compareTo(Date.valueOf(request.getParameter("menuEndDate")))<=0){
                     menuNewInfo.setMenuStartTime(Date.valueOf(request.getParameter("menuStartDate")));
                     menuNewInfo.setMenuEndTime(Date.valueOf(request.getParameter("menuEndDate")));
+                    }else{
+                        showErrorPage(request, response, "Please confirm your start date and end date are correct!<br>The start date must before the end date.");
+                    }
                 }
                 boolean isUpdateSuccess = menuDb.updateMenuRecord(menuNewInfo);
                 if (isUpdateSuccess) {
@@ -86,6 +91,10 @@ public class handleMenuEdit extends HttpServlet {
         } else {
             PrintWriter out = response.getWriter();
             out.println("No such action!!!");
+        }
+        }catch(IllegalArgumentException ex){
+            ex.printStackTrace();
+            showErrorPage(request, response, "There have some error information in update process. Please mark sure the information is correct.");
         }
     }
 
