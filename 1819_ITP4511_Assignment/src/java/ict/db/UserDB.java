@@ -186,4 +186,32 @@ public class UserDB {
         return editSuccess;
     }
 
+    public boolean delAccountById(int userId) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        String preQueryStatement;
+        boolean delSuccess = false;
+        try {
+            cnnct = getConnection();
+            preQueryStatement = "DELETE FROM Account WHERE userId=?";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setInt(1, userId);        //imgId
+            int rowCount = pStmnt.executeUpdate();
+
+            if (rowCount >= 1) {
+                delSuccess = true;
+            }
+            pStmnt.close();
+            cnnct.close();
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return delSuccess;
+    }
+
 }
