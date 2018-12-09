@@ -37,9 +37,9 @@ public class Ranking extends SimpleTagSupport {
             String[] color = {"red", "orange", "yellow", "black", "black"};
             for (int i = 0; i < 5; i++) {
                 rest = restaurants.get(i);
-                out.print("<div style='margin: 5px; color:"+color[i]+"; text-shadow: 2px 2px 5px grey;'>No. " + (i + 1) + " <a href='handleRestaurant?action=view&restId="+rest.getRestId()+"'>"
-                        + rest.getName() + "</a><b style='float: right;margin-right: 20px;'>Views: "+rest.getViewCount()+"</b>"
-                        + "<b style='color:green; float: right; margin-right: 20px;'>Like: "+ rest.getLike() + "</b><br/></div>");
+                out.print("<div style='margin: 5px; color:" + color[i] + "; text-shadow: 2px 2px 5px grey;'>No. " + (i + 1) + " <a href='handleRestaurant?action=view&restId=" + rest.getRestId() + "'>"
+                        + rest.getName() + "</a><b style='float: right;margin-right: 20px;'>Views: " + rest.getViewCount() + "</b>"
+                        + "<b style='color:green; float: right; margin-right: 20px;'>Like: " + rest.getLike() + "</b><br/></div>");
             }
         } catch (IOException e) {
         } catch (Exception e) {
