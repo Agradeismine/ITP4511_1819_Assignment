@@ -42,6 +42,7 @@
                 height: 200px;
                 padding: 10px;
                 margin: 5px;
+                transform: translateY(-180px);
             }
             .rest_content{
                 margin-right: 50px;
@@ -53,13 +54,28 @@
                 height: 30px;
                 width: 30px;
             }
+            .ranking{
+                height: 200px;
+                width: 500px;
+                border: 1px solid black;
+                transform: translate(500px, -50px);
+            }
+            .popKeywords{
+                height: 150px;
+                width: 400px;
+                border: 1px solid black;
+                transform: translate(0px, -200px);
+            }
         </style>
     </head>
-
     <body>
         <jsp:include page="/heading.jsp" />
         <jsp:useBean id="user" class="ict.bean.UserInfo" scope="session"/>
         <%
+            RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
+            MenuDB mdb = new MenuDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
+            ArrayList<Restaurant> restaurants = db.getAllRestaurants();
+            String selectedType;
             if (user != null) {
                 user = ((UserInfo) request.getSession().getAttribute("userInfo"));
                 String role = user.getRole();
@@ -77,12 +93,16 @@
             <input type="radio" name="selectedType" value="restaurant" checked>Restaurant
             <input type="radio" name="selectedType" value="menu">Menu
             <input type="submit">
-        </form><br/>   
+        </form><br/>
+        <div class="ranking">
+            <a style="font-size: 30px; color: red;">Restaurant Ranking</a><br/>
+            <%@ taglib uri="/WEB-INF/tlds/ranking.tld" prefix="ict"%>
+            <ict:ranking restaurants = "<%=restaurants%>" />
+        </div>
+        <div class="popKeywords">
+            <h1>for pop keywords</h1>
+        </div>
         <%
-            RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
-            MenuDB mdb = new MenuDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
-            ArrayList<Restaurant> restaurants;
-            String selectedType;
             if (request.getAttribute("type") == null) { //check selected type
                 selectedType = "restaurant";
             } else {
