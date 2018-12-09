@@ -104,7 +104,7 @@ public class SearchDB {
         ArrayList count = new ArrayList();
         try {
             cnnct = getConnection();
-            String preQueryStatement = "SELECT * FROM SearchHistory;";
+            String preQueryStatement = "SELECT * FROM SearchHistory ORDER BY count DESC;";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
             ResultSet rs;
             rs = pStmnt.executeQuery();

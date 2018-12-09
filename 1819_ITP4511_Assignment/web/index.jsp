@@ -72,8 +72,11 @@
         <jsp:include page="/heading.jsp" />
         <jsp:useBean id="user" class="ict.bean.UserInfo" scope="session"/>
         <%
-            RestaurantDB db = new RestaurantDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
-            MenuDB mdb = new MenuDB(this.getServletContext().getInitParameter("dbUrl"), this.getServletContext().getInitParameter("dbUser"), this.getServletContext().getInitParameter("dbPassword"));
+            String dbUrl = this.getServletContext().getInitParameter("dbUrl");
+            String dbUser = this.getServletContext().getInitParameter("dbUser");
+            String dbPassword = this.getServletContext().getInitParameter("dbPassword");
+            RestaurantDB db = new RestaurantDB(dbUrl, dbUser, dbPassword);
+            SearchDB sdb = new SearchDB(dbUrl, dbUser, dbPassword);
             ArrayList<Restaurant> restaurants = db.getAllRestaurants();
             String selectedType;
             if (user != null) {
@@ -99,11 +102,26 @@
             <%@ taglib uri="/WEB-INF/tlds/ranking.tld" prefix="ict"%>
             <ict:ranking restaurants = "<%=restaurants%>" />
         </div>
-        <div class="popKeywords">
-            <h1>for pop keywords</h1>
+        <div class="popKeywords" style="overflow: scroll;">
+            <a style="font-size: 30px; color: blue;">Popular Keywords</a><br/>
+            <%
+                ArrayList[] list = sdb.popKeywords();
+                ArrayList<String> keywords = list[0];
+                String keyword;
+                try {
+                    for (int i = 0; i < 20; i++) {
+                        keyword = keywords.get(i);
+            %>
+            <div style="float: left; margin: 5px;">
+                <a href="handleRestaurant?action=search&search=<%=keyword%>&selectedType=restaurant"><%=keyword%></a>
+            </div>
+            <%
+                    }
+                } catch (Exception e) {
+                }
+            %>
         </div>
-        <%
-            if (request.getAttribute("type") == null) { //check selected type
+        <%            if (request.getAttribute("type") == null) { //check selected type
                 selectedType = "restaurant";
             } else {
                 selectedType = String.valueOf(request.getAttribute("type"));
