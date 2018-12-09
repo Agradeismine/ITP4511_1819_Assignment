@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: localhost
--- 產生時間： 2018 年 12 月 09 日 11:03
+-- 產生時間： 2018 年 12 月 09 日 11:10
 -- 伺服器版本: 10.1.36-MariaDB
 -- PHP 版本： 7.2.11
 
@@ -125,7 +125,8 @@ INSERT INTO `RestaurantComment` (`RestaurantrestId`, `AccountuserId`, `Mood`, `c
 (2, 3, 0, 'No Comment', 'This is an test comment fo KFC', '2018-11-01'),
 (3, 3, 1, 'Hello', 'Test comment for Dim Sum', '2018-12-07'),
 (3, 3, 1, 'Food is good', 'Good food', '2018-11-02'),
-(1, 1, 0, '', 'Garbage', '2018-09-01');
+(1, 1, 0, '', 'Garbage', '2018-09-01'),
+(3, 1, 1, 'Good\r\n', 'Test Comment for chinese food', '2018-12-01');
 
 -- --------------------------------------------------------
 
@@ -168,9 +169,9 @@ CREATE TABLE `RestViewCount` (
 --
 
 INSERT INTO `RestViewCount` (`RestaurantrestId`, `userId`, `date`, `district`, `count`) VALUES
-(1, 1, '2018-12-09', 'Islands', 1),
-(3, 1, '2018-12-09', 'Islands', 1),
-(2, 1, '2018-12-09', 'Islands', 1),
+(1, 1, '2018-12-09', 'Islands', 26),
+(3, 1, '2018-12-09', 'Islands', 26),
+(2, 1, '2018-12-09', 'Islands', 26),
 (1, 3, '2018-12-09', 'North', 9),
 (2, 3, '2018-12-09', 'North', 3),
 (3, 3, '2018-12-09', 'North', 2),
@@ -197,25 +198,21 @@ INSERT INTO `SearchHistory` (`keyword`, `count`, `date`, `district`) VALUES
 ('Dim', 1, '2018-12-08', 'Islands'),
 ('sum', 3, '2018-12-08', 'Islands'),
 ('kfc', 6, '2018-12-08', 'Islands'),
-('mcd', 18, '2018-12-08', 'Islands'),
+('mcd', 19, '2018-12-08', 'Islands'),
 ('mcd', 2, '2018-12-08', 'noDistrict'),
 ('m', 6, '2018-12-08', 'noDistrict'),
 ('f', 1, '2018-12-09', 'Islands'),
-('ckic', 3, '2018-12-09', 'Islands'),
-('kin', 1, '2018-12-09', 'Islands'),
 ('ch', 7, '2018-12-09', 'Islands'),
-('chic', 2, '2018-12-09', 'Islands'),
-('chicken', 5, '2018-12-09', 'Islands'),
-('fast food', 2, '2018-12-09', 'Islands'),
+('fast food', 6, '2018-12-09', 'Islands'),
 ('burger', 2, '2018-12-09', 'Islands'),
 ('fas', 1, '2018-12-09', 'Islands'),
 ('kf', 7, '2018-12-09', 'Islands'),
 ('mc', 4, '2018-12-09', 'Islands'),
 ('bur', 1, '2018-12-09', 'Islands'),
-('cke', 1, '2018-12-09', 'Islands'),
 ('mcd', 1, '2018-12-09', 'North'),
 ('hi', 3, '2018-12-09', 'Islands'),
-('m', 9, '2018-12-09', 'Islands');
+('m', 9, '2018-12-09', 'Islands'),
+('cke', 1, '2018-12-09', 'Islands');
 
 -- --------------------------------------------------------
 
