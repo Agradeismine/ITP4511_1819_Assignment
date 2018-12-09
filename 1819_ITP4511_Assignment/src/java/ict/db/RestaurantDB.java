@@ -200,9 +200,10 @@ public class RestaurantDB {
                 pStmnt.setString(3, district);
                 pStmnt.setInt(4, 1);
             } else {
-                preQueryStatement = "UPDATE RestViewCount SET count = count + 1 WHERE userId = ?";
+                preQueryStatement = "UPDATE RestViewCount SET count = count + 1 WHERE userId = ? AND RestaurantrestId = ?";
                 pStmnt = cnnct.prepareStatement(preQueryStatement);
                 pStmnt.setInt(1, userId);
+                pStmnt.setInt(2, restId);
             }
             pStmnt.executeUpdate();
             pStmnt.close();
