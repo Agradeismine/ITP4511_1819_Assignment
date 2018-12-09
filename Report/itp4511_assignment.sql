@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: localhost
--- 產生時間： 2018 年 12 月 09 日 11:00
+-- 產生時間： 2018 年 12 月 09 日 11:03
 -- 伺服器版本: 10.1.36-MariaDB
 -- PHP 版本： 7.2.11
 
@@ -146,7 +146,6 @@ INSERT INTO `RestaurantTag` (`RestaurantrestId`, `tagName`) VALUES
 (1, 'burger'),
 (1, 'fast food'),
 (2, 'fast food'),
-(2, 'chicken'),
 (3, 'chinese food'),
 (3, 'dim sum');
 
@@ -204,19 +203,19 @@ INSERT INTO `SearchHistory` (`keyword`, `count`, `date`, `district`) VALUES
 ('f', 1, '2018-12-09', 'Islands'),
 ('ckic', 3, '2018-12-09', 'Islands'),
 ('kin', 1, '2018-12-09', 'Islands'),
-('ch', 6, '2018-12-09', 'Islands'),
+('ch', 7, '2018-12-09', 'Islands'),
 ('chic', 2, '2018-12-09', 'Islands'),
-('chicken', 3, '2018-12-09', 'Islands'),
+('chicken', 5, '2018-12-09', 'Islands'),
 ('fast food', 2, '2018-12-09', 'Islands'),
 ('burger', 2, '2018-12-09', 'Islands'),
 ('fas', 1, '2018-12-09', 'Islands'),
-('kf', 6, '2018-12-09', 'Islands'),
+('kf', 7, '2018-12-09', 'Islands'),
 ('mc', 4, '2018-12-09', 'Islands'),
 ('bur', 1, '2018-12-09', 'Islands'),
 ('cke', 1, '2018-12-09', 'Islands'),
 ('mcd', 1, '2018-12-09', 'North'),
 ('hi', 3, '2018-12-09', 'Islands'),
-('m', 8, '2018-12-09', 'Islands');
+('m', 9, '2018-12-09', 'Islands');
 
 -- --------------------------------------------------------
 
