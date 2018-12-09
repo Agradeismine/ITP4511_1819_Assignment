@@ -11,6 +11,8 @@
     <body>
         <jsp:useBean id="roles" class="ArrayList" scope="request" />
         <input type="button" onclick="history.back()" value="Back"/>
+        <a href="handleAccountRole?action=addNewRole">Add user role</a><br>
+        
         <table border='1' style="width:100%;">
             <tr>
                 <th>Role Name</th>
@@ -22,7 +24,7 @@
             <tr>
                 <td><h2 style="color: orangered"><%= role.getRoleName()%></h2></td>
                 <td><a href='handleAccountRole?action=edit&roleName=<%= role.getRoleName()%>'>Edit</a></td>
-                <td><a href='handleAccountRole?action=delete&roleName=<%= role.getRoleName()%>'>Delete</a></td>
+                <td><a href='handleAccountRole?action=confirmDeleteRole&roleName=<%= role.getRoleName()%>'>Delete</a></td>
             </tr>
             <% }%>
         </table>

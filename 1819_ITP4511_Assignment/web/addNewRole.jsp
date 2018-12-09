@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Edit Role</title>
+        <title>Add New Role</title>
         <script>
             function validate(form) {
                 var checked = document.getElementById("formCheck").checked;
@@ -19,13 +19,11 @@
         </script>
     </head>
     <body>
-        <jsp:useBean id="role" class="ict.bean.AccountRole" scope="request" />
         <form method="post" action="handleAccountRole" onsubmit="return validate(this);">
             <div class="block" style='border-style: solid;'>
-                <input type="hidden" name="action" value="editRole" />
-                <input type="hidden" name="oldName" value="<%= role.getRoleName()%>" />
-                <label>Role Name: </label> <input name="name" type="text" value="<%= role.getRoleName()%>"/> <br><br>
-                I confirm the role information that I have changed. <input type="checkbox" id='formCheck'/> <br><br>
+                <input type="hidden" name="action" value="addRole" />
+                <label>Role Name: </label> <input name="name" type="text" value=""/> <br><br>
+                I confirm the role information. <input type="checkbox" id='formCheck'/> <br><br>
                 <div class='center'>
                     <input type="button" onclick="history.back()" value="Back"/> <input type="submit" value="submit"/> <br>
                 </div>

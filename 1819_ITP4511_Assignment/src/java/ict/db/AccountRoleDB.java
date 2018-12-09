@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -138,6 +139,54 @@ public class AccountRoleDB {
             ex.printStackTrace();
         }
         return editSuccess;
+    }
+
+    public boolean delRoleByName(String roleName) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean delSuccess = false;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "delete FROM AccountRole WHERE roleName=?;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, roleName);
+            int row = pStmnt.executeUpdate();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+            pStmnt.close();
+            cnnct.close();
+            delSuccess = true;
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return delSuccess;
+    }
+
+    public boolean addRoleByName(String roleName) {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean addSuccess = false;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "INSERT INTO AccountRole(roleName) VALUES (?)";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, roleName);
+            int row = pStmnt.executeUpdate();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+            pStmnt.close();
+            cnnct.close();
+            addSuccess = true;
+        } catch (SQLException ex) {
+            while (ex != null) {
+                ex.printStackTrace();
+                ex = ex.getNextException();
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return addSuccess;
     }
 
 }

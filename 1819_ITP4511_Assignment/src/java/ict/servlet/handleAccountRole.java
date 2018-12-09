@@ -5,6 +5,7 @@ import ict.bean.UserInfo;
 import ict.db.AccountRoleDB;
 import ict.db.UserDB;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,6 +42,29 @@ public class handleAccountRole extends HttpServlet {
             } else {
                 showErrorMsg(request, response, "Please confirm you have logged in as admin.");
             }
+        } else if (action.equalsIgnoreCase("confirmDeleteRole")) {
+            String roleName = request.getParameter("roleName");
+            role = roleDb.getRoleByName(roleName);
+            if (user.getRole().equalsIgnoreCase("admin")) {
+                request.setAttribute("role", role);
+                request.setAttribute("type", "Delete Role");
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/confirmDeleteRole.jsp");
+                rd.forward(request, response);
+            } else {
+                request.setAttribute("message", "Please confirm you login as admin!");
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/message.jsp");
+                rd.forward(request, response);
+            }
+        } else if (action.equalsIgnoreCase("addNewRole")) {
+            if (user.getRole().equalsIgnoreCase("admin")) {
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/addNewRole.jsp");
+                rd.forward(request, response);
+            } else {
+                showErrorMsg(request, response, "Please confirm you have logged in as admin.");
+            }
         }
     }
 
@@ -66,6 +90,28 @@ public class handleAccountRole extends HttpServlet {
             } else {
                 showErrorMsg(request, response, "Please confirm you have logged in as admin.");
             }
+        } else if (action.equalsIgnoreCase("Delete Role")) {
+            String roleName = request.getParameter("name");
+            if (user.getRole().equalsIgnoreCase("admin")) {
+                roleDb.delRoleByName(roleName);
+                response.sendRedirect("handleAccount?action=maintainAccRole");
+            } else {
+                showErrorMsg(request, response, "Please confirm you login as admin!");
+            }
+        } else if (action.equalsIgnoreCase("addRole")) {
+            String roleName = request.getParameter("name");
+            if (user.getRole().equalsIgnoreCase("admin")) {
+                if(roleDb.addRoleByName(roleName)){
+                response.sendRedirect("handleAccount?action=maintainAccRole");
+                }else{
+                showErrorMsg(request, response, "Please confirm your input is correct!");
+                }
+            } else {
+                showErrorMsg(request, response, "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
+            }
+        } else {
+            PrintWriter out = response.getWriter();
+            out.println("No such action!!!");
         }
     }
 
