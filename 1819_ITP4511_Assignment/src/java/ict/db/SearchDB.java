@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -93,5 +94,32 @@ public class SearchDB {
             ex.printStackTrace();
         }
         return hasRecord;
+    }
+
+    public ArrayList[] popKeywords() {
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        ArrayList[] popSearch = new ArrayList[2];
+        ArrayList keywords = new ArrayList();
+        ArrayList count = new ArrayList();
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "SELECT * FROM SearchHistory;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            ResultSet rs;
+            rs = pStmnt.executeQuery();
+            while (rs.next()) {
+                keywords.add(rs.getString("keyword"));
+                count.add(rs.getInt("count"));
+            }
+            cnnct.close();
+            popSearch[0] = keywords;
+            popSearch[1] = count;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return popSearch;
     }
 }

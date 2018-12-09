@@ -133,7 +133,6 @@ public class RestaurantDB {
             String preQueryStatement = "SELECT DISTINCT r.restId, r.name, r.restIcon, r.address, r.description, r.tel, rt.tagName, rvc.count"
                     + " FROM Restaurant r, RestaurantTag rt, RestViewCount rvc"
                     + " WHERE r.restId = rt.RestaurantrestId"
-                    + " AND r.restId = rvc.RestaurantrestId"
                     + " GROUP BY r.restId;";
             pStmnt = cnnct.prepareStatement(preQueryStatement);
 
@@ -149,9 +148,12 @@ public class RestaurantDB {
                 restaurantBean.setDescription(rs.getString("r.description"));
                 restaurantBean.setTel(rs.getInt("tel"));
                 restaurantBean.setViewCount(ViewCount(restaurantBean.getRestId()));
+                restaurantBean.setLike(countLike(restaurantBean.getRestId()));
+                restaurantBean.setDislike(countDislike(restaurantBean.getRestId()));
                 if (restaurantBean.getName().toLowerCase().contains(name.toLowerCase())
                         || rs.getString("rt.tagName").contains(name.toLowerCase())) {
                     restaurantBeans.add(restaurantBean);
+                    System.out.println(rs.getString("rt.tagName") + " : " + name);
                 }
             }
             pStmnt.close();

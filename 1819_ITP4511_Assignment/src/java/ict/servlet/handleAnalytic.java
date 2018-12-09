@@ -10,6 +10,7 @@ import ict.bean.Restaurant;
 import ict.bean.UserInfo;
 import ict.db.MenuDB;
 import ict.db.RestaurantDB;
+import ict.db.SearchDB;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
@@ -27,12 +28,14 @@ import javax.servlet.http.HttpServletResponse;
 public class handleAnalytic extends HttpServlet {
 
     private RestaurantDB rdb;
-
+    private SearchDB sdb;
+    
     public void init() {
         String dbUser = this.getServletContext().getInitParameter("dbUser");
         String dbPassword = this.getServletContext().getInitParameter("dbPassword");
         String dbUrl = this.getServletContext().getInitParameter("dbUrl");
         rdb = new RestaurantDB(dbUrl, dbUser, dbPassword);
+        sdb = new SearchDB(dbUrl, dbUser, dbPassword);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,7 +53,8 @@ public class handleAnalytic extends HttpServlet {
                     request.setAttribute("avgByMonth", rdb.avgByMonth(restId));
                     request.setAttribute("avgByDistrict", rdb.avgByDistrict(restId));
                 }else if("admin".equalsIgnoreCase(role)){
-                
+                    request.setAttribute("popKeywords", sdb.popKeywords());
+                    request.setAttribute("allRest", rdb.getAllRestaurants());
                 }
                 RequestDispatcher rd;
                 rd = getServletContext().getRequestDispatcher("/myReport.jsp");

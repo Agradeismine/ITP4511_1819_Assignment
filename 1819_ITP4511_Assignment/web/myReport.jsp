@@ -4,7 +4,7 @@
     Author     : arthurking
 --%>
 <%@page import="java.util.*"%>
-<%@page import="ict.bean.UserInfo" %>
+<%@page import="ict.bean.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -56,11 +56,45 @@
         </table>
         <%
         } else if ("admin".equalsIgnoreCase(user.getRole())) {
+            ArrayList<Restaurant> restList = (ArrayList<Restaurant>) request.getAttribute("allRest");
+            ArrayList[] list = (ArrayList[]) request.getAttribute("popKeywords");
+            ArrayList keywordList = list[0];
+            ArrayList countList = list[1];
         %>
-        <h2>Popular keywords</h2>
-        <h2>Number of visitors of each restaurant</h2>
-        <%
-            }
-        %>
+        <div style="float: left;">
+            <h2>Popular keywords</h2>
+            <table border="1">
+                <tr><th>Search keywords</th>
+                    <th>Count</th></tr>
+                        <%
+                            int max = 0;
+                            for (int i = 0; i < countList.size(); i++) {
+                                if (Integer.parseInt(String.valueOf(countList.get(i))) >= max) {
+                                    max = Integer.parseInt(String.valueOf(countList.get(i)));
+                                }
+                            }
+                            for (int i = 0; i < keywordList.size(); i++) {
+                                if (Integer.parseInt(String.valueOf(countList.get(i))) == max) {
+                                    out.print("<tr style='color:red;'><td>" + keywordList.get(i) + "</td><td>" + countList.get(i) + "</td></tr>");
+                                } else {
+                                    out.print("<tr><td>" + keywordList.get(i) + "</td><td>" + countList.get(i) + "</td></tr>");
+                                }
+                            }
+                        %>
+            </table>
+        </div>
+        <div style="float: left; margin-left: 50px;">
+            <h2>Number of visitors of each restaurant</h2>
+            <table border="1">
+                <tr><th>Restaurant name</th>
+                    <th>Views</th></tr>
+                        <%
+                                for (int i = 0; i < restList.size(); i++) {
+                                    out.print("<tr><td>" + restList.get(i).getName() + "</td><td>" + restList.get(i).getViewCount() + "</td></tr>");
+                                }
+                            }
+                        %>
+            </table>
+        </div>
     </body>
 </html>
