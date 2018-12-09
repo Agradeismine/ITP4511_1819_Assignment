@@ -5,8 +5,10 @@
  */
 package ict.servlet;
 
+import ict.bean.AccountRole;
 import ict.bean.Menu;
 import ict.bean.UserInfo;
+import ict.db.AccountRoleDB;
 import ict.db.UserDB;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,12 +23,14 @@ import javax.servlet.http.HttpServletResponse;
 public class handleAccount extends HttpServlet {
 
     private UserDB userDb;
+    private AccountRoleDB roleDb;
 
     public void init() {
         String dbUser = this.getServletContext().getInitParameter("dbUser");
         String dbPassword = this.getServletContext().getInitParameter("dbPassword");
         String dbUrl = this.getServletContext().getInitParameter("dbUrl");
         userDb = new UserDB(dbUrl, dbUser, dbPassword);
+        roleDb= new AccountRoleDB(dbUrl, dbUser, dbPassword);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -48,21 +52,18 @@ public class handleAccount extends HttpServlet {
             } else {
                 showErrorMsg(request, response, "Please confirm you have logged in.");
             }
+        } else if (action.equalsIgnoreCase("maintainAccRole")) {
+            if (user.getRole().equals("admin")) {
+                ArrayList<AccountRole> roles =  roleDb.getAllRole();
+                request.setAttribute("roles", roles);
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/MaintainAccountRole.jsp");
+                rd.forward(request, response);
+            } else {
+                showErrorMsg(request, response, "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
+            }
         }
-//        else if (action.equalsIgnoreCase("getEditMenu")) {
-//            int imgId = Integer.parseInt(request.getParameter("imgId"));
-//            restMenu = menuDb.getMenuByImgId(imgId);
-//            restaurant = db.getRestaurantByRestId(restMenu.getRestId());
-//            if (restaurant.getOwnerId() == user.getUserID()) {
-//                request.setAttribute("restaurant", restaurant);
-//                request.setAttribute("restMenu", restMenu);
-//                RequestDispatcher rd;
-//                rd = getServletContext().getRequestDispatcher("/editMenu.jsp");
-//                rd.forward(request, response);
-//            } else {
-//                showErrorMsg(request, response, "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
-//            }
-//        } else if (action.equalsIgnoreCase("editMenuIcon")) {
+//else if (action.equalsIgnoreCase("editMenuIcon")) {
 //            int imgId = Integer.parseInt(request.getParameter("imgId"));
 //            restMenu = menuDb.getMenuByImgId(imgId);
 //            restaurant = db.getRestaurantByRestId(restMenu.getRestId());

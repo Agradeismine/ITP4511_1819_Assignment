@@ -47,6 +47,10 @@ CREATE TABLE RestViewCount (
 CREATE TABLE SearchHistory (
   keyword varchar(255) NOT NULL, 
   count   int(11) NOT NULL);
+CREATE TABLE AccountRole (
+  roleName varchar(20) NOT NULL, 
+  PRIMARY KEY (roleName));
+
 ALTER TABLE Account AUTO_INCREMENT=100;
 ALTER TABLE Menu ADD CONSTRAINT FKMenu477873 FOREIGN KEY (RestaurantrestId) REFERENCES Restaurant (restId);
 ALTER TABLE UserFavourite ADD CONSTRAINT FKUserFavour280162 FOREIGN KEY (AccountuserId) REFERENCES Account (userId);

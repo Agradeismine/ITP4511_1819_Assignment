@@ -11,6 +11,7 @@
     </head>
     <body>
         <jsp:useBean id="users" class="ArrayList" scope="request" />
+        <a href="handleAccount?action=maintainAccRole">Maintain User role</a>
         <table border='1' style="width:100%;">
             <% for (int i = 0; i < users.size(); i++) {
                     UserInfo user = (UserInfo) users.get(i);
@@ -23,6 +24,7 @@
                 <td><a>Sex: <%= user.getSex()%></a><br/></td>
                 <td><a>District: <%= user.getDistrict()%></a><br/></td>
                 <td><a href='handleAccount?action=edit&userId=<%= user.getUserID()%>'>Edit</a></td>
+                <td><a href='handleAccount?action=delete&userId=<%= user.getUserID()%>'>Delete</a></td>
             </tr>
             <% }%>
         </table>
