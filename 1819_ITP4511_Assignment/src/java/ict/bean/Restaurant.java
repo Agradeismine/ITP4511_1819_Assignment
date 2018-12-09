@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author YipYi
  */
-public class Restaurant implements Serializable {
+public class Restaurant implements Serializable, Comparable<Restaurant> {
 
     private int restId;
     private String name;
@@ -123,5 +123,13 @@ public class Restaurant implements Serializable {
     public void setTel(int tel) {
         this.tel = tel;
     }
+
+    @Override
+    public int compareTo(Restaurant comparee) {
+        int comparer = ((Restaurant)comparee).getLike();
+        return comparer - this.like;
+    }
+
+
 
 }
