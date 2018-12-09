@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: localhost
--- 產生時間： 2018 年 12 月 08 日 09:39
+-- 產生時間： 2018 年 12 月 09 日 11:00
 -- 伺服器版本: 10.1.36-MariaDB
 -- PHP 版本： 7.2.11
 
@@ -45,7 +45,9 @@ INSERT INTO `Account` (`userId`, `username`, `password`, `role`, `sex`, `distric
 (1, 'admin1', '123456', 'admin', 'm', 'Islands'),
 (2, 'owner2', '234567', 'owner', 'm', 'Kwai Tsing'),
 (3, 'user3', '345678', 'user', 'f', 'North'),
-(4, 'owner4', '456789', 'owner', 'm', 'Sai Kung');
+(4, 'owner4', '456789', 'owner', 'm', 'Sai Kung'),
+(5, 'owner5', '567890', 'owner', 'f', 'Southern'),
+(6, 'user6', '678901', 'user', 'm', 'Southern');
 
 -- --------------------------------------------------------
 
@@ -97,7 +99,7 @@ CREATE TABLE `Restaurant` (
 INSERT INTO `Restaurant` (`restId`, `name`, `ownerId`, `restIcon`, `address`, `description`, `tel`) VALUES
 (1, 'McDonald', 2, 'Mcdonalds-300x300.png', 'McDonald Address', 'McDonald Description', 12345678),
 (2, 'KFC', 4, 'kfc-logo.jpg', 'KFC Address', 'KFC Description', 23456789),
-(3, 'Chinese Restaurant', 4, 'the-best-chinese-restaurant.jpg', 'Chinese Restaurant Address', 'Chinese Restaurant Description', 34567890);
+(3, 'Chinese Restaurant', 5, 'the-best-chinese-restaurant.jpg', 'Chinese Restaurant Address', 'Chinese Restaurant Description', 34567890);
 
 -- --------------------------------------------------------
 
@@ -119,7 +121,11 @@ CREATE TABLE `RestaurantComment` (
 --
 
 INSERT INTO `RestaurantComment` (`RestaurantrestId`, `AccountuserId`, `Mood`, `contents`, `title`, `mealDate`) VALUES
-(1, 1, 1, 'This is an Test Contents.', 'This is an Comment Title', '2018-12-07');
+(1, 1, 1, 'This is an Test Contents.', 'This is an Comment Title', '2018-12-07'),
+(2, 3, 0, 'No Comment', 'This is an test comment fo KFC', '2018-11-01'),
+(3, 3, 1, 'Hello', 'Test comment for Dim Sum', '2018-12-07'),
+(3, 3, 1, 'Food is good', 'Good food', '2018-11-02'),
+(1, 1, 0, '', 'Garbage', '2018-09-01');
 
 -- --------------------------------------------------------
 
@@ -137,8 +143,11 @@ CREATE TABLE `RestaurantTag` (
 --
 
 INSERT INTO `RestaurantTag` (`RestaurantrestId`, `tagName`) VALUES
+(1, 'burger'),
 (1, 'fast food'),
+(2, 'fast food'),
 (2, 'chicken'),
+(3, 'chinese food'),
 (3, 'dim sum');
 
 -- --------------------------------------------------------
@@ -160,14 +169,13 @@ CREATE TABLE `RestViewCount` (
 --
 
 INSERT INTO `RestViewCount` (`RestaurantrestId`, `userId`, `date`, `district`, `count`) VALUES
-(3, 1, '2018-12-07', 'Islands', 1),
-(1, 1, '2018-12-07', 'Islands', 1),
-(1, 2, '2018-12-07', 'Kwai Tsing', 1),
-(2, 2, '2018-12-07', 'Kwai Tsing', 1),
-(3, 2, '2018-12-07', 'Kwai Tsing', 1),
-(1, 3, '2018-12-07', 'North', 1),
-(2, 3, '2018-12-07', 'North', 1),
-(3, 3, '2018-12-07', 'North', 1);
+(1, 1, '2018-12-09', 'Islands', 1),
+(3, 1, '2018-12-09', 'Islands', 1),
+(2, 1, '2018-12-09', 'Islands', 1),
+(1, 3, '2018-12-09', 'North', 9),
+(2, 3, '2018-12-09', 'North', 3),
+(3, 3, '2018-12-09', 'North', 2),
+(1, 0, '2018-12-09', NULL, 56);
 
 -- --------------------------------------------------------
 
@@ -177,8 +185,38 @@ INSERT INTO `RestViewCount` (`RestaurantrestId`, `userId`, `date`, `district`, `
 
 CREATE TABLE `SearchHistory` (
   `keyword` varchar(255) NOT NULL,
-  `count` int(11) NOT NULL
+  `count` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `district` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `SearchHistory`
+--
+
+INSERT INTO `SearchHistory` (`keyword`, `count`, `date`, `district`) VALUES
+('Dim', 1, '2018-12-08', 'Islands'),
+('sum', 3, '2018-12-08', 'Islands'),
+('kfc', 6, '2018-12-08', 'Islands'),
+('mcd', 18, '2018-12-08', 'Islands'),
+('mcd', 2, '2018-12-08', 'noDistrict'),
+('m', 6, '2018-12-08', 'noDistrict'),
+('f', 1, '2018-12-09', 'Islands'),
+('ckic', 3, '2018-12-09', 'Islands'),
+('kin', 1, '2018-12-09', 'Islands'),
+('ch', 6, '2018-12-09', 'Islands'),
+('chic', 2, '2018-12-09', 'Islands'),
+('chicken', 3, '2018-12-09', 'Islands'),
+('fast food', 2, '2018-12-09', 'Islands'),
+('burger', 2, '2018-12-09', 'Islands'),
+('fas', 1, '2018-12-09', 'Islands'),
+('kf', 6, '2018-12-09', 'Islands'),
+('mc', 4, '2018-12-09', 'Islands'),
+('bur', 1, '2018-12-09', 'Islands'),
+('cke', 1, '2018-12-09', 'Islands'),
+('mcd', 1, '2018-12-09', 'North'),
+('hi', 3, '2018-12-09', 'Islands'),
+('m', 8, '2018-12-09', 'Islands');
 
 -- --------------------------------------------------------
 
@@ -197,9 +235,9 @@ CREATE TABLE `UserFavourite` (
 --
 
 INSERT INTO `UserFavourite` (`AccountuserId`, `favouriteId`, `favouriteType`) VALUES
-(1, 9, 'menu'),
-(1, 2, 'restaurant'),
-(1, 1, 'restaurant');
+(1, 1, 'restaurant'),
+(1, 10, 'menu'),
+(3, 3, 'restaurant');
 
 --
 -- 已匯出資料表的索引
@@ -258,7 +296,7 @@ ALTER TABLE `UserFavourite`
 -- 使用資料表 AUTO_INCREMENT `Account`
 --
 ALTER TABLE `Account`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- 使用資料表 AUTO_INCREMENT `Menu`
