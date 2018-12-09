@@ -23,8 +23,8 @@
                 <td><a style="color: red;">Role: <%= user.getRole()%></a><br/></td>
                 <td><a>Sex: <%= user.getSex()%></a><br/></td>
                 <td><a>District: <%= user.getDistrict()%></a><br/></td>
-                <td><a href='handleAccount?action=edit&userId=<%= user.getUserID()%>'>Edit</a></td>
-                <td><a href='handleAccount?action=delete&userId=<%= user.getUserID()%>'>Delete</a></td>
+                <td><a href='handleAccount?action=getEditAccount&userId=<%= user.getUserID()%>'>Edit</a></td>
+                <td><a href='handleAccount?action=deleteAccountConfirmation&userId=<%= user.getUserID()%>'>Delete</a></td>
             </tr>
             <% }%>
         </table>

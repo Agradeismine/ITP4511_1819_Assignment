@@ -30,7 +30,7 @@ public class handleAccount extends HttpServlet {
         String dbPassword = this.getServletContext().getInitParameter("dbPassword");
         String dbUrl = this.getServletContext().getInitParameter("dbUrl");
         userDb = new UserDB(dbUrl, dbUser, dbPassword);
-        roleDb= new AccountRoleDB(dbUrl, dbUser, dbPassword);
+        roleDb = new AccountRoleDB(dbUrl, dbUser, dbPassword);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -54,7 +54,7 @@ public class handleAccount extends HttpServlet {
             }
         } else if (action.equalsIgnoreCase("maintainAccRole")) {
             if (user.getRole().equals("admin")) {
-                ArrayList<AccountRole> roles =  roleDb.getAllRole();
+                ArrayList<AccountRole> roles = roleDb.getAllRole();
                 request.setAttribute("roles", roles);
                 RequestDispatcher rd;
                 rd = getServletContext().getRequestDispatcher("/MaintainAccountRole.jsp");
@@ -62,21 +62,21 @@ public class handleAccount extends HttpServlet {
             } else {
                 showErrorMsg(request, response, "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
             }
+        } else if (action.equalsIgnoreCase("getEditAccount")) {
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            UserInfo thisUser = userDb.queryCustByID(userId);
+            if (thisUser.getUserID()==user.getUserID()||user.getRole().equalsIgnoreCase("admin")) {
+                ArrayList <AccountRole> roles = roleDb.getAllRole();
+                request.setAttribute("roles", roles);
+                request.setAttribute("thisUser", thisUser);
+                RequestDispatcher rd;
+                rd = getServletContext().getRequestDispatcher("/editAccountInfo.jsp");
+                rd.forward(request, response);
+            } else {
+                showErrorMsg(request, response, "You are not this ccount owner or you have not login.<br>Please confirm you login as restaurant owner!");
+            }
         }
-//else if (action.equalsIgnoreCase("editMenuIcon")) {
-//            int imgId = Integer.parseInt(request.getParameter("imgId"));
-//            restMenu = menuDb.getMenuByImgId(imgId);
-//            restaurant = db.getRestaurantByRestId(restMenu.getRestId());
-//            if (restaurant.getOwnerId() == user.getUserID()) {
-//                request.setAttribute("restMenu", restMenu);
-//                request.setAttribute("restaurant", restaurant);
-//                RequestDispatcher rd;
-//                rd = getServletContext().getRequestDispatcher("/editMenuIcon.jsp");
-//                rd.forward(request, response);
-//            } else {
-//                showErrorMsg(request, response, "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
-//            }
-//        } else if (action.equalsIgnoreCase("confirmDeleteMenu")) {
+//        else if (action.equalsIgnoreCase("confirmDeleteMenu")) {
 //            int imgId = Integer.parseInt(request.getParameter("imgId"));
 //            restMenu = menuDb.getMenuByImgId(imgId);
 //            restaurant = db.getRestaurantByRestId(restMenu.getRestId());

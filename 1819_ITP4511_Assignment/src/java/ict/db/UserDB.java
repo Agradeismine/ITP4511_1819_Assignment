@@ -78,7 +78,7 @@ public class UserDB {
                 userBean = new UserInfo();
                 userBean.setUserID(Integer.parseInt(rs.getString("userId")));
                 userBean.setUsername(rs.getString("username"));
-                //userBean.setPassword(rs.getString("password"));
+                userBean.setPassword(rs.getString("password"));
                 userBean.setRole(rs.getString("role"));
                 userBean.setSex(rs.getString("sex"));
                 userBean.setDistrict(rs.getString("district"));
@@ -154,6 +154,36 @@ public class UserDB {
             ex.printStackTrace();
         }
         return userBeans;
+    }
+
+    public boolean updateUser(UserInfo thisUser) {
+
+        Connection cnnct = null;
+        PreparedStatement pStmnt = null;
+        boolean editSuccess = false;
+        try {
+            cnnct = getConnection();
+            String preQueryStatement = "update Account set username = ?, password =?, role =?, sex = ?, district = ? WHERE userId=?;";
+            pStmnt = cnnct.prepareStatement(preQueryStatement);
+            pStmnt.setString(1, thisUser.getUsername());
+            pStmnt.setString(2, thisUser.getPassword());
+            pStmnt.setString(3, thisUser.getRole());
+            pStmnt.setString(4, thisUser.getSex());
+            pStmnt.setString(5, thisUser.getDistrict());
+            pStmnt.setInt(6, thisUser.getUserID());
+            int row = pStmnt.executeUpdate();    //NOT -->rs = pStmnt.executeQuery(preQueryStatement);
+            if (row == 1) {
+                editSuccess = true;
+            }
+            pStmnt.close();
+            cnnct.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return editSuccess;
     }
 
 }

@@ -10,7 +10,7 @@
     </head>
     <body>
         <jsp:useBean id="roles" class="ArrayList" scope="request" />
-        <input type="button" onclick="history.back()" value="Back"/>
+        <input type="button" onclick="location.href='handleAccount?action=maintainAccount'" value="Back"/>
         <a href="handleAccountRole?action=addNewRole">Add user role</a><br>
         
         <table border='1' style="width:100%;">

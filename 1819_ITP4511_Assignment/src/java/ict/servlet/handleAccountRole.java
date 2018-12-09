@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class handleAccountRole extends HttpServlet {
 
     private AccountRoleDB roleDb;
+    private UserDB userDb;
 
     @Override
     public void init() {
@@ -24,6 +25,7 @@ public class handleAccountRole extends HttpServlet {
         String dbPassword = this.getServletContext().getInitParameter("dbPassword");
         String dbUrl = this.getServletContext().getInitParameter("dbUrl");
         roleDb = new AccountRoleDB(dbUrl, dbUser, dbPassword);
+        userDb = new UserDB(dbUrl, dbUser, dbPassword);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -90,6 +92,24 @@ public class handleAccountRole extends HttpServlet {
             } else {
                 showErrorMsg(request, response, "Please confirm you have logged in as admin.");
             }
+        } else if (action.equalsIgnoreCase("editUserRole")) {
+            boolean isUpdateSuccess = false;
+            if (user.getRole().equalsIgnoreCase("admin")) {
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                UserInfo thisUser = userDb.queryCustByID(userId);
+                String roleName = request.getParameter("roleName");
+                if (!roleName.equalsIgnoreCase("") || roleName != null) {
+                    thisUser.setRole(roleName);
+                    isUpdateSuccess = userDb.updateUser(thisUser);
+                }
+                if (isUpdateSuccess) {
+                    response.sendRedirect("handleAccount?action=maintainAccount");
+                } else {
+                    showErrorMsg(request, response, "Please confirm your inputted information is correct and no duplicate.");
+                }
+            } else {
+                showErrorMsg(request, response, "Please confirm you have logged in as admin.");
+            }
         } else if (action.equalsIgnoreCase("Delete Role")) {
             String roleName = request.getParameter("name");
             if (user.getRole().equalsIgnoreCase("admin")) {
@@ -101,10 +121,10 @@ public class handleAccountRole extends HttpServlet {
         } else if (action.equalsIgnoreCase("addRole")) {
             String roleName = request.getParameter("name");
             if (user.getRole().equalsIgnoreCase("admin")) {
-                if(roleDb.addRoleByName(roleName)){
-                response.sendRedirect("handleAccount?action=maintainAccRole");
-                }else{
-                showErrorMsg(request, response, "Please confirm your input is correct!");
+                if (roleDb.addRoleByName(roleName)) {
+                    response.sendRedirect("handleAccount?action=maintainAccRole");
+                } else {
+                    showErrorMsg(request, response, "Please confirm your input is correct!");
                 }
             } else {
                 showErrorMsg(request, response, "You are not this restaurant owner or you have not login.<br>Please confirm you login as restaurant owner!");
