@@ -69,16 +69,23 @@
                     UserInfo user = (UserInfo) session.getAttribute("userInfo");
                     if (user.getUsername() != null) {
                         String username = user.getUsername();
+                        String role = user.getRole();
                 %>
                 <div class='userInfo'><a name='show_username'><%=username%></a>, Hello.<br>
                     <form action='main' method='post'>
                         <input type='hidden' name='action' value='logout'>
                         <input type='submit' name='logoutButton' value='Logout'>
                     </form>
+                    <%
+                        if ("admin".equalsIgnoreCase(role) || "owner".equalsIgnoreCase(role)) {
+                    %>
                     <form action="handleAccount">
                         <input type="hidden" name="action" value="maintainAccount"/>
                         <input type="submit" value="Account Management"/>
                     </form>
+                    <%
+                        }
+                    %>
                     <form action="handleMyFavourite">
                         <input type="hidden" name="action" value="viewMyFavourite"/>
                         <input type="submit" value="My Favourite"/>

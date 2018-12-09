@@ -59,8 +59,18 @@
     <body>
         <jsp:include page="/heading.jsp" />
         <jsp:useBean id="user" class="ict.bean.UserInfo" scope="session"/>
+        <%
+            if (user != null) {
+                user = ((UserInfo) request.getSession().getAttribute("userInfo"));
+                String role = user.getRole();
+                if ("admin".equalsIgnoreCase(role) || "owner".equalsIgnoreCase(role)) {
+        %>
         <br><a href="ViewOwnRestaurant.jsp">View Own Restaurant (default restaurant owner can see this function only, set it later)</a>
         <a href="handleAnalytic?action=viewReport&ownerId=">view report</a>
+        <%
+                }
+            }
+        %>
         <form action="handleRestaurant">
             <input type="hidden" name="action" value="search">
             <input type="text" placeholder="Search..." name="search" style="width: 400px;"><br/>
