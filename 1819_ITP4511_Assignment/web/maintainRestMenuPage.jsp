@@ -5,6 +5,8 @@
 <%@page import="ict.db.RestaurantDB"%>
 <%@page import="ict.bean.UserInfo"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:include page="/heading.jsp" />
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,19 +21,14 @@
         <%
             UserInfo user = (UserInfo) session.getAttribute("userInfo");
             if (user.getUsername() != null && user.getRole().equals("owner")) {   //user has login and he is owner
-                out.println("<div class='userInfo'><a name='show_username'>" + user.getUsername() + "</a>, Hello.<br>");
-                out.print("<form action='main' method='post'>"
-                        + "<input type='hidden' name='action' value='logout'>"
-                        + "<input type='submit' name='logoutButton' value='Logout'>"
-                        + "</form></div>");
             } else {
                 response.sendRedirect("index.jsp?haveNotLogin");    //Redirect and haven't login message display
             }
-            
-    int restId = Integer.parseInt(request.getParameter("restId"));
+
+            int restId = Integer.parseInt(request.getParameter("restId"));
         %>
         <br/>
-        <a href="handleMenu?action=addMenu&restId=<%= restId %>"><button>Add Menu</button></a>
+        <a href="handleMenu?action=addMenu&restId=<%= restId%>"><button>Add Menu</button></a>
         <br/><table border="1">
             <th>Menu ID</th><th>Menu Name</th><th>Photo</th><th>Menu Type</th><th>Start Time</th><th>End Time</th></tr>
                 <%

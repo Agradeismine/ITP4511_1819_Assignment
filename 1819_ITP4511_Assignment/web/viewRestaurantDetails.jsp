@@ -109,11 +109,13 @@
         <input type="hidden" name="type" value="restaurant"/>
         <%
             String record = "&#9734;"; //white star
-            if(request.getAttribute("record").toString().equalsIgnoreCase("true")){
+            if (request.getAttribute("record").toString().equalsIgnoreCase("true")) {
                 record = "&#9733;"; //black star
             }
         %>
         <input type="submit" value="<%=record%>"/>
+        <%--<input type="button" onclick="if(document.getElementById('addressOnMap').style.display =='block'){document.getElementById('addressOnMap').style.display ='none';}else{document.getElementById('addressOnMap').style.display ='block';}" value="Show address on map"/>--%>
+
     </form>
     <div class='like'><h3>Views: <%=viewCoiunt%></h3></div>
     <div class='menuTable'>
@@ -121,15 +123,17 @@
             ArrayList<Menu> menus = (ArrayList<Menu>) request.getAttribute("menus");
             String imgName, menuType, menuPath;
             for (int i = 0; i < menus.size(); i++) {
-                imgName = menus.get(i).getImgName();
-                menuType = menus.get(i).getMenuType();
-                menuPath = menus.get(i).getMenuPath();
+                if (menus.get(i).getMenuStartTime() == null || (menus.get(i).getMenuStartTime().compareTo(new Date()) <= 0 && menus.get(i).getMenuEndTime().compareTo(new Date()) >= 0)) {
+                    imgName = menus.get(i).getImgName();
+                    menuType = menus.get(i).getMenuType();
+                    menuPath = menus.get(i).getMenuPath();
         %>
         <div style="margin: 5px; float: left; z-index: 2">
             <img src="upload/menu/<%=menuPath%>" class="menuImg"><br/>
             <a style="margin-left: 50px;" href="handleRestaurant?action=search&search=<%=String.valueOf(imgName)%>&selectedType=menu"><%=imgName%></a>
         </div>
         <%
+                }
             }
         %>
     </div>
@@ -150,6 +154,8 @@
                 likeStatue = "upload/Facebook-dislike.png";
             }
     %>
+    <%--<iframe id='addressOnMap'hidden src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29534.45450533497!2d114.14302954638568!3d22.285306700000024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3404007ccfa9ad1d%3A0x650a77fab3962f73!2z6bql55W25Yue!5e0!3m2!1szh-TW!2shk!4v1544365328646" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>--%>
+
     <div class="comment">
         <h2><img src="<%=likeStatue%>" class="likeImg"> <%=title%></h2>
         <p>User ID: <%=AccountuserId%><a style="margin-left: 50px;">Dinner Date: <%=mealDate%></a></p>
@@ -159,6 +165,5 @@
         }
     %>
     <body>
-
     </body>
 </html>
