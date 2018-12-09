@@ -13,20 +13,24 @@
         <jsp:useBean id="users" class="ArrayList" scope="request" />
         <a href="handleAccount?action=maintainAccRole">Maintain User role</a>
         <table border='1' style="width:100%;">
-            <% for (int i = 0; i < users.size(); i++) {
-                    UserInfo user = (UserInfo) users.get(i);
+            <% 
+            UserInfo user = (UserInfo) session.getAttribute("userInfo");
+                for (int i = 0; i < users.size(); i++) {
+                    UserInfo thisUser = (UserInfo) users.get(i);
+                    
             %>
             <tr>
-                <td><h2 style="color: orangered"><%=user.getUserID()%></h2></td>
-                <td><a style="color: gray;">Name: <%=user.getUsername()%></a><br/></td>
-                <td><a style="color: green;">Password: <%=user.getPassword()%></a></td>
-                <td><a style="color: red;">Role: <%= user.getRole()%></a><br/></td>
-                <td><a>Sex: <%= user.getSex()%></a><br/></td>
-                <td><a>District: <%= user.getDistrict()%></a><br/></td>
-                <td><a href='handleAccount?action=getEditAccount&userId=<%= user.getUserID()%>'>Edit</a></td>
-                <td><a href='handleAccount?action=deleteAccountConfirmation&userId=<%= user.getUserID()%>'>Delete</a></td>
+                <td><h2 style="color: orangered"><%=thisUser.getUserID()%></h2></td>
+                <td><a style="color: gray;">Name: <%=thisUser.getUsername()%></a><br/></td>
+                <td><a style="color: green;">Password: <%=thisUser.getPassword()%></a></td>
+                <td><a style="color: red;">Role: <%= thisUser.getRole()%></a><br/></td>
+                <td><a>Sex: <%= thisUser.getSex()%></a><br/></td>
+                <td><a>District: <%= thisUser.getDistrict()%></a><br/></td>
+                <td><a href='handleAccount?action=getEditAccount&userId=<%= thisUser.getUserID()%>'>Edit</a></td>
+                <td><a href='handleAccount?action=deleteAccountConfirmation&userId=<%= thisUser.getUserID()%>'>Delete<% if (thisUser.getUserID() ==user.getUserID()) {out.println("<br>(This is Your Account)");} %></a></td>
             </tr>
-            <% }%>
+            <% }
+                %>
         </table>
     </body>
 </html>

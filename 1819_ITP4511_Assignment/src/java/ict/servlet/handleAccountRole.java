@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(name = "handleAccountRole", urlPatterns = {"/handleAccountRole"})
 public class handleAccountRole extends HttpServlet {
@@ -104,6 +105,45 @@ public class handleAccountRole extends HttpServlet {
                 }
                 if (isUpdateSuccess) {
                     response.sendRedirect("handleAccount?action=maintainAccount");
+                } else {
+                    showErrorMsg(request, response, "Please confirm your inputted information is correct and no duplicate.");
+                }
+            } else {
+                showErrorMsg(request, response, "Please confirm you have logged in as admin.");
+            }
+        } else if (action.equalsIgnoreCase("editUserInfo")) {
+            boolean isUpdateSuccess = false;
+            String[] districts = {"Central and Western", "Wan Chai", "Eastern", "Southern", "Yau Tsim Mong", "Sham Shui Po", "Kowloon City", "Wong Tai Sin", "Kwun Tong", "Kwai Tsing", "Tsuen Wan", "Tuen Mun", "Yuen Long", "North", "Tai Po", "Sha Tin", "Sai Kung", "Islands"};
+            if (!user.getRole().equalsIgnoreCase("admin")) {
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                UserInfo thisUser = userDb.queryCustByID(userId);
+                String roleName = request.getParameter("roleName");
+                String sex = request.getParameter("sex");
+                String district = request.getParameter("district");
+                String password1 = request.getParameter("password1");
+                String password2 = request.getParameter("password2");
+
+                if (sex.equalsIgnoreCase("M") || sex.equalsIgnoreCase("F")) {
+                    thisUser.setSex(sex);
+                }
+                for (int i = 0; i < districts.length; i++) {
+                    if (district.equalsIgnoreCase(districts[i])) {
+                        thisUser.setDistrict(district);
+                    }
+                }
+                if (password1.equals(password2) && !password1.equals("") && !password2.equals("")) {
+                    thisUser.setPassword(password1);
+                }else{
+                    showErrorMsg(request, response, "Please confirm your inputted information is totally correct.");
+                }
+
+                isUpdateSuccess = userDb.updateUser(thisUser);
+
+                if (isUpdateSuccess) {
+                    HttpSession session = request.getSession(true);
+                    //store the userInfo(which is a bean) to the session
+                    session.setAttribute("userInfo", thisUser);
+                    response.sendRedirect("index.jsp");
                 } else {
                     showErrorMsg(request, response, "Please confirm your inputted information is correct and no duplicate.");
                 }

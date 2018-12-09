@@ -53,9 +53,11 @@ public class handleAccount extends HttpServlet {
                     rd = getServletContext().getRequestDispatcher("/maintainAllAccount.jsp");
                     rd.forward(request, response);
                 } else if (!user.getRole().equalsIgnoreCase("admin")) {
-                    request.setAttribute("user", user);
+                    ArrayList<AccountRole> roles = roleDb.getAllRole();
+                    request.setAttribute("roles", roles);
+                    request.setAttribute("thisUser", user);
                     RequestDispatcher rd;
-                    rd = getServletContext().getRequestDispatcher("/maintainAccount.jsp");
+                    rd = getServletContext().getRequestDispatcher("/editAccountInfo.jsp");
                     rd.forward(request, response);
                 } else {
                     showErrorMsg(request, response, "Please confirm you have logged in.");
