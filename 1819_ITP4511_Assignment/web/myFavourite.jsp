@@ -41,14 +41,15 @@
             ArrayList<Menu> menuList = (ArrayList<Menu>) request.getAttribute("menuList");
             String restName, restIcon, address, description;
             int viewCount, tel, restId;
-            for (int i = 0; i < restList.size(); i++) {
-                restName = restList.get(i).getName();
-                restIcon = restList.get(i).getRestIcon();
-                viewCount = restList.get(i).getViewCount();
-                address = restList.get(i).getAddress();
-                description = restList.get(i).getDescription();
-                tel = restList.get(i).getTel();
-                restId = restList.get(i).getRestId();
+            if (restList.size()>0) {
+                for (int i = 0; i < restList.size(); i++) {
+                    restName = restList.get(i).getName();
+                    restIcon = restList.get(i).getRestIcon();
+                    viewCount = restList.get(i).getViewCount();
+                    address = restList.get(i).getAddress();
+                    description = restList.get(i).getDescription();
+                    tel = restList.get(i).getTel();
+                    restId = restList.get(i).getRestId();
         %>
         <div class="rest_table"><img class='restIcon' src='upload/<%=restIcon%>'/>
             <div class="restInfo">
@@ -67,15 +68,17 @@
             </div>
         </div>
         <%
+                }
             }
             String menuPath, imgName, menuType;
             int imgId;
-            for (int i = 0; i < menuList.size(); i++) {
-                menuPath = menuList.get(i).getMenuPath();
-                imgName = menuList.get(i).getImgName();
-                menuType = menuList.get(i).getMenuType();
-                imgId = menuList.get(i).getImgId();
-%>
+            if (menuList.size()>0) {
+                for (int i = 0; i < menuList.size(); i++) {
+                    menuPath = menuList.get(i).getMenuPath();
+                    imgName = menuList.get(i).getImgName();
+                    menuType = menuList.get(i).getMenuType();
+                    imgId = menuList.get(i).getImgId();
+        %>
         <div class="rest_table">
             <img class='restIcon' src='upload/menu/<%=menuPath%>'/>
             <div class="restInfo">
@@ -90,6 +93,7 @@
             </div>
         </div>
         <%
+                }
             }
         %>
     </body>
