@@ -133,8 +133,6 @@ public class handleAccountRole extends HttpServlet {
                 }
                 if (password1.equals(password2) && !password1.equals("") && !password2.equals("")) {
                     thisUser.setPassword(password1);
-                }else{
-                    showErrorMsg(request, response, "Please confirm your inputted information is totally correct.");
                 }
 
                 isUpdateSuccess = userDb.updateUser(thisUser);

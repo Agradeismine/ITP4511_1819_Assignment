@@ -39,9 +39,9 @@ public class handleMyFavourite extends HttpServlet {
         String action = request.getParameter("action");
         UserInfo user = ((UserInfo) request.getSession().getAttribute("userInfo"));
         int restId;
-        if(request.getParameter("restId")!=null){
-        restId = Integer.parseInt(request.getParameter("restId"));
-        }
+//        if(request.getParameter("restId")!=null){
+//        restId = Integer.parseInt(request.getParameter("restId"));
+//        }
         if (user.getUserID() > 0) {
             if ("viewMyFavourite".equalsIgnoreCase(action)) {
                 ArrayList<Restaurant> restList = db.getMyFavouriteInRestaurant(user.getUserID());
